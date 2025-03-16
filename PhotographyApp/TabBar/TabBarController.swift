@@ -29,16 +29,16 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     }
     
-    func createProfile()  -> UIViewController{
-        let tab = LoginController()
+    func createloadController()  -> UIViewController{
+        let tab = UploadController()
         let tabBarItem = UITabBarItem(title: "Photos", image: UIImage(systemName: "photo"), selectedImage: UIImage(systemName: "photo"))
         tab.tabBarItem = tabBarItem
         return tab
 
     }
     
-    func createSomething()  -> UIViewController {
-        let tab = LoginController()
+    func createProfile()  -> UIViewController {
+        let tab = ProfileCotroller()
         let tabBarItem = UITabBarItem(title: "User", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
         tab.tabBarItem = tabBarItem
         return tab
@@ -46,6 +46,49 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func createTab() {
-        self.viewControllers = [createLogin(), createFeed(), createProfile(), createSomething()]
+        self.viewControllers = [createLogin(), createFeed(), createloadController(), createProfile()]
     }
 }
+
+//extension TabBarController {
+//    func makeNavigationBar() -> UIView {
+//        lazy var image: UIImageView = {
+//            let image = UIImageView()
+//            image.image = UIImage(named: "arrow.right")
+//            image.contentMode = .scaleAspectFit
+//            image.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//            image.widthAnchor.constraint(equalToConstant: 50).isActive = true
+//            image.translatesAutoresizingMaskIntoConstraints = false
+//            return image
+//        }()
+//        
+//        lazy var spacer: UIView = {
+//            let spacer = UIView()
+//            spacer.widthAnchor.constraint(greaterThanOrEqualToConstant: CGFloat.greatestFiniteMagnitude).isActive = true
+//            return spacer
+//        }()
+//        
+//        let stackView = UIStackView()
+//        stackView.axis = .horizontal
+//        stackView.backgroundColor = .gray
+//        stackView.distribution = .equalSpacing
+//        stackView.alignment = .fill
+//        stackView.isLayoutMarginsRelativeArrangement = true
+//        stackView.addArrangedSubview(image)
+//        stackView.addArrangedSubview(spacer)
+//        return stackView
+//    }
+//    
+//    func addNavigationBar() -> Self {
+//        let navigationBar = makeNavigationBar()
+//        navigationItem.titleView = navigationBar
+//        return self
+//    }
+//}
+
+//extension TabBarController {
+//    static func instatntiate(storyBoardName: String) -> Self {
+//        let storyBoard = UIStoryboard(name: storyBoardName, bundle: nil)
+//        return storyBoard.instantiateViewController(withIdentifier: String(describing: self)) as! Self
+//    }
+//}

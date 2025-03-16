@@ -28,4 +28,10 @@ class AppCoordinator: Coordinator {
         window?.makeKeyAndVisible()
     }
     
+    func login() {
+        let controller = LoginController()
+        window?.rootViewController = UINavigationController(rootViewController: controller)
+        window?.makeKeyAndVisible()
+    }
+    
 }

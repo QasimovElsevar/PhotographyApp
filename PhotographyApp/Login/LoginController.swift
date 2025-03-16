@@ -93,7 +93,6 @@ class LoginController: UIViewController {
     
     private func UIConfigure() {
         view.backgroundColor = .black
-        
         [loginLabel,
          emailTextField,
          passwordTextField,
