@@ -10,9 +10,9 @@ import UIKit
 class TextCell: UICollectionViewCell {
     private lazy var title : UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.textColor = .label
         label.text = "Submit to topics"
-        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .bold)
         label.textAlignment = .left
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -35,5 +35,9 @@ class TextCell: UICollectionViewCell {
             title.topAnchor.constraint(equalTo: topAnchor),
             title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4)
         ])
+    }
+    
+    func configure(text: String) {
+        title.text = text
     }
 }

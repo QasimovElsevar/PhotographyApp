@@ -10,18 +10,33 @@ import UIKit
 
 enum Sections {
     case image
-    case text
+    case topicText
+    case topics
+    case blogText
+    case blog
 }
 
 class UploadViewModel {
-    let sections: [Sections] = [.image, .text]
+    let sections: [Sections] = [.image, .topicText, .topics, .blogText, .blog]
+    
+    let manager = UploadManager()
+    var success: (() -> Void)?
+    var failure: ((String) -> Void)?
+    
+    var topics: [Topics]?
     
     func createLayaout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             switch self.sections[sectionNumber] {
             case .image:
                 UploadLayout.createUploadCell()
-            case .text:
+            case .topicText:
+                UploadLayout.createTextCell()
+            case .topics:
+                UploadLayout.createTopicsCell()
+            case .blog:
+                UploadLayout.createLatestFromBlogCell()
+            case .blogText:
                 UploadLayout.createTextCell()
             }
         }
@@ -29,8 +44,23 @@ class UploadViewModel {
     
     func numOfCells (section: Int) -> Int {
         switch sections[section] {
-        case .image, .text:
+        case .image, .topicText, .blogText:
             1
+        case .topics:
+            10
+        case .blog:
+            10
+        }
+    }
+    
+    func getData() {
+        manager.getData { [weak self] array, error in
+            if let error = error {
+                self?.failure?(error)
+            } else {
+                self?.topics = array
+                self?.success?()
+            }
         }
     }
 }

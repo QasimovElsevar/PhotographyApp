@@ -43,7 +43,7 @@ class ProfileCotroller: UIViewController {
     
     func configure() {
         view.addSubview(collection)
-        
+        view.backgroundColor = .myBackground
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),

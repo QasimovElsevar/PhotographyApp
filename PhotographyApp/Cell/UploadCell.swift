@@ -33,8 +33,6 @@ class UploadCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
-        line()
-        line(xValue: 0, yValue: Int(frame.maxY) - 10)
     }
     
     required init?(coder: NSCoder) {
@@ -44,6 +42,8 @@ class UploadCell: UICollectionViewCell {
     private func configureUI() {
         addSubview(imageView)
         addSubview(title)
+        
+        setLines()
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
@@ -57,8 +57,13 @@ class UploadCell: UICollectionViewCell {
         ])
     }
     
-    func line(xValue: Int = 0, yValue: Int = 0) {
-        let count = 30
+    func setLines() {
+        drawLine()
+        drawLine(xValue: 0, yValue: Int(frame.maxY) - 10)
+    }
+    
+    func drawLine(xValue: Int = 0, yValue: Int = 0) {
+        let count = 40
         let width = Int(frame.width) / count
         
         for num in 0...count {
@@ -68,12 +73,6 @@ class UploadCell: UICollectionViewCell {
                 shapeShadowLayer.path = shadowPath.cgPath
                 shapeShadowLayer.fillColor = UIColor.gray.cgColor
                 layer.addSublayer(shapeShadowLayer)
-            } else {
-                let path = UIBezierPath(cgPath: UIBezierPath(roundedRect: CGRect(x: num * width, y: yValue, width: width, height: 4), cornerRadius: 1).cgPath)
-                let shapeLayer = CAShapeLayer()
-                shapeLayer.path = path.cgPath
-                shapeLayer.fillColor = UIColor.black.cgColor
-                layer.addSublayer(shapeLayer)
             }
         }
     }

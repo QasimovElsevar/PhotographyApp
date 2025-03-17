@@ -16,8 +16,9 @@ class UploadController: UIViewController {
         collection.backgroundColor = .clear
         collection.register(UploadCell.self, forCellWithReuseIdentifier: "UploadCell")
         collection.register(TextCell.self, forCellWithReuseIdentifier: "TextCell")
+        collection.register(TopicsCell.self, forCellWithReuseIdentifier: "TopicsCell")
+        collection.register(LatestBlogCell.self, forCellWithReuseIdentifier: "LatestBlogCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.isScrollEnabled = false
         return collection
     }()
     
@@ -26,10 +27,11 @@ class UploadController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+//        modelView.getData()
     }
     
     func configure() {
-        view.backgroundColor = .black
+        view.backgroundColor = .myBackground
         view.addSubview(collection)
         
         NSLayoutConstraint.activate([
@@ -38,6 +40,15 @@ class UploadController: UIViewController {
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    func configureNav() {
+        let navAppearance = UINavigationBarAppearance()
+        navAppearance.configureWithOpaqueBackground()
+        
+        if #available(iOS 15.0, *) {
+            UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
+        }
     }
     
 }
@@ -52,14 +63,25 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
         case .image:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "UploadCell", for: indexPath) as! UploadCell
             return cell
-        case .text:
+        case .topicText:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
+            cell.configure(text: "Submit to topics")
+            return cell
+        case .topics:
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "TopicsCell", for: indexPath) as! TopicsCell
+            return cell
+        case .blog:
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "LatestBlogCell", for: indexPath) as! LatestBlogCell
+            return cell
+        case .blogText:
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
+            cell.configure(text: "Latest from the blog")
             return cell
         }
        
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        2
+        5
     }
 }

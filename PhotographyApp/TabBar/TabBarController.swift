@@ -22,7 +22,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func createFeed()  -> UIViewController {
-        let tab = LoginController()
+        let tab = ProfileCotroller()
         let tabBarItem = UITabBarItem(title: "Albums", image: UIImage(systemName: "book.closed"), selectedImage: UIImage(systemName: "book.closed.fill"))
         tab.tabBarItem = tabBarItem
         return tab
@@ -38,7 +38,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func createProfile()  -> UIViewController {
-        let tab = ProfileCotroller()
+        let tab = LoginController()
         let tabBarItem = UITabBarItem(title: "User", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
         tab.tabBarItem = tabBarItem
         return tab
@@ -47,6 +47,19 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func createTab() {
         self.viewControllers = [createLogin(), createFeed(), createloadController(), createProfile()]
+        if #available(iOS 13.0, *) {
+            let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
+            tabBarAppearance.configureWithDefaultBackground()
+            
+            if #available(iOS 15.0, *) {
+                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+                UITabBar.appearance().backgroundColor = .myBackground
+            }
+        }
+        
+        
+        tabBarController?.tabBar.tintColor = .myBackground
+        UITabBar.appearance().tintColor = .label
     }
 }
 

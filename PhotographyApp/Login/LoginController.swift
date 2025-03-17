@@ -13,7 +13,7 @@ class LoginController: UIViewController {
         let label = UILabel()
         label.text = "Login"
         label.font = .systemFont(ofSize: 32, weight: .bold)
-        label.textColor = .white
+        label.textColor = .label
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -22,7 +22,7 @@ class LoginController: UIViewController {
         let label = UILabel()
         label.text = "Don't have an account?"
         label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.textColor = .white
+        label.textColor = .label
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -47,8 +47,8 @@ class LoginController: UIViewController {
     private lazy var loginButton : UIButton = {
         let button = UIButton()
         button.setTitle("Log In", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .white
+        button.setTitleColor(.darkLight, for: .normal)
+        button.backgroundColor = .label
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -65,7 +65,7 @@ class LoginController: UIViewController {
     private lazy var joinButton : UIButton = {
         let button = UIButton()
         button.setTitle("Join", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.label, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         button.backgroundColor = .none
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -92,7 +92,7 @@ class LoginController: UIViewController {
     }
     
     private func UIConfigure() {
-        view.backgroundColor = .black
+        view.backgroundColor = .myBackground
         [loginLabel,
          emailTextField,
          passwordTextField,
