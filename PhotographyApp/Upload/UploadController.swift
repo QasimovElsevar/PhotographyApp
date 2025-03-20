@@ -27,7 +27,7 @@ class UploadController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-//        modelView.getData()
+        modelView.getData()
     }
     
     func configure() {
@@ -40,15 +40,6 @@ class UploadController: UIViewController {
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    func configureNav() {
-        let navAppearance = UINavigationBarAppearance()
-        navAppearance.configureWithOpaqueBackground()
-        
-        if #available(iOS 15.0, *) {
-            UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
-        }
     }
     
 }

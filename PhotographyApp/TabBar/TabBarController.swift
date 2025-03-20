@@ -16,14 +16,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     func createLogin() -> UIViewController {
         let tab = LoginController()
-        let tabBarItem = UITabBarItem(title: "Posts", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+        let tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
         tab.tabBarItem = tabBarItem
         return tab
     }
     
     func createFeed()  -> UIViewController {
-        let tab = ProfileCotroller()
-        let tabBarItem = UITabBarItem(title: "Albums", image: UIImage(systemName: "book.closed"), selectedImage: UIImage(systemName: "book.closed.fill"))
+        let tab = RegisterController()
+        let tabBarItem = UITabBarItem(title: "Smth", image: UIImage(systemName: "book.closed"), selectedImage: UIImage(systemName: "book.closed.fill"))
         tab.tabBarItem = tabBarItem
         return tab
 
@@ -47,19 +47,26 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func createTab() {
         self.viewControllers = [createLogin(), createFeed(), createloadController(), createProfile()]
-        if #available(iOS 13.0, *) {
-            let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
-            tabBarAppearance.configureWithDefaultBackground()
-            
-            if #available(iOS 15.0, *) {
-                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-                UITabBar.appearance().backgroundColor = .myBackground
-            }
-        }
+//        let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
+//        tabBarAppearance.configureWithDefaultBackground()
         
-        
-        tabBarController?.tabBar.tintColor = .myBackground
+//        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        UITabBar.appearance().backgroundColor = .myBackground
+        UITabBar.appearance().isTranslucent = false
+        UITabBar.appearance().barTintColor = .myBackground
         UITabBar.appearance().tintColor = .label
+        
+//        let navAppearance = UINavigationBarAppearance()
+//        navAppearance.configureWithOpaqueBackground()
+//        
+//        UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
+        
+        UINavigationBar.appearance().backgroundColor = .myBackground
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().tintColor = .label
+        
+        
+        
     }
 }
 

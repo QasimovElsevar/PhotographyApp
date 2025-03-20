@@ -20,7 +20,7 @@ struct Topics: Codable {
     let links: WelcomeLinks?
     let mediaTypes: [AssetTypeElement]?
     let status: WelcomeStatus?
-    let owners: [User]?
+    let owners: [Owner]?
     let coverPhoto: CoverPhoto?
     let previewPhotos: [PreviewPhoto]?
 
@@ -51,9 +51,9 @@ struct CoverPhoto: Codable {
     let promotedAt: Date?
     let width, height: Int?
     let color, blurHash: String?
-    let description: String?
+    let description: JSONNull?
     let altDescription: String?
-    let breadcrumbs: [Breadcrumb]?
+    let breadcrumbs: [JSONAny]?
     let urls: Urls?
     let links: CoverPhotoLinks?
     let likes: Int?
@@ -95,11 +95,6 @@ enum AssetTypeElement: String, Codable {
     case photo = "photo"
 }
 
-// MARK: - Breadcrumb
-struct Breadcrumb: Codable {
-    let title: String?
-}
-
 // MARK: - CoverPhotoLinks
 struct CoverPhotoLinks: Codable {
     let linksSelf, html, download, downloadLocation: String?
@@ -113,17 +108,16 @@ struct CoverPhotoLinks: Codable {
 
 // MARK: - TopicSubmissions
 struct TopicSubmissions: Codable {
-    let the3DRenders, wallpapers, film, nature: The3_DRenders?
-    let travel, architectureInterior: The3_DRenders?
-    let coolTones: CoolTones?
-    let texturesPatterns, streetPhotography, people, animals: The3_DRenders?
+    let wallpapers, nature, the3DRenders, texturesPatterns: The3_DRenders?
+    let architectureInterior, travel, film, streetPhotography: The3_DRenders?
+    let people, animals: The3_DRenders?
 
     enum CodingKeys: String, CodingKey {
+        case wallpapers, nature
         case the3DRenders = "3d-renders"
-        case wallpapers, film, nature, travel
-        case architectureInterior = "architecture-interior"
-        case coolTones = "cool-tones"
         case texturesPatterns = "textures-patterns"
+        case architectureInterior = "architecture-interior"
+        case travel, film
         case streetPhotography = "street-photography"
         case people, animals
     }
@@ -145,11 +139,6 @@ enum The3DRendersStatus: String, Codable {
     case rejected = "rejected"
 }
 
-// MARK: - CoolTones
-struct CoolTones: Codable {
-    let status: The3DRendersStatus?
-}
-
 // MARK: - Urls
 struct Urls: Codable {
     let raw, full, regular, small: String?
@@ -166,7 +155,8 @@ struct User: Codable {
     let id: String?
     let updatedAt: Date?
     let username, name, firstName: String?
-    let lastName, twitterUsername: String?
+    let lastName: String?
+    let twitterUsername: Username?
     let portfolioURL: String?
     let bio, location: String?
     let links: UserLinks?
@@ -203,11 +193,11 @@ struct User: Codable {
 // MARK: - UserLinks
 struct UserLinks: Codable {
     let linksSelf, html, photos, likes: String?
-    let portfolio, following, followers: String?
+    let portfolio: String?
 
     enum CodingKeys: String, CodingKey {
         case linksSelf = "self"
-        case html, photos, likes, portfolio, following, followers
+        case html, photos, likes, portfolio
     }
 }
 
@@ -220,7 +210,7 @@ struct ProfileImage: Codable {
 struct Social: Codable {
     let instagramUsername: String?
     let portfolioURL: String?
-    let twitterUsername: String?
+    let twitterUsername: Username?
     let paypalEmail: JSONNull?
 
     enum CodingKeys: String, CodingKey {
@@ -231,6 +221,12 @@ struct Social: Codable {
     }
 }
 
+enum Username: String, Codable {
+    case andredantan = "andredantan"
+    case bharath16740196 = "bharath16740196"
+    case unsplash = "unsplash"
+}
+
 // MARK: - WelcomeLinks
 struct WelcomeLinks: Codable {
     let linksSelf, html, photos: String?
@@ -239,6 +235,71 @@ struct WelcomeLinks: Codable {
         case linksSelf = "self"
         case html, photos
     }
+}
+
+// MARK: - Owner
+struct Owner: Codable {
+    let id: ID?
+    let updatedAt: Date?
+    let username: Username?
+    let name, firstName: Name?
+    let lastName: JSONNull?
+    let twitterUsername: Username?
+    let portfolioURL: String?
+    let bio: String?
+    let location: Location?
+    let links: OwnerLinks?
+    let profileImage: ProfileImage?
+    let instagramUsername: Username?
+    let totalCollections, totalLikes, totalPhotos, totalPromotedPhotos: Int?
+    let totalIllustrations, totalPromotedIllustrations: Int?
+    let acceptedTos, forHire: Bool?
+    let social: Social?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case updatedAt = "updated_at"
+        case username, name
+        case firstName = "first_name"
+        case lastName = "last_name"
+        case twitterUsername = "twitter_username"
+        case portfolioURL = "portfolio_url"
+        case bio, location, links
+        case profileImage = "profile_image"
+        case instagramUsername = "instagram_username"
+        case totalCollections = "total_collections"
+        case totalLikes = "total_likes"
+        case totalPhotos = "total_photos"
+        case totalPromotedPhotos = "total_promoted_photos"
+        case totalIllustrations = "total_illustrations"
+        case totalPromotedIllustrations = "total_promoted_illustrations"
+        case acceptedTos = "accepted_tos"
+        case forHire = "for_hire"
+        case social
+    }
+}
+
+enum Name: String, Codable {
+    case unsplash = "Unsplash"
+}
+
+enum ID: String, Codable {
+    case qv5S1RtoUJ0 = "QV5S1rtoUJ0"
+}
+
+// MARK: - OwnerLinks
+struct OwnerLinks: Codable {
+    let linksSelf, html, photos, likes: String?
+    let portfolio, following, followers: String?
+
+    enum CodingKeys: String, CodingKey {
+        case linksSelf = "self"
+        case html, photos, likes, portfolio, following, followers
+    }
+}
+
+enum Location: String, Codable {
+    case montrealCanada = "Montreal, Canada"
 }
 
 // MARK: - PreviewPhoto

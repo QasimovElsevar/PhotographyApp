@@ -18,7 +18,7 @@ class NetworkManager {
     
     let baseUrl = "https://api.unsplash.com/"
     let imageUrl = ""
-    let header: HTTPHeaders = ["Client-ID": "x8sJp7pb7aDawfONcfXXuwkjGhCJecnUvbR-vZBQtC4"]
+    let header: HTTPHeaders = ["Client-ID": UserDefaults.standard.string(forKey: "key") ?? "x8sJp7pb7aDawfONcfXXuwkjGhCJecnUvbR-vZBQtC4"]
     
     func request<T: Codable>(endPoint: String,
                               model: T.Type,

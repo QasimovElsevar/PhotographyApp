@@ -31,7 +31,7 @@ class LoginController: UIViewController {
     private lazy var emailTextField : UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-        textField.textColor = .systemGray6
+        textField.textColor = .white
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -39,7 +39,7 @@ class LoginController: UIViewController {
     private lazy var passwordTextField : UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-        textField.textColor = .systemGray6
+        textField.textColor = .white
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -49,6 +49,7 @@ class LoginController: UIViewController {
         button.setTitle("Log In", for: .normal)
         button.setTitleColor(.darkLight, for: .normal)
         button.backgroundColor = .label
+        button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -68,6 +69,7 @@ class LoginController: UIViewController {
         button.setTitleColor(.label, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         button.backgroundColor = .none
+        button.addTarget(self, action: #selector(registerJoin), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -76,13 +78,22 @@ class LoginController: UIViewController {
         let stack = UIStackView()
         stack.spacing = 2
         stack.axis = .horizontal
-//        stack.distribution = .
         stack.alignment = .center
         stack.addArrangedSubview(accountLabel)
         stack.addArrangedSubview(joinButton)
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
+    
+    private lazy var errorLabel : UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 11, weight: .light)
+        label.textColor = .red
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,17 +104,19 @@ class LoginController: UIViewController {
     
     private func UIConfigure() {
         view.backgroundColor = .myBackground
+        
         [loginLabel,
          emailTextField,
          passwordTextField,
          loginButton,
          forgotPasswordButton,
-         stack
+         stack,
+         errorLabel
 //         joinButton,
          /*accountLabel*/].forEach( {view.addSubview($0)} )
         
         NSLayoutConstraint.activate([
-            loginLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            loginLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 4),
             loginLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             loginLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
             
@@ -114,6 +127,9 @@ class LoginController: UIViewController {
             passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 20),
             passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            
+            errorLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 4),
+            errorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             
             loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20),
             loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
@@ -139,5 +155,20 @@ class LoginController: UIViewController {
             
         ])
     }
-
+    
+    @objc func loginButtonTapped() {
+        FireBaseManager.shared.signInUser(email: emailTextField.text ?? "", password: passwordTextField.text ?? "") { [weak self] error in
+            if let error = error {
+                self?.showAllert(message: error)
+            }
+        }
+            FireBaseManager.shared.completion = {
+                self.errorLabel.text = "Invalid email or password"
+            }
+    }
+    
+    @objc func registerJoin() {
+        let coordinator = RegisterCoordinator(navigationController: navigationController ?? UINavigationController())
+        coordinator.start()
+    }
 }

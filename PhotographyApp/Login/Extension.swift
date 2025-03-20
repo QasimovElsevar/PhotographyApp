@@ -30,3 +30,14 @@ extension UIImageView {
         self.kf.setImage(with: url)
     }
 }
+
+extension UIViewController {
+    func showAllert(title: String = "Error", message: String? = nil, completion: ((UIAlertAction) -> Void)? = nil) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: completion)
+        alertController.addAction(okAction)
+        DispatchQueue.main.async {
+                   self.present(alertController, animated: true, completion: nil)
+               }
+    }
+}

@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		324EA9202D86BDC700699BEE /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 324EA91F2D86BDC700699BEE /* Kingfisher */; };
+		3274A21E2D8C350000AB13D1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3274A21D2D8C350000AB13D1 /* FirebaseAuth */; };
+		3274A2202D8C350000AB13D1 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3274A21F2D8C350000AB13D1 /* FirebaseCore */; };
+		3274A2222D8C350000AB13D1 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3274A2212D8C350000AB13D1 /* FirebaseCrashlytics */; };
+		3274A2242D8C350000AB13D1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3274A2232D8C350000AB13D1 /* FirebaseFirestore */; };
+		3274A2262D8C350000AB13D1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 3274A2252D8C350000AB13D1 /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +75,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				324EA9202D86BDC700699BEE /* Kingfisher in Frameworks */,
+				3274A2222D8C350000AB13D1 /* FirebaseCrashlytics in Frameworks */,
+				3274A2202D8C350000AB13D1 /* FirebaseCore in Frameworks */,
+				3274A2242D8C350000AB13D1 /* FirebaseFirestore in Frameworks */,
+				3274A21E2D8C350000AB13D1 /* FirebaseAuth in Frameworks */,
+				3274A2262D8C350000AB13D1 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +141,11 @@
 			name = PhotographyApp;
 			packageProductDependencies = (
 				324EA91F2D86BDC700699BEE /* Kingfisher */,
+				3274A21D2D8C350000AB13D1 /* FirebaseAuth */,
+				3274A21F2D8C350000AB13D1 /* FirebaseCore */,
+				3274A2212D8C350000AB13D1 /* FirebaseCrashlytics */,
+				3274A2232D8C350000AB13D1 /* FirebaseFirestore */,
+				3274A2252D8C350000AB13D1 /* FirebaseStorage */,
 			);
 			productName = PhotographyApp;
 			productReference = 324EA7552D82FE0300699BEE /* PhotographyApp.app */;
@@ -217,6 +232,7 @@
 			packageReferences = (
 				324EA79F2D8300BD00699BEE /* XCRemoteSwiftPackageReference "unsplash-photopicker-ios" */,
 				324EA91E2D86BDC700699BEE /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				3274A21C2D8C350000AB13D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 324EA7562D82FE0300699BEE /* Products */;
@@ -589,6 +605,14 @@
 				minimumVersion = 8.3.1;
 			};
 		};
+		3274A21C2D8C350000AB13D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.10.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -596,6 +620,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 324EA91E2D86BDC700699BEE /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		3274A21D2D8C350000AB13D1 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3274A21C2D8C350000AB13D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		3274A21F2D8C350000AB13D1 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3274A21C2D8C350000AB13D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		3274A2212D8C350000AB13D1 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3274A21C2D8C350000AB13D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		3274A2232D8C350000AB13D1 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3274A21C2D8C350000AB13D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		3274A2252D8C350000AB13D1 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3274A21C2D8C350000AB13D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
