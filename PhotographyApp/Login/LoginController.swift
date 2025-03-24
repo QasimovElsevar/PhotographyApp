@@ -94,12 +94,17 @@ class LoginController: UIViewController {
         return label
     }()
 
+    let adapter = LoginAdapter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         UIConfigure()
 //        emailTextField.setUnderLine()
 //        passwordTextField.setUnderLine()
+        if let bundleId = Bundle.main.bundleIdentifier {
+            let redirectURI = "\(bundleId):/oauth2redirect/google"
+            print("Generated Redirect URI: \(redirectURI)")
+        }
     }
     
     private func UIConfigure() {
@@ -157,6 +162,7 @@ class LoginController: UIViewController {
     }
     
     @objc func loginButtonTapped() {
+//        adapter.loginWithGoogle(from: self)
         FireBaseManager.shared.signInUser(email: emailTextField.text ?? "", password: passwordTextField.text ?? "") { [weak self] error in
             if let error = error {
                 self?.showAllert(message: error)

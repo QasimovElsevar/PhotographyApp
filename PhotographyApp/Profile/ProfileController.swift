@@ -7,34 +7,23 @@
 
 import UIKit
 
-class ProfileCotroller: UIViewController {
+class ProfileController: UIViewController {
 
     private lazy var collection: UICollectionView = {
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayaout())
         collection.delegate = self
         collection.dataSource = self
         collection.backgroundColor = .clear
-        collection.register(MyCollectionsCell.self, forCellWithReuseIdentifier: "MyCollectionsCell")
-        collection.register(MyLikedCell.self, forCellWithReuseIdentifier: "MyLikedCell")
-        collection.register(MyPhotosCell.self, forCellWithReuseIdentifier: "MyPhotosCell")
+        collection.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
+        collection.register(ProfileSelectionCell.self, forCellWithReuseIdentifier: "ProfileSelectionCell")
+        collection.register(ProfileCollectionCell.self, forCellWithReuseIdentifier: "ProfileCollectionCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.isScrollEnabled = false
         return collection
     }()
     
-    private lazy var downCollection: UICollectionView = {
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collection.delegate = self
-        collection.dataSource = self
-        collection.backgroundColor = .clear
-        collection.register(MyCollectionsCell.self, forCellWithReuseIdentifier: "MyCollectionsCell")
-        collection.register(MyLikedCell.self, forCellWithReuseIdentifier: "MyLikedCell")
-        collection.register(MyPhotosCell.self, forCellWithReuseIdentifier: "MyPhotosCell")
-        collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.isScrollEnabled = false
-        return collection
-    }()
+    let viewModel = ProfileViewModel()
     
+    var index = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,15 +43,34 @@ class ProfileCotroller: UIViewController {
     
 }
 
-extension ProfileCotroller: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        2
+        viewModel.numberOfCells(index: section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCell(withReuseIdentifier: "MyCollectionsCell", for: indexPath)
-        cell.backgroundColor = .systemBlue
-        return cell
+        switch viewModel.sections[indexPath.section] {
+        case .profile:
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
+            return cell
+        case .selection:
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileSelectionCell", for: indexPath) as! ProfileSelectionCell
+            cell.callback = { tag in
+                self.index = tag
+                self.collection.reloadData()
+            }
+            return cell
+        case .collection:
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCollectionCell", for: indexPath) as! ProfileCollectionCell
+            cell.configure(tag: index)
+            cell.backgroundColor = .red
+            return cell
+        }
+      
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        3
     }
     
     

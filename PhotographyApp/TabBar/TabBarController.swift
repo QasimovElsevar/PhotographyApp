@@ -30,7 +30,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func createloadController()  -> UIViewController{
-        let tab = UploadController()
+        let tab = ProfileController()
         let tabBarItem = UITabBarItem(title: "Photos", image: UIImage(systemName: "photo"), selectedImage: UIImage(systemName: "photo"))
         tab.tabBarItem = tabBarItem
         return tab
