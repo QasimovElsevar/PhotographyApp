@@ -97,6 +97,10 @@ class RegisterController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .myBackground
+        navigationItem.titleView?.tintColor = .label
+        navigationItem.backBarButtonItem?.tintColor = .label
+//        tabBarController?.navigationController?.navigationItem.backBarButtonItem?.title = "Login"
+        self.navigationItem.backButtonTitle = "Login"
         
         [joinLabel,
          firstNameTextField,

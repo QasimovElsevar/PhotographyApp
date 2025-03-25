@@ -109,7 +109,7 @@ class LoginController: UIViewController {
     
     private func UIConfigure() {
         view.backgroundColor = .myBackground
-        
+        tabBarController?.navigationItem.backButtonTitle = "Login"
         [loginLabel,
          emailTextField,
          passwordTextField,

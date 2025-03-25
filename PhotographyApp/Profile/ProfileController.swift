@@ -18,6 +18,7 @@ class ProfileController: UIViewController {
         collection.register(ProfileSelectionCell.self, forCellWithReuseIdentifier: "ProfileSelectionCell")
         collection.register(ProfileCollectionCell.self, forCellWithReuseIdentifier: "ProfileCollectionCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
+    
         return collection
     }()
     
@@ -31,6 +32,8 @@ class ProfileController: UIViewController {
     }
     
     func configure() {
+        navigationBarItemConfigure()
+        
         view.addSubview(collection)
         view.backgroundColor = .myBackground
         NSLayoutConstraint.activate([
@@ -41,6 +44,11 @@ class ProfileController: UIViewController {
         ])
     }
     
+    func navigationBarItemConfigure() {
+        tabBarController?.navigationItem.title = "Qasimov Elsevar"
+        tabBarController?.navigationItem.titleView?.tintColor = .label
+        tabBarController?.navigationController?.navigationBar.alpha = 0
+    }
 }
 
 extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -53,6 +61,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
         case .profile:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
             return cell
+            
         case .selection:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileSelectionCell", for: indexPath) as! ProfileSelectionCell
             cell.callback = { tag in
@@ -60,21 +69,43 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
                 self.collection.reloadData()
             }
             return cell
+            
         case .collection:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCollectionCell", for: indexPath) as! ProfileCollectionCell
             cell.configure(tag: index)
-            cell.backgroundColor = .red
+            cell.callback = {
+                self.collection.isScrollEnabled = true
+            }
             return cell
         }
-      
+        
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         3
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+                if indexPath.section == 0 {
+                    collection.isScrollEnabled = false
+                }
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        tabBarController?.navigationController?.navigationBar.alpha = 0 + scrollView.contentOffset.y / 100
+    }
 }
+//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//        if targetContentOffset.pointee.y < 0 {
+//            collection.isScrollEnabled = true
+//        }
+//        
+//        if scrollView.contentOffset.x == 0 {
+//            
+//        }
+//    }
+    
+
 
 //extension ProfileCotroller {
 //    func makeNavigationBar() -> UIView {

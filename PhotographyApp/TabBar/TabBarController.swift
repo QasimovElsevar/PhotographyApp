@@ -11,27 +11,29 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.delegate = self
+        tabBar.backgroundColor = .myBackground
         createTab()
     }
 
-    func createLogin() -> UIViewController {
+    func createHome() -> UIViewController {
         let tab = LoginController()
-        let tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
         tab.tabBarItem = tabBarItem
         return tab
     }
     
     func createFeed()  -> UIViewController {
-        let tab = RegisterController()
-        let tabBarItem = UITabBarItem(title: "Smth", image: UIImage(systemName: "book.closed"), selectedImage: UIImage(systemName: "book.closed.fill"))
+        let tab = UploadController()
+        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "book.closed"), selectedImage: UIImage(systemName: "book.closed.fill"))
         tab.tabBarItem = tabBarItem
         return tab
 
     }
     
     func createloadController()  -> UIViewController{
-        let tab = ProfileController()
-        let tabBarItem = UITabBarItem(title: "Photos", image: UIImage(systemName: "photo"), selectedImage: UIImage(systemName: "photo"))
+        let tab = UploadController()
+        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "photo"), selectedImage: UIImage(systemName: "photo"))
         tab.tabBarItem = tabBarItem
         return tab
 
@@ -39,14 +41,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func createProfile()  -> UIViewController {
         let tab = LoginController()
-        let tabBarItem = UITabBarItem(title: "User", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
+        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
         tab.tabBarItem = tabBarItem
         return tab
 
     }
     
     func createTab() {
-        self.viewControllers = [createLogin(), createFeed(), createloadController(), createProfile()]
+        self.viewControllers = [createHome(), createFeed(), createloadController(), createProfile()]
 //        let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
 //        tabBarAppearance.configureWithDefaultBackground()
         

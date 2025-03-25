@@ -19,6 +19,7 @@ class ProfileCollectionCell: UICollectionViewCell {
     }()
     
     let viewModel = ProfileCollectionViewModel()
+    var callback: (() -> Void)?
     
     var index: Int?
     
@@ -33,7 +34,7 @@ class ProfileCollectionCell: UICollectionViewCell {
     
     func  configureUI() {
         addSubview(collection)
-        
+    
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -44,6 +45,7 @@ class ProfileCollectionCell: UICollectionViewCell {
     
     func configure(tag: Int) {
         index = tag
+        collection.reloadData()
     }
 }
 
@@ -56,7 +58,7 @@ extension ProfileCollectionCell: UICollectionViewDelegate, UICollectionViewDataS
         switch viewModel.selections[index ?? 0] {
         case .photos:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCollectionPhotosCell", for: indexPath) as! ProfileCollectionPhotosCell
-            cell.backgroundColor = .red
+            cell.backgroundColor = .green
             return cell
         case .likes:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCollectionPhotosCell", for: indexPath) as! ProfileCollectionPhotosCell
@@ -64,12 +66,19 @@ extension ProfileCollectionCell: UICollectionViewDelegate, UICollectionViewDataS
             return cell
         case .collections:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCollectionPhotosCell", for: indexPath) as! ProfileCollectionPhotosCell
-            cell.backgroundColor = .red
+            cell.backgroundColor = .yellow
             return cell
         }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if targetContentOffset.pointee.y == 0 {
+            callback?()
+//            collection.isScrollEnabled = false
+        }
     }
 }
