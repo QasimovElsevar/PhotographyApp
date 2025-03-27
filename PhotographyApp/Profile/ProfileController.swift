@@ -45,7 +45,7 @@ class ProfileController: UIViewController {
     }
     
     func navigationBarItemConfigure() {
-        tabBarController?.navigationItem.title = "Qasimov Elsevar"
+//        tabBarController?.navigationItem.title = "Qasimov"
         tabBarController?.navigationItem.titleView?.tintColor = .label
         tabBarController?.navigationController?.navigationBar.alpha = 0
     }

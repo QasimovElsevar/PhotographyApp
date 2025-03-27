@@ -1,0 +1,22 @@
+//
+//  PostLayout.swift
+//  PhotographyApp
+//
+//  Created by Elsever on 25.03.25.
+//
+
+import Foundation
+import UIKit
+
+class PostLayout {
+    static func createUploadCell() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+        
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.25)), subitems: [item])
+        group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        return section
+    }
+}

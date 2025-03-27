@@ -31,13 +31,13 @@ class UploadViewModel {
             case .image:
                 UploadLayout.createUploadCell()
             case .topicText:
-                UploadLayout.createTextCell()
+                LayoutClass.createTextCell()
             case .topics:
-                UploadLayout.createTopicsCell()
+                LayoutClass.createVerticalDoubleCell(groupWidth: 0.4)
             case .blog:
                 UploadLayout.createLatestFromBlogCell()
             case .blogText:
-                UploadLayout.createTextCell()
+                LayoutClass.createTextCell()
             }
         }
     }

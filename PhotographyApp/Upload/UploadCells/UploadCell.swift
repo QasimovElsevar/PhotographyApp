@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class UploadCell: UICollectionViewCell {
     
@@ -15,6 +16,9 @@ class UploadCell: UICollectionViewCell {
         image.image = UIImage(systemName: "photo")
         image.backgroundColor = .gray
         image.clipsToBounds = true
+        image.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openLibrary))
+        image.addGestureRecognizer(tapGesture)
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -75,5 +79,21 @@ class UploadCell: UICollectionViewCell {
                 layer.addSublayer(shapeShadowLayer)
             }
         }
+    }
+    
+    @objc func openLibrary() {
+//        print("rrrr")
+//        var config = PHPickerConfiguration()
+//        config.selectionLimit = 9
+//        
+//        let picker = PHPickerViewController(configuration: config)
+//        picker.delegate = self
+//        self.window?.rootViewController?.present(picker, animated: true)
+    }
+}
+
+extension UploadCell: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        window?.rootViewController?.dismiss(animated: true)
     }
 }

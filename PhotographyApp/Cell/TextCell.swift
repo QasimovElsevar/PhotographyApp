@@ -37,7 +37,8 @@ class TextCell: UICollectionViewCell {
         ])
     }
     
-    func configure(text: String) {
+    func configure(text: String, textSize: CGFloat) {
         title.text = text
+        title.font = .systemFont(ofSize: textSize, weight: .bold)
     }
 }

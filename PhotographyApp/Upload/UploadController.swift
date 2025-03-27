@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class UploadController: UIViewController {
 
@@ -56,7 +57,7 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .topicText:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
-            cell.configure(text: "Submit to topics")
+            cell.configure(text: "Submit to topics", textSize: 16)
             return cell
         case .topics:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TopicsCell", for: indexPath) as! TopicsCell
@@ -66,7 +67,7 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .blogText:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
-            cell.configure(text: "Latest from the blog")
+            cell.configure(text: "Latest from the blog", textSize: 16)
             return cell
         }
        
@@ -75,4 +76,23 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         5
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if modelView.sections[indexPath.section] == .image {
+            var config = PHPickerConfiguration()
+            config.selectionLimit = 9
+            
+            let picker = PHPickerViewController(configuration: config)
+            picker.delegate = self
+            present(picker, animated: true)
+        }
+    }
+}
+
+extension UploadController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        dismiss(animated: true)
+    }
+    
+    
 }

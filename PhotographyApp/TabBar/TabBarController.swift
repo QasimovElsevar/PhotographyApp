@@ -17,14 +17,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
 
     func createHome() -> UIViewController {
-        let tab = LoginController()
+        let tab = ProfileController()
         let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
         tab.tabBarItem = tabBarItem
         return tab
     }
     
     func createFeed()  -> UIViewController {
-        let tab = UploadController()
+        let tab = SearchController()
         let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "book.closed"), selectedImage: UIImage(systemName: "book.closed.fill"))
         tab.tabBarItem = tabBarItem
         return tab
@@ -49,26 +49,22 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func createTab() {
         self.viewControllers = [createHome(), createFeed(), createloadController(), createProfile()]
-//        let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
-//        tabBarAppearance.configureWithDefaultBackground()
-        
-//        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+
         UITabBar.appearance().backgroundColor = .myBackground
         UITabBar.appearance().isTranslucent = false
         UITabBar.appearance().barTintColor = .myBackground
         UITabBar.appearance().tintColor = .label
         
-//        let navAppearance = UINavigationBarAppearance()
-//        navAppearance.configureWithOpaqueBackground()
-//        
-//        UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
-        
         UINavigationBar.appearance().backgroundColor = .myBackground
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().tintColor = .label
-        
-        
-        
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let navController = viewController as? UINavigationController,
+            let topVC = navController.topViewController {
+            topVC.title = "New Title"
+        }
     }
 }
 
