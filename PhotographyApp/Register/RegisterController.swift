@@ -156,7 +156,9 @@ class RegisterController: UIViewController {
                 if let error = error {
                     showAllert(message: error)
                 } else {
-                    FirestoreManager.shared.saveUser(firstName: firstname, lastName: lastname, username: username, email: email, accessKey: "") { [weak self] error in
+                    let coordinator = WebCoordinator(navigationController: navigationController ?? UINavigationController())
+                    coordinator.start()
+                    FirestoreManager.shared.saveUser(firstName: firstname, lastName: lastname, username: username, email: email, accessKey: NetworkManager.shared.authCode ?? "") { [weak self] error in
                         guard let self else {return}
                         if let error = error {
                             showAllert(message: error)

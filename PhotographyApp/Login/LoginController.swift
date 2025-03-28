@@ -41,6 +41,7 @@ class LoginController: UIViewController {
         textField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         textField.textColor = .white
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.setUnderLine()
         return textField
     }()
     
@@ -178,16 +179,9 @@ class LoginController: UIViewController {
         
         let controller = WebController()
         navigationController?.present(controller, animated: true)
+        
 //        let coordinator = RegisterCoordinator(navigationController: navigationController ?? UINavigationController())
 //        coordinator.start()
-//        let path = "https://unsplash.com/oauth/authorize?client_id=x8sJp7pb7aDawfONcfXXuwkjGhCJecnUvbR-vZBQtC4&redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=code&scope=public+read_user+write_user"
-//        NetworkManager.shared.request(endPoint: path, model: SenBack.self) { data, error in
-//            if let error = error {
-//                print(error)
-//            } else {
-//                let code = data?.code ?? ""
-//                print(code)
-//            }
-//        }
+
     }
 }

@@ -19,6 +19,8 @@ class WebController: UIViewController, WKUIDelegate {
         return webView
     }()
     
+    var callback: ((String) -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -49,26 +51,20 @@ class WebController: UIViewController, WKUIDelegate {
 extension WebController: WKNavigationDelegate {
 
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        print("Started to load")
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print("Finished loading")
         if let finalURL = webView.url, finalURL.absoluteString.contains("/native") {
             print("Final URL after redirection: \(finalURL.absoluteString)")
+            print(finalURL.lastPathComponent)
+            print(finalURL.pathComponents)
+            let code = finalURL.absoluteString.split(separator: "=").last ?? ""
             dismiss(animated: true)
+            callback?(String(code))
         }
     }
 
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         print(error.localizedDescription)
     }
-    
-    func find(
-        _ string: String,
-        configuration: WKFindConfiguration = .init(),
-        completionHandler: @escaping @MainActor (WKFindResult) -> Void
-    ) {
-    }
-    
 }

@@ -8,11 +8,11 @@
 import Foundation
 import UIKit
 
-enum ProfileSelections {
-    case photos
-    case likes
-    case collections
-}
+//enum ProfileSelections {
+//    case photos
+//    case likes
+//    case collections
+//}
 
 class ProfileCollectionViewModel {
     let selections: [ProfileSelections] = [.photos, .likes, .collections]

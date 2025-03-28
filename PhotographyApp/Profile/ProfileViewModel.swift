@@ -13,9 +13,18 @@ enum sections {
     case collection
 }
 
+enum ProfileSelections {
+    case photos
+    case likes
+    case collections
+}
+
 class ProfileViewModel {
     let sections: [sections] = [.profile, .selection, .collection]
+    let selections: [ProfileSelections] = [.photos, .likes, .collections]
     
+    var index = 0
+
     func createLayaout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             switch self.sections[sectionNumber] {
@@ -24,15 +33,36 @@ class ProfileViewModel {
             case .selection:
                 ProfileCellLayout.selectionCell()
             case .collection:
-                ProfileCellLayout.profileCollection()
+                switch self.selections[self.index] {
+                case .photos:
+                    LayoutClass.createHorizontalDoubleCell()
+                case .likes:
+                    ProfileCellLayout.profileCollection()
+                case .collections:
+                    ProfileCellLayout.profileCollection()
+                }
+                
             }
         }
     }
     
+    func switchCells(index: Int) {
+        
+    }
+    
     func numberOfCells(index: Int) -> Int{
         switch sections[index] {
-        case .profile, .selection, .collection:
+        case .profile, .selection:
             1
+        case .collection:
+            switch self.selections[index] {
+            case .photos:
+                10
+            case .likes:
+                5
+            case .collections:
+                5
+            }
         }
     }
 }

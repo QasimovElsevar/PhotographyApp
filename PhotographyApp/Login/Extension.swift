@@ -10,7 +10,6 @@ import UIKit
 import Kingfisher
 
 extension UITextField {
-
     func setUnderLine() {
         let border = CALayer()
         let width = CGFloat(0.5)
@@ -23,7 +22,6 @@ extension UITextField {
 }
 
 extension UIImageView {
-    
     func loadImage(url: String) {
         let urlPrefix = "\(NetworkManager().imageUrl)\(url)"
         let url = URL(string: "\(urlPrefix)")

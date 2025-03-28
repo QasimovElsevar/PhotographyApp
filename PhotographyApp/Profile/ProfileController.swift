@@ -17,6 +17,7 @@ class ProfileController: UIViewController {
         collection.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
         collection.register(ProfileSelectionCell.self, forCellWithReuseIdentifier: "ProfileSelectionCell")
         collection.register(ProfileCollectionCell.self, forCellWithReuseIdentifier: "ProfileCollectionCell")
+        collection.register(ProfileCollectionPhotosCell.self, forCellWithReuseIdentifier: "ProfileCollectionPhotosCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
     
         return collection
@@ -65,17 +66,18 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
         case .selection:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileSelectionCell", for: indexPath) as! ProfileSelectionCell
             cell.callback = { tag in
-                self.index = tag
+                self.viewModel.index = tag
                 self.collection.reloadData()
             }
             return cell
             
         case .collection:
-            let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCollectionCell", for: indexPath) as! ProfileCollectionCell
-            cell.configure(tag: index)
-            cell.callback = {
-                self.collection.isScrollEnabled = true
-            }
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCollectionPhotosCell", for: indexPath) as! ProfileCollectionPhotosCell
+//            cell.configure(tag: index)
+//            cell.callback = {
+//                self.collection.isScrollEnabled = true
+//            }
+            cell.backgroundColor = .red
             return cell
         }
         
@@ -87,7 +89,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
                 if indexPath.section == 0 {
-                    collection.isScrollEnabled = false
+//                    collection.isScrollEnabled = false
                 }
     }
 
