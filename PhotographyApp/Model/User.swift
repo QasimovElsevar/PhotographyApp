@@ -10,3 +10,7 @@ import Foundation
 struct UserModel {
     let firstName, lastName, username, email, accessId: String?
 }
+
+struct SenBack: Codable {
+    let code: String?
+}
