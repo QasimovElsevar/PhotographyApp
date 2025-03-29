@@ -8,7 +8,10 @@
 import UIKit
 
 class ProfileController: UIViewController {
-
+    
+//  MARK: -UI Elements
+    
+    
     private lazy var collection: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayaout())
         collection.delegate = self
@@ -19,18 +22,21 @@ class ProfileController: UIViewController {
         collection.register(ProfileCollectionCell.self, forCellWithReuseIdentifier: "ProfileCollectionCell")
         collection.register(ProfileCollectionPhotosCell.self, forCellWithReuseIdentifier: "ProfileCollectionPhotosCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
-    
+        
         return collection
     }()
     
+//  MARK: - UI Elements
+
     let viewModel = ProfileViewModel()
-    
     var index = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
     }
+    
+//  MARK: - UI Configuration
     
     func configure() {
         navigationBarItemConfigure()
@@ -73,10 +79,10 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             
         case .collection:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCollectionPhotosCell", for: indexPath) as! ProfileCollectionPhotosCell
-//            cell.configure(tag: index)
-//            cell.callback = {
-//                self.collection.isScrollEnabled = true
-//            }
+            //            cell.configure(tag: index)
+            //            cell.callback = {
+            //                self.collection.isScrollEnabled = true
+            //            }
             cell.backgroundColor = .red
             return cell
         }
@@ -88,25 +94,18 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-                if indexPath.section == 0 {
-//                    collection.isScrollEnabled = false
-                }
+        if indexPath.section == 0 {
+//                                collection.isScrollEnabled = false
+        }
     }
-
+    
+//  MARK: - Navigation Bar Appearance
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         tabBarController?.navigationController?.navigationBar.alpha = 0 + scrollView.contentOffset.y / 100
+        
     }
 }
-//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        if targetContentOffset.pointee.y < 0 {
-//            collection.isScrollEnabled = true
-//        }
-//        
-//        if scrollView.contentOffset.x == 0 {
-//            
-//        }
-//    }
-    
 
 
 //extension ProfileCotroller {

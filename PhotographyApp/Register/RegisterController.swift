@@ -9,6 +9,8 @@ import UIKit
 
 class RegisterController: UIViewController {
 
+    // MARK: - UI Elements
+        
     private lazy var joinLabel : UILabel = {
         let label = UILabel()
         label.text = "Join Photography App"
@@ -88,20 +90,27 @@ class RegisterController: UIViewController {
         return label
     }()
     
+    //MARK: - Properties
+    
     let viewModel = RegisterViewModel()
+    
+    //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
+    //MARK: - UI Configuration
     
     func configureUI() {
         view.backgroundColor = .myBackground
-        navigationItem.titleView?.tintColor = .label
-        navigationItem.backBarButtonItem?.tintColor = .label
-//        tabBarController?.navigationController?.navigationItem.backBarButtonItem?.title = "Login"
-        self.navigationItem.backButtonTitle = "Login"
-        
+        addSubviews()
+        setConstraints()
+        navBarSetup()
+       
+    }
+    
+    private func addSubviews() {
         [joinLabel,
          firstNameTextField,
          lastNameTextField,
@@ -111,7 +120,9 @@ class RegisterController: UIViewController {
          signUpButton,
          emailErrorLabel,
          passwordErrorLabel].forEach( { view.addSubview($0) } )
-        
+    }
+    
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             joinLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 4),
             joinLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
@@ -149,30 +160,37 @@ class RegisterController: UIViewController {
         ])
     }
     
+    private func navBarSetup() {
+        navigationItem.titleView?.tintColor = .label
+        navigationItem.backBarButtonItem?.tintColor = .label
+        tabBarController?.navigationController?.navigationItem.backBarButtonItem?.title = "Login"
+    }
+    
+    //MARK: - UI Actions
+    
     @objc func signUpTapped() {
-        if let firstname = firstNameTextField.text, let lastname = lastNameTextField.text, let username = usernameTextField.text, let email = emailTextField.text, let _ = passwordTextField.text {
-            FireBaseManager.shared.registerUser(email: emailTextField.text ?? "", password: passwordTextField.text ?? "") { [weak self] error in
+        if let firstname = firstNameTextField.text, let lastname = lastNameTextField.text, let username = usernameTextField.text, let email = emailTextField.text, let password = passwordTextField.text {
+            viewModel.builder.set(firstname: firstname)
+            viewModel.builder.set(lastname: lastname)
+            viewModel.builder.set(username: username)
+            viewModel.builder.set(email: email)
+            
+            FireBaseManager.shared.registerUser(email: email, password: password) { [weak self] error in
                 guard let self else {return}
                 if let error = error {
                     showAllert(message: error)
                 } else {
-                    let coordinator = WebCoordinator(navigationController: navigationController ?? UINavigationController())
+                    let coordinator = WebCoordinator(navigationController: navigationController ?? UINavigationController(), viewModel: .init(builder: viewModel.builder))
                     coordinator.start()
-                    FirestoreManager.shared.saveUser(firstName: firstname, lastName: lastname, username: username, email: email, accessKey: NetworkManager.shared.authCode ?? "") { [weak self] error in
-                        guard let self else {return}
-                        if let error = error {
-                            showAllert(message: error)
-                        } else {
-                            showAllert(message: "Successfully registered", completion: { UIAlertAction in
-                                self.navigationController?.popViewController(animated: true)
-                            })
-                        }
-                    }
                 }
             }
         }
+        let coordinator = WebCoordinator(navigationController: navigationController ?? UINavigationController(), viewModel: .init(builder: viewModel.builder))
+        coordinator.start()
     }
 
+    //MARK: - TextField Configurations
+    
     @objc func emailChanged() {
         if let email = emailTextField.text {
             if let errorMassage = viewModel.InvalidMail(email) {

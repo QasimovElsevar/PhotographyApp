@@ -19,13 +19,22 @@ class WebController: UIViewController, WKUIDelegate {
         return webView
     }()
     
+    let viewModel: WebViewModel
     var callback: ((String) -> Void)?
+    
+    init(viweModel: WebViewModel) {
+        self.viewModel = viweModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         openUrl()
-        // Do any additional setup after loading the view.
     }
     
     func configureUI() {
@@ -45,7 +54,6 @@ class WebController: UIViewController, WKUIDelegate {
                let myRequest = URLRequest(url: myURL!)
                webView.load(myRequest)
     }
-
 }
 
 extension WebController: WKNavigationDelegate {
@@ -54,14 +62,26 @@ extension WebController: WKNavigationDelegate {
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        if let finalURL = webView.url, finalURL.absoluteString.contains("/native") {
-            print("Final URL after redirection: \(finalURL.absoluteString)")
-            print(finalURL.lastPathComponent)
-            print(finalURL.pathComponents)
-            let code = finalURL.absoluteString.split(separator: "=").last ?? ""
-            dismiss(animated: true)
-            callback?(String(code))
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            if let finalURL = webView.url, finalURL.absoluteString.contains("/native") {
+                let code = webView.url?.absoluteString.split(separator: "code=").last ?? ""
+                
+                viewModel.builder.set(authToken: String(code))
+                
+                viewModel.saveData { [weak self] error in
+                    if let error = error {
+                        self?.showAllert(title: "Error", message: error)
+                    } else {
+                        DispatchQueue.main.async { [ weak self] in
+                            self?.dismiss(animated: true)
+                        }
+                        
+                    }
+                }
+            }
+            
         }
+        
     }
 
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {

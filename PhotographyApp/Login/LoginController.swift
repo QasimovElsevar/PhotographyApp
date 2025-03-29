@@ -177,11 +177,11 @@ class LoginController: UIViewController {
     
     @objc func registerJoin() {
         
-        let controller = WebController()
-        navigationController?.present(controller, animated: true)
+//        let controller = WebController()
+//        navigationController?.present(controller, animated: true)
         
-//        let coordinator = RegisterCoordinator(navigationController: navigationController ?? UINavigationController())
-//        coordinator.start()
+        let coordinator = RegisterCoordinator(navigationController: navigationController ?? UINavigationController())
+        coordinator.start()
 
     }
 }

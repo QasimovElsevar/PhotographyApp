@@ -10,15 +10,18 @@ import UIKit
 
 class WebCoordinator: Coordinator {
     var navigationController: UINavigationController
+    var viewModel: WebViewModel
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, viewModel: WebViewModel) {
         self.navigationController = navigationController
+        self.viewModel = viewModel
     }
     
     func start() {
-        let controller = WebController()
-        controller.show(controller, sender: nil)
+        let controller = WebController(viweModel: viewModel)
+        navigationController.present(controller, animated: true)
     }
     
     
 }
+

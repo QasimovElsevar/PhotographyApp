@@ -24,6 +24,7 @@ class ProfileCellLayout {
         
         let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40)), subitems: [item])
         group.contentInsets = .init(top: 10, leading: 12, bottom: 0, trailing: 12)
+        
         let section = NSCollectionLayoutSection(group: group)
         
         return section
@@ -34,7 +35,6 @@ class ProfileCellLayout {
         
         let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)), subitems: [item])
         group.contentInsets = .init(top: 10, leading: 0, bottom: 0, trailing: 0)
-
         
         let section = NSCollectionLayoutSection(group: group)
         

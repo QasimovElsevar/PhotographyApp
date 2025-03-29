@@ -87,22 +87,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7CF1C1B2-DB34-4AC2-817C-7DA9314937C6"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PhotographyApp/Register/RegisterController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
-            landmarkName = "signUpTapped()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "DCD46626-8CD9-4A2B-88FE-099B4ECDA275"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -130,38 +114,6 @@
             endingLineNumber = "130"
             landmarkName = "changeSelection(_:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "63CA741C-34C5-4735-B3E2-2CA18BA3B15C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PhotographyApp/Profile/ProfileCells/ProfileSelectionCell/ProfileSelectionCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
-            landmarkName = "changeSelection(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D3834EBE-2EDF-42C2-9A9E-10B3ACB6A5D1"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PhotographyApp/Profile/ProfileController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "13"
-            endingLineNumber = "13"
-            landmarkName = "collection"
-            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
