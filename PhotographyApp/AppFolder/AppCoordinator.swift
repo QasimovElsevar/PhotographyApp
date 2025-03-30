@@ -33,5 +33,4 @@ class AppCoordinator: Coordinator {
         window?.rootViewController = UINavigationController(rootViewController: controller)
         window?.makeKeyAndVisible()
     }
-    
 }

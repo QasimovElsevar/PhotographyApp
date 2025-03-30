@@ -185,8 +185,6 @@ class RegisterController: UIViewController {
                 }
             }
         }
-        let coordinator = WebCoordinator(navigationController: navigationController ?? UINavigationController(), viewModel: .init(builder: viewModel.builder))
-        coordinator.start()
     }
 
     //MARK: - TextField Configurations
@@ -216,7 +214,12 @@ class RegisterController: UIViewController {
     }
     
     func check() {
-        if  passwordErrorLabel.isHidden && emailErrorLabel.isHidden  {
+        if  passwordErrorLabel.isHidden &&
+                emailErrorLabel.isHidden &&
+                firstNameTextField.text?.isEmpty == false &&
+                lastNameTextField.text?.isEmpty == false &&
+                lastNameTextField.text?.isEmpty == false
+        {
             signUpButton.isEnabled = true
         } else {
             signUpButton.isEnabled = false

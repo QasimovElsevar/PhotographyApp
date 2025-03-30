@@ -15,7 +15,7 @@ class SearchController: UIViewController {
         collection.backgroundColor = .clear
         collection.register(TextCell.self, forCellWithReuseIdentifier: "TextCell")
         collection.register(TopicsCell.self, forCellWithReuseIdentifier: "TopicsCell")
-        collection.register(DoubleHorizontalVCell.self, forCellWithReuseIdentifier: "DoubleHorizontalVCell")
+        collection.register(DoubleHorizontalCell.self, forCellWithReuseIdentifier: "DoubleHorizontalCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
@@ -71,7 +71,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             cell.configure(text: "Discover", textSize: 20)
             return cell
         case .discover:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DoubleHorizontalVCell", for: indexPath) as! DoubleHorizontalVCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DoubleHorizontalCell", for: indexPath) as! DoubleHorizontalCell
             return cell
         }
     }

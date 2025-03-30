@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TabBarController: UITabBarController, UITabBarControllerDelegate {
+final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,7 +17,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
 
     func createHome() -> UIViewController {
-        let tab = ProfileController()
+        let tab = SearchController()
         let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
         tab.tabBarItem = tabBarItem
         return tab
@@ -39,7 +39,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     }
     
-    func createProfile()  -> UIViewController {
+    func createLogin()  -> UIViewController {
         let tab = LoginController()
         let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
         tab.tabBarItem = tabBarItem
@@ -47,8 +47,15 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     }
     
+    func createProfile()  -> UIViewController {
+        let tab = ProfileController()
+        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
+        tab.tabBarItem = tabBarItem
+        return tab
+    }
+    
     func createTab() {
-        self.viewControllers = [createHome(), createFeed(), createloadController(), createProfile()]
+        self.viewControllers = [createHome(), createFeed(), createloadController(), createLogin()]
 
         UITabBar.appearance().backgroundColor = .myBackground
         UITabBar.appearance().isTranslucent = false

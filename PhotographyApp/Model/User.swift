@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserModel {
-    let firstName, lastName, username, email, accessId: String?
+    let firstName, lastName, username, email, accessKey: String?
 }
 
 struct SenBack: Codable {

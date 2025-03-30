@@ -8,6 +8,9 @@
 import UIKit
 
 class TextCell: UICollectionViewCell {
+    
+    //MARK: - UI Elements
+    
     private lazy var title : UILabel = {
         let label = UILabel()
         label.textColor = .label
@@ -28,9 +31,14 @@ class TextCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - UI Configuration
+    
     func configureUI() {
         addSubview(title)
-        
+        setContraints()
+    }
+    
+    private func setContraints() {
         NSLayoutConstraint.activate([
             title.topAnchor.constraint(equalTo: topAnchor),
             title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4)

@@ -26,14 +26,17 @@ class ProfileController: UIViewController {
         return collection
     }()
     
-//  MARK: - UI Elements
+   //MARK: - Properties
 
-    let viewModel = ProfileViewModel()
+    let viewModel =  ProfileViewModel()
     var index = 0
+    
+    //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        viewModel.getUserData()
     }
     
 //  MARK: - UI Configuration
@@ -79,10 +82,6 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             
         case .collection:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCollectionPhotosCell", for: indexPath) as! ProfileCollectionPhotosCell
-            //            cell.configure(tag: index)
-            //            cell.callback = {
-            //                self.collection.isScrollEnabled = true
-            //            }
             cell.backgroundColor = .red
             return cell
         }

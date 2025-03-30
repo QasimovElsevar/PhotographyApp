@@ -24,6 +24,8 @@ class ProfileViewModel {
     let selections: [ProfileSelections] = [.photos, .likes, .collections]
     
     var index = 0
+    var userData: UserModel?
+    var completion: ((String) -> Void)?
 
     func createLayaout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
@@ -62,6 +64,17 @@ class ProfileViewModel {
                 5
             case .collections:
                 5
+            }
+        }
+    }
+    
+    func getUserData() {
+        FirestoreManager.shared.getUserData { [weak self] data, error in
+            if let error = error {
+                self?.completion?(error)
+            } else {
+                self?.userData = data
+                UserDefaults.standard.set(data?.accessKey, forKey: "key")
             }
         }
     }

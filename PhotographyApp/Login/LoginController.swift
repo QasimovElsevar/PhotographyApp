@@ -9,6 +9,8 @@ import UIKit
 
 class LoginController: UIViewController {
 
+    //MARK: - UI Elements
+    
     private lazy var loginLabel : UILabel = {
         let label = UILabel()
         label.text = "Login"
@@ -41,7 +43,6 @@ class LoginController: UIViewController {
         textField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         textField.textColor = .white
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.setUnderLine()
         return textField
     }()
     
@@ -94,34 +95,40 @@ class LoginController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    let adapter = LoginAdapter()
         
+    let viewModel = LoginViewModel()
+    
+    //MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         UIConfigure()
-//        emailTextField.setUnderLine()
-//        passwordTextField.setUnderLine()
-        if let bundleId = Bundle.main.bundleIdentifier {
-            let redirectURI = "\(bundleId):/oauth2redirect/google"
-            print("Generated Redirect URI: \(redirectURI)")
-        }
     }
+    
+    //MARK: - UI Configurations
     
     private func UIConfigure() {
         view.backgroundColor = .myBackground
+        navBarConfigure()
+        addSubviews()
+        setConstraints()
+    }
+    
+    private func navBarConfigure() {
         tabBarController?.navigationItem.backButtonTitle = "Login"
+    }
+    
+    private func addSubviews() {
         [loginLabel,
          emailTextField,
          passwordTextField,
          loginButton,
          forgotPasswordButton,
          stack,
-         errorLabel,
-         
-//         joinButton,
-         /*accountLabel*/].forEach( {view.addSubview($0)} )
-        
+         errorLabel,].forEach( {view.addSubview($0)} )
+    }
+    
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             loginLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 4),
             loginLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
@@ -145,43 +152,37 @@ class LoginController: UIViewController {
             forgotPasswordButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 20),
             forgotPasswordButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             forgotPasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            
-//            accountLabel.topAnchor.constraint(equalTo: forgotPasswordButton.bottomAnchor, constant: 20),
-//            accountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-//            
-//            joinButton.topAnchor.constraint(equalTo: forgotPasswordButton.bottomAnchor, constant: 20),
-//            joinButton.leadingAnchor.constraint(equalTo: accountLabel.trailingAnchor, constant: -4)
-////
+        
             stack.topAnchor.constraint(equalTo: forgotPasswordButton.bottomAnchor, constant: 20),
             stack.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: 12),
             stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-//            stack.heightAnchor.constraint(equalToConstant: 30),
-//            stack.widthAnchor.constraint(equalToConstant: 250),
             stack.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-
-            
         ])
     }
     
+    //MARK: - UI Actions
+    
     @objc func loginButtonTapped() {
-//        adapter.loginWithGoogle(from: self)
-        FireBaseManager.shared.signInUser(email: emailTextField.text ?? "", password: passwordTextField.text ?? "") { [weak self] error in
-            if let error = error {
-                self?.showAllert(message: error)
-            }
-        }
-            FireBaseManager.shared.completion = {
-                self.errorLabel.text = "Invalid email or password"
-            }
+//        FireBaseManager.shared.signInUser(email: emailTextField.text ?? "", password: passwordTextField.text ?? "") { [weak self] error in
+//            if let error = error {
+//                self?.showAllert(message: error)
+//            } else {
+//                self?.goToProfile()
+//            }
+//        }
+//        
+//        FireBaseManager.shared.completion = {
+//            self.errorLabel.text = "Invalid email or password"
+//        }
     }
     
     @objc func registerJoin() {
-        
-//        let controller = WebController()
-//        navigationController?.present(controller, animated: true)
-        
         let coordinator = RegisterCoordinator(navigationController: navigationController ?? UINavigationController())
         coordinator.start()
-
+    }
+    
+    func goToProfile() {
+        let controller = TabBarController()
+        controller.viewControllers?[3] = controller.createProfile()
     }
 }

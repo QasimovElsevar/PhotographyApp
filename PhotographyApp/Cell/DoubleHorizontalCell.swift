@@ -7,12 +7,14 @@
 
 import UIKit
 
-class DoubleHorizontalVCell: UICollectionViewCell {
+class DoubleHorizontalCell: UICollectionViewCell {
+    
+    //MARK: - UI Elements
+    
     private lazy var imageView : UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFill
         image.image = UIImage(systemName: "photo")
-        image.backgroundColor = .gray
+        image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -38,11 +40,15 @@ class DoubleHorizontalVCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - UI Configuration
     private func configureUI() {
         addSubview(imageView)
         imageView.addSubview(label)
         
-
+        setConstraints()
+    }
+    
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: topAnchor),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -53,5 +59,4 @@ class DoubleHorizontalVCell: UICollectionViewCell {
             label.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -8)
         ])
     }
-
 }

@@ -36,7 +36,7 @@ class FirestoreManager {
         }
     }
     
-    func getUserData(user: String, completion: @escaping (UserModel?, String?) -> Void)  {
+    func getUserData(completion: @escaping (UserModel?, String?) -> Void)  {
         
         guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
         
@@ -51,7 +51,7 @@ class FirestoreManager {
                     let username = data["username"] as? String ?? ""
                     let accessKey = data["accessKey"] as? String ?? ""
                     let email = data["email"] as? String ?? ""
-                    let userData = UserModel(firstName: firstName, lastName: lastName, username: username, email: email, accessId: accessKey)
+                    let userData = UserModel(firstName: firstName, lastName: lastName, username: username, email: email, accessKey: accessKey)
                     UserDefaults.standard.set(accessKey, forKey: "Key")
                     completion(userData, nil)
                 }

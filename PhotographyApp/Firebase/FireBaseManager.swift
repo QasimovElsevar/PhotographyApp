@@ -28,9 +28,8 @@ class FireBaseManager {
     }
     
     func signInUser(email: String, password: String, completion: @escaping (String?) -> Void) {
+        //не нудно пролверять при логин
         if Auth.auth().currentUser == nil {
-            self.completion?()
-        } else {
             Auth.auth().signIn(withEmail: email, password: password) { result, error in
                 if let error = error {
                     completion(error.localizedDescription)
@@ -39,6 +38,8 @@ class FireBaseManager {
                     completion(nil)
                 }
             }
+        } else {
+            self.completion?()
         }
     }
     
