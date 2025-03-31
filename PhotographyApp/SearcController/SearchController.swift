@@ -8,6 +8,9 @@
 import UIKit
 
 class SearchController: UIViewController {
+    
+    //  MARK: -UI Elements
+
     private lazy var collection: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayaout())
         collection.delegate = self
@@ -27,18 +30,26 @@ class SearchController: UIViewController {
         return search
     }()
     
+    //MARK: - Properties
+
     let viewModel = SearchViewModel()
     
+    //MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
     
+    //  MARK: - UI Configuration
+    
     private func configureUI() {
-        view.addSubview(collection)
-        view.addSubview(search)
         view.backgroundColor = .myBackground
-        
+        setConstraints()
+        addSubviews()
+    }
+    
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             search.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             search.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -49,6 +60,11 @@ class SearchController: UIViewController {
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func addSubviews() {
+        view.addSubview(collection)
+        view.addSubview(search)
     }
 }
 

@@ -10,6 +10,8 @@ import PhotosUI
 
 class UploadController: UIViewController {
 
+    //  MARK: -UI Elements
+
     private lazy var collection: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: modelView.createLayaout())
         collection.delegate = self
@@ -23,18 +25,27 @@ class UploadController: UIViewController {
         return collection
     }()
     
+    //MARK: - Properties
+    
     let modelView = UploadViewModel()
+    
+    //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
-        modelView.getData()
+        configureUI()
+        getData()
     }
     
-    func configure() {
+    //MARK: - UI Configuration
+    
+    func configureUI() {
         view.backgroundColor = .myBackground
-        view.addSubview(collection)
-        
+        setConstrains()
+        addSubviews()
+    }
+    
+    func setConstrains() {
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -43,6 +54,9 @@ class UploadController: UIViewController {
         ])
     }
     
+    func addSubviews() {
+        view.addSubview(collection)
+    }
 }
 
 extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -93,6 +107,18 @@ extension UploadController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         dismiss(animated: true)
     }
-    
-    
+}
+
+extension UploadController {
+    func getData() {
+        modelView.getData()
+        
+        modelView.failure = { error in
+            print(error)
+        }
+        
+        modelView.success = {
+            
+        }
+    }
 }

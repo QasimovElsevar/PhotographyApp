@@ -9,8 +9,7 @@ import UIKit
 
 class ProfileController: UIViewController {
     
-//  MARK: -UI Elements
-    
+    //MARK: -UI Elements
     
     private lazy var collection: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayaout())
@@ -39,7 +38,7 @@ class ProfileController: UIViewController {
         viewModel.getUserData()
     }
     
-//  MARK: - UI Configuration
+    //MARK: - UI Configuration
     
     func configure() {
         navigationBarItemConfigure()

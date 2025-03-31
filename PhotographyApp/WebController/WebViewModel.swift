@@ -16,7 +16,6 @@ class WebViewModel {
         self.builder = builder
     }
     
-    
     func saveData(completion: @escaping (String?) -> Void) {
         let data = builder.build()
         let firstname = data["firstname"] as! String

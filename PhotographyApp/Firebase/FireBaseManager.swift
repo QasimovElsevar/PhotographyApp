@@ -28,31 +28,25 @@ class FireBaseManager {
     }
     
     func signInUser(email: String, password: String, completion: @escaping (String?) -> Void) {
-        //не нудно пролверять при логин
-        if Auth.auth().currentUser == nil {
-            Auth.auth().signIn(withEmail: email, password: password) { result, error in
-                if let error = error {
-                    completion(error.localizedDescription)
-                } else if let result = result {
-                    UserDefaults.standard.set(result.user.uid, forKey: "userID")
-                    completion(nil)
-                }
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                completion(error.localizedDescription)
+            } else if let result = result {
+                UserDefaults.standard.set(result.user.uid, forKey: "userID")
+                completion(nil)
             }
-        } else {
-            self.completion?()
         }
     }
     
-    func sendSignInLink(email: String, password: String, completion: @escaping (String?) -> Void) async {
-        let actionCodeSettings = ActionCodeSettings()
-        actionCodeSettings.handleCodeInApp = true
-        actionCodeSettings.url = URL(string: "")
-        
+    func signOut() {
         do {
-            try await Auth.auth().sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings)
+            try Auth.auth().signOut()
         } catch {
             print(error.localizedDescription)
-            completion(error.localizedDescription)
         }
+    }
+    
+    func printCurrentUser() {
+        print(Auth.auth().currentUser?.email)
     }
 }

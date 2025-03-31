@@ -17,14 +17,18 @@ enum Sections {
 }
 
 class UploadViewModel {
+    
+    // Sections
     let sections: [Sections] = [.image, .topicText, .topics, .blogText, .blog]
     
+    // Properties
     let manager = UploadManager()
+    var topics: [Topics]?
+    
     var success: (() -> Void)?
     var failure: ((String) -> Void)?
     
-    var topics: [Topics]?
-    
+    // Collection related
     func createLayaout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             switch self.sections[sectionNumber] {
@@ -53,6 +57,7 @@ class UploadViewModel {
         }
     }
     
+    // Data
     func getData() {
         manager.getData { [weak self] array, error in
             if let error = error {

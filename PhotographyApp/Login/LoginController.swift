@@ -8,7 +8,7 @@
 import UIKit
 
 class LoginController: UIViewController {
-
+    
     //MARK: - UI Elements
     
     private lazy var loginLabel : UILabel = {
@@ -95,7 +95,7 @@ class LoginController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-        
+    
     let viewModel = LoginViewModel()
     
     //MARK: - Lifecycle
@@ -152,7 +152,7 @@ class LoginController: UIViewController {
             forgotPasswordButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 20),
             forgotPasswordButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             forgotPasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-        
+            
             stack.topAnchor.constraint(equalTo: forgotPasswordButton.bottomAnchor, constant: 20),
             stack.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: 12),
             stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
@@ -163,26 +163,40 @@ class LoginController: UIViewController {
     //MARK: - UI Actions
     
     @objc func loginButtonTapped() {
-//        FireBaseManager.shared.signInUser(email: emailTextField.text ?? "", password: passwordTextField.text ?? "") { [weak self] error in
-//            if let error = error {
-//                self?.showAllert(message: error)
-//            } else {
-//                self?.goToProfile()
-//            }
-//        }
-//        
-//        FireBaseManager.shared.completion = {
-//            self.errorLabel.text = "Invalid email or password"
-//        }
+        FireBaseManager.shared.signInUser(email: emailTextField.text ?? "", password: passwordTextField.text ?? "") { [weak self] error in
+            if let error = error {
+                self?.showAllert(message: error)
+            } else {
+                self?.goToProfile()
+            }
+        }
     }
     
     @objc func registerJoin() {
         let coordinator = RegisterCoordinator(navigationController: navigationController ?? UINavigationController())
         coordinator.start()
     }
-    
+}
+
+extension LoginController {
     func goToProfile() {
-        let controller = TabBarController()
-        controller.viewControllers?[3] = controller.createProfile()
+        if let tabBarVC = self.tabBarController {
+            var viewControllers = tabBarVC.viewControllers
+            
+            let controller = TabBarController()
+            
+            let profileVC = controller.createProfile()
+            
+            UIView.transition(with: tabBarVC.view!,
+                              duration: 0.2,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                viewControllers?[3] = profileVC
+                
+                tabBarVC.viewControllers = viewControllers
+                
+                tabBarVC.selectedIndex = 3
+            })
+        }
     }
 }

@@ -13,8 +13,7 @@ enum TopicsEndPoint {
     var path: String {
         switch self {
         case .list:
-//            NetworkManager.shared.configureUrl(endPoint: "topics")
-            "https://api.unsplash.com/topics/?client_id=x8sJp7pb7aDawfONcfXXuwkjGhCJecnUvbR-vZBQtC4"
+            NetworkManager.shared.configureUrl(endPoint: "topics")
         }
     }
 }
