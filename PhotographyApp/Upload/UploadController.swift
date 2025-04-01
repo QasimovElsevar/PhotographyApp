@@ -41,8 +41,8 @@ class UploadController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .myBackground
-        setConstrains()
         addSubviews()
+        setConstrains()
     }
     
     func setConstrains() {

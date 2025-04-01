@@ -24,7 +24,7 @@ class WebController: UIViewController, WKUIDelegate {
     //MARK: - Properties
     
     let viewModel: WebViewModel
-    var callback: ((String) -> Void)?
+    var callback: (() -> Void)?
     
     init(viweModel: WebViewModel) {
         self.viewModel = viweModel
@@ -71,17 +71,11 @@ extension WebController: WKNavigationDelegate {
         if let finalURL = webView.url, finalURL.absoluteString.contains("/native") {
             let code = webView.url?.absoluteString.split(separator: "code=").last ?? ""
             
-            viewModel.builder.set(authToken: String(code))
+            UserDefaults.standard.set(code, forKey: "code")
             
-            viewModel.saveData { [weak self] error in
-                if let error = error {
-                    self?.showAllert(title: "Error", message: error)
-                } else {
-                    DispatchQueue.main.async { [ weak self] in
-                        self?.dismiss(animated: true)
-                    }
-                    
-                }
+            dismiss(animated: true) { [weak self] in
+                NotificationCenter.default.post(name: .webViewDismissed, object: nil)
+                self?.callback?()
             }
         }
     }

@@ -26,6 +26,7 @@ class ProfileViewModel {
     var index = 0
     var userData: UserModel?
     var completion: ((String) -> Void)?
+    var success: (() -> Void)?
 
     func createLayaout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
@@ -46,10 +47,6 @@ class ProfileViewModel {
                 
             }
         }
-    }
-    
-    func switchCells(index: Int) {
-        
     }
     
     func numberOfCells(index: Int) -> Int{
@@ -75,6 +72,7 @@ class ProfileViewModel {
             } else {
                 self?.userData = data
                 UserDefaults.standard.set(data?.accessKey, forKey: "key")
+                self?.success?()
             }
         }
     }

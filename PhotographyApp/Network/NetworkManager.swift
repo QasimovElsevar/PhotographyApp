@@ -19,9 +19,9 @@ class NetworkManager {
     let baseUrl = "https://api.unsplash.com/"
     let imageUrl = ""
     let appAccesKey = "x8sJp7pb7aDawfONcfXXuwkjGhCJecnUvbR-vZBQtC4"
-    let header: HTTPHeaders = ["Authorization": "Bearer "]
+    let header: HTTPHeaders = ["Authorization": "Bearer \( UserDefaults.standard.string(forKey: "key") ?? "")"]
     let redirectUri = "urn:ietf:wg:oauth:2.0:oob"
-    
+
     func request<T: Codable>(endPoint: String,
                               model: T.Type,
                               method: HTTPMethod = .get,

@@ -39,14 +39,15 @@ class SearchController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        FireBaseManager.shared.printCurrentUser()
     }
     
     //  MARK: - UI Configuration
     
     private func configureUI() {
         view.backgroundColor = .myBackground
-        setConstraints()
         addSubviews()
+        setConstraints()
     }
     
     private func setConstraints() {

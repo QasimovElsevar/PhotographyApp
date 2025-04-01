@@ -11,8 +11,8 @@ class UploadManager: UploadUserCase {
     
     let networkManager = NetworkManager()
     
-    func getData(completion: @escaping ([Topics]?, String?) -> Void) {
+    func getData(completion: @escaping ([Photos]?, String?) -> Void) {
         let path = TopicsEndPoint.list.path
-        networkManager.request(endPoint: path, model: [Topics].self, completion: completion)
+        networkManager.request(endPoint: path, model: [Photos].self, completion: completion)
     }
 }

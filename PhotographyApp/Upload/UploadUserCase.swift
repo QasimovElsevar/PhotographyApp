@@ -8,5 +8,5 @@
 import Foundation
 
 protocol UploadUserCase {
-    func getData(completion: @escaping ([Topics]?, String?) -> Void)
+    func getData(completion: @escaping ([Photos]?, String?) -> Void)
 }

@@ -58,4 +58,25 @@ class RegisterViewModel {
         return !pred.evaluate(with: value)
     }
     
+    func sendForAccessToken(completion: @escaping (PostForAccesKey?, String?) -> Void) {
+        let params =  ["client_id": "x8sJp7pb7aDawfONcfXXuwkjGhCJecnUvbR-vZBQtC4",
+                       "client_secret": "_QPLj1j_gQ7_D_HRcCM93VyLS15OKcWhGrfEFYZ3C94",
+                       "redirect_uri": "urn:ietf:wg:oauth:2.0:oob",
+                       "code": UserDefaults.standard.string(forKey: "code") ?? "",
+                       "grant_type": "authorization_code"]
+        let url = "https://unsplash.com/oauth/token"
+        
+        NetworkManager.shared.request(endPoint: url, model: PostForAccesKey.self, method: .post, params: params, completion: completion)
+    }
+    
+    func saveData(completion: @escaping (String?) -> Void) {
+        let data = builder.build()
+        let firstname = data["firstname"] as! String
+        let lastname = data["lastname"] as! String
+        let username = data["username"] as! String
+        let email = data["email"] as! String
+        let authToken = data["authToken"] as! String
+        
+        FirestoreManager.shared.saveUser(firstName: firstname, lastName: lastname, username: username, email: email, accessKey: authToken, completion: completion)
+    }
 }

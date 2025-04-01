@@ -102,6 +102,9 @@ class LoginController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        FireBaseManager.shared.printCurrentUser()
+        FireBaseManager.shared.signOut()
+        FireBaseManager.shared.printCurrentUser()
         UIConfigure()
     }
     
@@ -170,6 +173,7 @@ class LoginController: UIViewController {
                 self?.goToProfile()
             }
         }
+        FireBaseManager.shared.printCurrentUser()
     }
     
     @objc func registerJoin() {

@@ -54,9 +54,34 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         return tab
     }
     
+    func goToProfile() {
+        if let tabBarVC = self.tabBarController {
+            var viewControllers = tabBarVC.viewControllers
+            
+            let controller = TabBarController()
+            
+            let profileVC = controller.createProfile()
+            
+            UIView.transition(with: tabBarVC.view!,
+                              duration: 0.2,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                viewControllers?[3] = profileVC
+                
+                tabBarVC.viewControllers = viewControllers
+                
+                tabBarVC.selectedIndex = 3
+            })
+        }
+    }
+    
     func createTab() {
-        self.viewControllers = [createHome(), createFeed(), createloadController(), createLogin()]
-
+        if UserDefaults.standard.string(forKey: "userID") == nil{
+            self.viewControllers = [createHome(), createFeed(), createloadController(), createLogin()]
+        } else {
+            self.viewControllers = [createHome(), createFeed(), createloadController(), createProfile()]
+        }
+        
         UITabBar.appearance().backgroundColor = .myBackground
         UITabBar.appearance().isTranslucent = false
         UITabBar.appearance().barTintColor = .myBackground

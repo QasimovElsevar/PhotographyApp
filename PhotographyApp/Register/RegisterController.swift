@@ -99,7 +99,13 @@ class RegisterController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        notify()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        FireBaseManager.shared.printCurrentUser()
+    }
+    
     //MARK: - UI Configuration
     
     func configureUI() {
@@ -212,6 +218,9 @@ class RegisterController: UIViewController {
         }
         check()
     }
+}
+
+extension RegisterController {
     
     func check() {
         if  passwordErrorLabel.isHidden &&
@@ -224,5 +233,28 @@ class RegisterController: UIViewController {
         } else {
             signUpButton.isEnabled = false
         }
+    }
+    
+    func notify() {
+        NotificationCenter.default.addObserver(self, selector: #selector(completeRegister), name: NSNotification.Name("webViewDismissed"), object: nil)
+    }
+    
+    @objc func completeRegister() {
+        viewModel.sendForAccessToken(completion: { [weak self] response, error in
+            if let error = error {
+                print(error)
+            } else {
+                self?.viewModel.builder.set(authToken: response?.accessToken ?? "")
+                print(response?.accessToken ?? "")
+                
+                self?.viewModel.saveData { [weak self] error in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        self?.navigationController?.popViewController(animated: true)
+                    }
+                }
+            }
+        })
     }
 }

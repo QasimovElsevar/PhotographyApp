@@ -27,3 +27,7 @@ extension UIViewController {
                }
     }
 }
+
+extension Notification.Name {
+    static let webViewDismissed = Notification.Name("webViewDismissed")
+}

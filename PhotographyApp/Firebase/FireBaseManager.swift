@@ -21,7 +21,6 @@ class FireBaseManager {
             if let error = error {
                 completion(error.localizedDescription)
             } else if let result = result {
-                UserDefaults.standard.set(result.user.uid, forKey: "userID")
                 completion(nil)
             }
         }
@@ -33,6 +32,7 @@ class FireBaseManager {
                 completion(error.localizedDescription)
             } else if let result = result {
                 UserDefaults.standard.set(result.user.uid, forKey: "userID")
+                print(UserDefaults.standard.integer(forKey: "userID"))
                 completion(nil)
             }
         }
@@ -41,6 +41,7 @@ class FireBaseManager {
     func signOut() {
         do {
             try Auth.auth().signOut()
+            UserDefaults.standard.removeObject(forKey: "userID")
         } catch {
             print(error.localizedDescription)
         }

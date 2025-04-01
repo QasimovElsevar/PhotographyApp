@@ -27,7 +27,7 @@ class FirestoreManager {
         
         guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
         
-        db.collection(collection).document(firstName).setData(data) { error in
+        db.collection("\(firstName):  \(collection)").document(firstName).setData(data) { error in
             if let error = error {
                 completion(error.localizedDescription)
             } else {
@@ -40,7 +40,7 @@ class FirestoreManager {
         
         guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
         
-        db.collection(collection).getDocuments { snapshot, error in
+        db.collection("Trying:  \(collection)").getDocuments { snapshot, error in
             if let error = error {
                 completion(nil, error.localizedDescription)
             } else {
