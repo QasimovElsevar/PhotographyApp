@@ -76,4 +76,9 @@ class ProfileViewModel {
             }
         }
     }
+    
+    func logOut() {
+        FireBaseManager.shared.signOut()
+        goToProfile()
+    }
 }

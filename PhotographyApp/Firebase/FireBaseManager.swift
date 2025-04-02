@@ -20,7 +20,7 @@ class FireBaseManager {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 completion(error.localizedDescription)
-            } else if let result = result {
+            } else  {
                 completion(nil)
             }
         }

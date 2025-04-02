@@ -118,7 +118,7 @@ extension UploadController {
         }
         
         modelView.success = {
-            
+            print("got it")
         }
     }
 }

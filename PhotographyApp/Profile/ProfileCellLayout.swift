@@ -22,8 +22,8 @@ class ProfileCellLayout {
     static func selectionCell() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
         
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40)), subitems: [item])
-        group.contentInsets = .init(top: 10, leading: 12, bottom: 0, trailing: 12)
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60)), subitems: [item])
+        group.contentInsets = .init(top: 15, leading: 12, bottom: 15, trailing: 12)
         
         let section = NSCollectionLayoutSection(group: group)
         

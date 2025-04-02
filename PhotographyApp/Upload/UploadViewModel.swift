@@ -23,7 +23,7 @@ class UploadViewModel {
     
     // Properties
     let manager = UploadManager()
-    var topics: [Topics]?
+    var topics: [Collections]?
     
     var success: (() -> Void)?
     var failure: ((String) -> Void)?

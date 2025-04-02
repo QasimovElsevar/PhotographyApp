@@ -57,7 +57,13 @@ class ProfileController: UIViewController {
     func navigationBarItemConfigure() {
         tabBarController?.navigationItem.title = "Qasimov"
         tabBarController?.navigationItem.titleView?.tintColor = .label
-        tabBarController?.navigationController?.navigationBar.alpha = 0
+//        tabBarController?.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundEffect = .none
+
+        tabBarButtonsConfigure()
+    }
+    
+    @objc private func openMenu() {
+        print("ffff")
     }
 }
 
@@ -94,13 +100,14 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
 //  MARK: - Navigation Bar Appearance
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        tabBarController?.navigationController?.navigationBar.alpha = 0 + scrollView.contentOffset.y / 100
+//        tabBarController?.navigationController?.navigationBar.alpha = 0 + scrollView.contentOffset.y / 100
         
     }
 }
 
 extension ProfileController {
     
+    //MARK: - Data
     func getData() {
         viewModel.getUserData()
         
@@ -109,7 +116,76 @@ extension ProfileController {
         }
         
         viewModel.success = {
-            print("success: \(self.viewModel.userData?.firstName)")
+            print("success: \(self.viewModel.userData?.firstName ?? "")")
         }
+    }
+}
+
+extension ProfileController {
+    
+    func tabBarButtonsConfigure() {
+        
+        let openSettings = UIAction(title: "Account Settings") { action in
+            self.openSettings()
+        }
+        let logOut = UIAction(title: "Log Out") { action in
+            self.viewModel.logOut()
+        }
+        
+        let menu = UIMenu(children: [openSettings, logOut])
+        
+        let menuButton: UIBarButtonItem = {
+            let button = UIBarButtonItem()
+            button.image = UIImage(systemName: "ellipsis")
+            button.menu = menu
+            return button
+        }()
+        
+        let shareButton: UIBarButtonItem = {
+            let button = UIBarButtonItem()
+            button.image = UIImage(systemName: "square.and.arrow.up")
+            button.target = self
+            button.action = #selector(shareButtonTapped)
+            return button
+        }()
+        
+        
+        tabBarController?.navigationItem.rightBarButtonItems = [shareButton, menuButton]
+    }
+    
+    //MARK: - Menu Actions
+    
+    func openSettings() {
+        let coordinator = SettingsCoordinator(navigationController: navigationController ?? UINavigationController())
+        coordinator.start()
+    }
+    
+    func goToProfile() {
+        if let tabBarVC = self.tabBarController {
+            var viewControllers = tabBarVC.viewControllers
+            
+            let controller = TabBarController()
+            
+            let profileVC = controller.createLogin()
+            
+            UIView.transition(with: tabBarVC.view!,
+                              duration: 0.2,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                viewControllers?[3] = profileVC
+                
+                tabBarVC.viewControllers = viewControllers
+                
+                tabBarVC.selectedIndex = 3
+            })
+        }
+    }
+    
+    //MARK: - BarButton Action
+    
+    @objc func shareButtonTapped() {
+        let items = [URL(string: "")!]
+        let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        present(ac, animated: true)
     }
 }

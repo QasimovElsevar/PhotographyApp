@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileSelectionCell: UICollectionViewCell {
     
+    //MARK: - UI Elements
+    
     private lazy var selectionView: UIView = {
         let view = UIView()
         view.backgroundColor = .selectionView
@@ -125,7 +127,7 @@ class ProfileSelectionCell: UICollectionViewCell {
     }
     
     @objc func changeSelection(_ sender: UITapGestureRecognizer) {
-        print("fesd")
+        
         if let label = sender.view as? UILabel {
             tagNumber = label.tag
             callback?(tagNumber)
@@ -142,7 +144,6 @@ class ProfileSelectionCell: UICollectionViewCell {
             UIView.animate(withDuration: 0.2) {
                 self.leftConstraint.constant = 0
                 self.layoutIfNeeded()
-                print("photos")
             }
         case .likes:
             UIView.animate(withDuration: 0.2) {
@@ -153,7 +154,6 @@ class ProfileSelectionCell: UICollectionViewCell {
             UIView.animate(withDuration: 0.2) {
                 self.leftConstraint.constant = (self.frame.width / 3) * 2
                 self.layoutIfNeeded()
-                print("collection")
             }
         }
     }

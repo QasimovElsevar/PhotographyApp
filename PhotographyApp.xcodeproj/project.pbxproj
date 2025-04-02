@@ -13,6 +13,7 @@
 		3274A2222D8C350000AB13D1 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3274A2212D8C350000AB13D1 /* FirebaseCrashlytics */; };
 		3274A2242D8C350000AB13D1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3274A2232D8C350000AB13D1 /* FirebaseFirestore */; };
 		3274A2262D8C350000AB13D1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 3274A2252D8C350000AB13D1 /* FirebaseStorage */; };
+		32A0F0902D9C67E30006782A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 32A0F08F2D9C67E30006782A /* Alamofire */; };
 		32C610412D8ED5A1007327BA /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 32C610402D8ED5A1007327BA /* GoogleSignIn */; };
 		32C610432D8ED5A1007327BA /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 32C610422D8ED5A1007327BA /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
@@ -76,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32A0F0902D9C67E30006782A /* Alamofire in Frameworks */,
 				324EA9202D86BDC700699BEE /* Kingfisher in Frameworks */,
 				3274A2222D8C350000AB13D1 /* FirebaseCrashlytics in Frameworks */,
 				3274A2202D8C350000AB13D1 /* FirebaseCore in Frameworks */,
@@ -152,6 +154,7 @@
 				3274A2252D8C350000AB13D1 /* FirebaseStorage */,
 				32C610402D8ED5A1007327BA /* GoogleSignIn */,
 				32C610422D8ED5A1007327BA /* GoogleSignInSwift */,
+				32A0F08F2D9C67E30006782A /* Alamofire */,
 			);
 			productName = PhotographyApp;
 			productReference = 324EA7552D82FE0300699BEE /* PhotographyApp.app */;
@@ -240,6 +243,7 @@
 				324EA91E2D86BDC700699BEE /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				3274A21C2D8C350000AB13D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				32C6103F2D8ED5A1007327BA /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				32A0F08E2D9C67E30006782A /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 324EA7562D82FE0300699BEE /* Products */;
@@ -620,6 +624,14 @@
 				minimumVersion = 11.10.0;
 			};
 		};
+		32A0F08E2D9C67E30006782A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
 		32C6103F2D8ED5A1007327BA /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -660,6 +672,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3274A21C2D8C350000AB13D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		32A0F08F2D9C67E30006782A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 32A0F08E2D9C67E30006782A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 		32C610402D8ED5A1007327BA /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
