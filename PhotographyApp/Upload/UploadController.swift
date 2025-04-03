@@ -13,7 +13,7 @@ class UploadController: UIViewController {
     //  MARK: -UI Elements
 
     private lazy var collection: UICollectionView = {
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: modelView.createLayaout())
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayaout())
         collection.delegate = self
         collection.dataSource = self
         collection.backgroundColor = .clear
@@ -25,9 +25,17 @@ class UploadController: UIViewController {
         return collection
     }()
     
+    private lazy var loadingView: UIActivityIndicatorView = {
+        let loadingView = UIActivityIndicatorView()
+        loadingView.style = .medium
+        loadingView.color = .label
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        return loadingView
+    }()
+    
     //MARK: - Properties
     
-    let modelView = UploadViewModel()
+    let viewModel = UploadViewModel()
     
     //MARK: - Lifecycle
     
@@ -43,6 +51,12 @@ class UploadController: UIViewController {
         view.backgroundColor = .myBackground
         addSubviews()
         setConstrains()
+        bindViewModel()
+    }
+    
+    func addSubviews() {
+        view.addSubview(collection)
+        view.addSubview(loadingView)
     }
     
     func setConstrains() {
@@ -50,22 +64,23 @@ class UploadController: UIViewController {
             collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            loadingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    func addSubviews() {
-        view.addSubview(collection)
     }
 }
 
 extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        modelView.numOfCells(section: section)
+        viewModel.numOfCells(section: section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch modelView.sections[indexPath.section] {
+        switch viewModel.sections[indexPath.section] {
         case .image:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "UploadCell", for: indexPath) as! UploadCell
             return cell
@@ -92,12 +107,13 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if modelView.sections[indexPath.section] == .image {
+        if viewModel.sections[indexPath.section] == .image {
             var config = PHPickerConfiguration()
             config.selectionLimit = 9
             
             let picker = PHPickerViewController(configuration: config)
             picker.delegate = self
+            picker.modalPresentationStyle = .fullScreen
             present(picker, animated: true)
         }
     }
@@ -105,20 +121,48 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
 
 extension UploadController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        dismiss(animated: true)
+        dismiss(animated: true) {
+            let coordinator = PhotoSubmitCoordinator(navigationController: self.navigationController ?? UINavigationController())
+            coordinator.start()
+        }
+       
+//        let controller = PhotoSubmitController()
+//        navigationController?.show(controller, sender: nil)
     }
 }
 
 extension UploadController {
     func getData() {
-        modelView.getData()
+        viewModel.getData()
         
-        modelView.failure = { error in
+        viewModel.failure = { error in
             print(error)
         }
         
-        modelView.success = {
+        viewModel.success = {
             print("got it")
+        }
+    }
+    
+    private func bindViewModel() {
+        viewModel.stateUpdate = { [weak self] state in
+            
+            DispatchQueue.main.async { [weak self] in
+                guard let self else {return}
+                switch state {
+                case .loading:
+                    loadingView.startAnimating()
+                case  .loaded:
+                    loadingView.stopAnimating()
+                case .success:
+                    print("success")
+                case .error:
+                    print("error")
+                case .idle:
+                    break
+                }
+                
+            }
         }
     }
 }

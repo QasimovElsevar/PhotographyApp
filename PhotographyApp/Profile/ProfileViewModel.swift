@@ -23,10 +23,25 @@ class ProfileViewModel {
     let sections: [sections] = [.profile, .selection, .collection]
     let selections: [ProfileSelections] = [.photos, .likes, .collections]
     
+    enum ViewState {
+        case loading
+        case loaded
+        case success
+        case error
+        case idle
+    }
+    
     var index = 0
     var userData: UserModel?
     var completion: ((String) -> Void)?
     var success: (() -> Void)?
+    var stateUpdate: ((ViewState) -> Void)?
+    
+    var state: ViewState = .idle {
+        didSet {
+            stateUpdate?(state)
+        }
+    }
 
     func createLayaout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
@@ -66,19 +81,18 @@ class ProfileViewModel {
     }
     
     func getUserData() {
+        state = .loading
         FirestoreManager.shared.getUserData { [weak self] data, error in
+            guard let self else {return}
+            
             if let error = error {
-                self?.completion?(error)
+                completion?(error)
             } else {
-                self?.userData = data
+                userData = data
                 UserDefaults.standard.set(data?.accessKey, forKey: "key")
-                self?.success?()
+                success?()
+                state = .loaded
             }
         }
-    }
-    
-    func logOut() {
-        FireBaseManager.shared.signOut()
-        goToProfile()
     }
 }

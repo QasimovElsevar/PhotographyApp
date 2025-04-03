@@ -21,12 +21,27 @@ class UploadViewModel {
     // Sections
     let sections: [Sections] = [.image, .topicText, .topics, .blogText, .blog]
     
+    enum ViewState {
+        case loading
+        case loaded
+        case success
+        case error
+        case idle
+    }
+    
     // Properties
     let manager = UploadManager()
     var topics: [Collections]?
     
     var success: (() -> Void)?
     var failure: ((String) -> Void)?
+    var stateUpdate: ((ViewState) -> Void)?
+    
+    var state: ViewState = .idle {
+        didSet {
+            stateUpdate?(state)
+        }
+    }
     
     // Collection related
     func createLayaout() -> UICollectionViewCompositionalLayout {
@@ -59,12 +74,17 @@ class UploadViewModel {
     
     // Data
     func getData() {
+        state = .loading
         manager.getData { [weak self] array, error in
+            guard let self else {return}
+            
             if let error = error {
-                self?.failure?(error)
+                failure?(error)
+                state = .loaded
             } else {
-                self?.topics = array
-                self?.success?()
+                topics = array
+                success?()
+                state = .loaded
             }
         }
     }

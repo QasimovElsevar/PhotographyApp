@@ -25,6 +25,14 @@ class ProfileController: UIViewController {
         return collection
     }()
     
+    private lazy var loadingView: UIActivityIndicatorView = {
+        let loadingView = UIActivityIndicatorView()
+        loadingView.style = .medium
+        loadingView.color = .label
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        return loadingView
+    }()
+    
    //MARK: - Properties
 
     let viewModel =  ProfileViewModel()
@@ -34,23 +42,30 @@ class ProfileController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
+        configureUI()
         FireBaseManager.shared.printCurrentUser()
         getData()
     }
     
     //MARK: - UI Configuration
     
-    func configure() {
+    func configureUI() {
         navigationBarItemConfigure()
-        
+        bindViewModel()
         view.addSubview(collection)
+        view.addSubview(loadingView)
+        
         view.backgroundColor = .myBackground
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            loadingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -119,6 +134,28 @@ extension ProfileController {
             print("success: \(self.viewModel.userData?.firstName ?? "")")
         }
     }
+    
+    private func bindViewModel() {
+        viewModel.stateUpdate = { [weak self] state in
+            
+            DispatchQueue.main.async { [weak self] in
+                guard let self else {return}
+                switch state {
+                case .loading:
+                    loadingView.startAnimating()
+                case  .loaded:
+                    loadingView.stopAnimating()
+                case .success:
+                    print("success")
+                case .error:
+                    print("error")
+                case .idle:
+                    break
+                }
+                
+            }
+        }
+    }
 }
 
 extension ProfileController {
@@ -129,7 +166,8 @@ extension ProfileController {
             self.openSettings()
         }
         let logOut = UIAction(title: "Log Out") { action in
-            self.viewModel.logOut()
+            FireBaseManager.shared.signOut()
+            self.goToProfile()
         }
         
         let menu = UIMenu(children: [openSettings, logOut])
