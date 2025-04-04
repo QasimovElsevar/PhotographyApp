@@ -56,6 +56,7 @@ class ProfileController: UIViewController {
         view.addSubview(loadingView)
         
         view.backgroundColor = .myBackground
+        
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),

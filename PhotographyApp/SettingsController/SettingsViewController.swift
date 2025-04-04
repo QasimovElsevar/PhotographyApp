@@ -12,11 +12,12 @@ class SettingsViewController: UIViewController {
     //MARK: - UI Elements
     
     private lazy var table: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = .red
+        tableView.backgroundColor = .clear
         tableView.register(SettingHeadCell.self, forCellReuseIdentifier: "SettingHeadCell")
+        tableView.register(TableTextCell.self, forCellReuseIdentifier: "TableTextCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -32,19 +33,38 @@ class SettingsViewController: UIViewController {
         configureUI()
     }
     
+    //MARK: - UI Configuration
+    
     private func configureUI() {
         configureConstraints()
     }
     
     private func configureConstraints() {
-        view.backgroundColor = .myBackground
+        view.backgroundColor = .settings
+        addSubviews()
+        setConstraints()
+        configureNavigationBar()
+    }
+    
+    private func addSubviews() {
         view.addSubview(table)
+    }
+    
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             table.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             table.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             table.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            table.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            table.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func configureNavigationBar() {
+        title = "Settings"
+        navigationController?.navigationBar.backgroundColor = .settings
+        navigationController?.navigationBar.isTranslucent = true
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(closeSettings))
+        
     }
 }
 
@@ -54,9 +74,14 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = table.dequeueReusableCell(withIdentifier: "SettingHeadCell", for: indexPath) as! SettingHeadCell
-        cell.backgroundColor  = .blue
-        return cell
+        if indexPath.section == 0 {
+            let cell = table.dequeueReusableCell(withIdentifier: "SettingHeadCell", for: indexPath) as! SettingHeadCell
+            return cell
+        } else {
+            let cell = table.dequeueReusableCell(withIdentifier: "TableTextCell", for: indexPath) as! TableTextCell
+            cell.configure(settingOptions: viewModel.options[indexPath.row].rawValue)
+            return cell
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -65,8 +90,14 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 200
+            return 130
         }
-        return 30
+        return 40
+    }
+}
+
+extension SettingsViewController {
+    @objc private func closeSettings() {
+        dismiss(animated: true)
     }
 }

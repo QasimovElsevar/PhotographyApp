@@ -12,8 +12,15 @@ enum SettingsSections {
     case menu
 }
 
+enum SettingsOptions: String {
+    case profileediting = "Edit Profile"
+    case changePassword = "Change Password"
+    case account = "Account"
+}
+
 class SettingsViewModel {
     let section: [SettingsSections] = [.profile, .menu]
+    let options: [SettingsOptions] = [.profileediting, .changePassword, .account]
     
     func numberOfRows(in section: Int) -> Int {
         switch self.section[section] {

@@ -17,7 +17,8 @@ class SettingsCoordinator: Coordinator {
     
     func start() {
         let controller = SettingsViewController()
-        navigationController.present(controller, animated: true)
+        let nvConreoller = UINavigationController(rootViewController: controller)
+        navigationController.present(nvConreoller, animated: true)
     }
     
     
