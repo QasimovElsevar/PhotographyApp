@@ -68,4 +68,8 @@ class TopicsCell: UICollectionViewCell {
             label.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
         ])
     }
+    
+    func configure(url: String) {
+        imageView.loadImage(url: url)
+    }
 }

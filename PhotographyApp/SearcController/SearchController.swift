@@ -48,6 +48,7 @@ class SearchController: UIViewController {
         view.backgroundColor = .myBackground
         addSubviews()
         setConstraints()
+        configureTabBar()
     }
     
     private func setConstraints() {
@@ -66,6 +67,10 @@ class SearchController: UIViewController {
     private func addSubviews() {
         view.addSubview(collection)
         view.addSubview(search)
+    }
+    
+    private func configureTabBar() {
+        tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), selectedImage: UIImage(systemName: "magnifyingglass"))
     }
 }
 

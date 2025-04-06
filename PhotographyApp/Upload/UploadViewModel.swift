@@ -31,7 +31,7 @@ class UploadViewModel {
     
     // Properties
     let manager = UploadManager()
-    var topics: [Collections]?
+    var topics: [Topics]?
     
     var success: (() -> Void)?
     var failure: ((String) -> Void)?
@@ -66,7 +66,7 @@ class UploadViewModel {
         case .image, .topicText, .blogText:
             1
         case .topics:
-            10
+            topics?.count ?? 0
         case .blog:
             10
         }

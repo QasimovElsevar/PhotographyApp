@@ -52,6 +52,7 @@ class UploadController: UIViewController {
         addSubviews()
         setConstrains()
         bindViewModel()
+        configureTabBar()
     }
     
     func addSubviews() {
@@ -72,6 +73,10 @@ class UploadController: UIViewController {
             loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+    private func configureTabBar() {
+        tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "photo"), selectedImage: UIImage(systemName: "photo"))
+    }
 }
 
 extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -90,6 +95,7 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .topics:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TopicsCell", for: indexPath) as! TopicsCell
+            cell.configure(url: /*viewModel.topics?[indexPath.row].coverPhoto?.urls?.thumb ?? ""*/"")
             return cell
         case .blog:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "LatestBlogCell", for: indexPath) as! LatestBlogCell
@@ -140,7 +146,7 @@ extension UploadController {
         }
         
         viewModel.success = {
-            print("got it")
+            self.collection.reloadData()
         }
     }
     

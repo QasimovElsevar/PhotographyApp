@@ -20,7 +20,6 @@ class PhotoSubmitController: UIViewController {
         collection.register(TextFieldCell.self, forCellWithReuseIdentifier: "TextFieldCell")
         collection.register(PhotoCell.self, forCellWithReuseIdentifier: "PhotoCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
-        
         return collection
     }()
     
@@ -61,6 +60,7 @@ extension PhotoSubmitController: UICollectionViewDelegate, UICollectionViewDataS
         case .descriptionText:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
             cell.configure(text: "Description", textSize: 16)
+            collectionView.collectionViewLayout.invalidateLayout()
             return cell
             
         case .locationText:
@@ -76,6 +76,10 @@ extension PhotoSubmitController: UICollectionViewDelegate, UICollectionViewDataS
         case .description:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextFieldCell", for: indexPath) as! TextFieldCell
             cell.configure(placeholder: "Add Description")
+            cell.callback = {
+                self.collection.collectionViewLayout.invalidateLayout()
+                self.view.layoutIfNeeded()
+            }
             return cell
             
         case .location:

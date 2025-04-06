@@ -14,72 +14,52 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
         tabBar.backgroundColor = .myBackground
         createTab()
+        
+        //tanBarController.viewController = [
+        
+        
     }
 
-    func createHome() -> UIViewController {
-        let tab = SearchController()
-        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
-        tab.tabBarItem = tabBarItem
-        return tab
-    }
+//    func createHome() -> UIViewController {
+//        let tab = SearchController()
+//        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+//        tab.tabBarItem = tabBarItem
+//        return tab
+//    }
     
-    func createFeed()  -> UIViewController {
-        let tab = SearchController()
-        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "book.closed"), selectedImage: UIImage(systemName: "book.closed.fill"))
-        tab.tabBarItem = tabBarItem
-        return tab
-
-    }
+//    func createFeed()  -> UIViewController {
+//        let tab = SearchController()
+//        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "book.closed"), selectedImage: UIImage(systemName: "book.closed.fill"))
+//        tab.tabBarItem = tabBarItem
+//        return tab
+//    }
     
-    func createloadController()  -> UIViewController{
-        let tab = UploadController()
-        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "photo"), selectedImage: UIImage(systemName: "photo"))
-        tab.tabBarItem = tabBarItem
-        return tab
-
-    }
+//    func createloadController()  -> UIViewController{
+//        let tab = UploadController()
+//        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "photo"), selectedImage: UIImage(systemName: "photo"))
+//        tab.tabBarItem = tabBarItem
+//        return tab
+//    }
     
-    func createLogin()  -> UIViewController {
-        let tab = LoginController()
-        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
-        tab.tabBarItem = tabBarItem
-        return tab
-
-    }
+//    func createLogin()  -> UIViewController {
+//        let tab = LoginController()
+//        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
+//        tab.tabBarItem = tabBarItem
+//        return tab
+//    }
     
-    func createProfile()  -> UIViewController {
-        let tab = ProfileController()
-        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
-        tab.tabBarItem = tabBarItem
-        return tab
-    }
-    
-    func goToProfile() {
-        if let tabBarVC = self.tabBarController {
-            var viewControllers = tabBarVC.viewControllers
-            
-            let controller = TabBarController()
-            
-            let profileVC = controller.createProfile()
-            
-            UIView.transition(with: tabBarVC.view!,
-                              duration: 0.2,
-                              options: .transitionCrossDissolve,
-                              animations: {
-                viewControllers?[3] = profileVC
-                
-                tabBarVC.viewControllers = viewControllers
-                
-                tabBarVC.selectedIndex = 3
-            })
-        }
-    }
+//    func createProfile()  -> UIViewController {
+//        let tab = ProfileController()
+//        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
+//        tab.tabBarItem = tabBarItem
+//        return tab
+//    }
     
     func createTab() {
         if UserDefaults.standard.string(forKey: "userID") == nil{
-            self.viewControllers = [createHome(), createFeed(), createloadController(), createLogin()]
+            self.viewControllers = [SearchController(), SearchController(), UploadController(), LoginController()]
         } else {
-            self.viewControllers = [createHome(), createFeed(), createloadController(), createProfile()]
+            self.viewControllers = [SearchController(), SearchController(), UploadController(), ProfileController()]
         }
         
         UITabBar.appearance().backgroundColor = .myBackground

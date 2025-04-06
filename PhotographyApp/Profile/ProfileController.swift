@@ -9,7 +9,7 @@ import UIKit
 
 class ProfileController: UIViewController {
     
-    //MARK: -UI Elements
+    //MARK: - UI Elements
     
     private lazy var collection: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayaout())
@@ -50,13 +50,32 @@ class ProfileController: UIViewController {
     //MARK: - UI Configuration
     
     func configureUI() {
-        navigationBarItemConfigure()
-        bindViewModel()
-        view.addSubview(collection)
-        view.addSubview(loadingView)
-        
         view.backgroundColor = .myBackground
         
+        addSubviews()
+        setCostraints()
+        navigationBarConfigure()
+        bindViewModel()
+        configureTabBar()
+    }
+    
+    private func navigationBarConfigure() {
+        tabBarController?.navigationItem.title = "Qasimov"
+        tabBarController?.navigationItem.titleView?.tintColor = .label
+
+        navigationBarButtonsConfigure()
+    }
+    
+    private func addSubviews() {
+        view.addSubview(collection)
+        view.addSubview(loadingView)
+    }
+    
+    private func configureTabBar() {
+        tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
+    }
+    
+    private func setCostraints() {
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -70,13 +89,7 @@ class ProfileController: UIViewController {
         ])
     }
     
-    func navigationBarItemConfigure() {
-        tabBarController?.navigationItem.title = "Qasimov"
-        tabBarController?.navigationItem.titleView?.tintColor = .label
-//        tabBarController?.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundEffect = .none
-
-        tabBarButtonsConfigure()
-    }
+     //MARK: - UI Actions
     
     @objc private func openMenu() {
         print("ffff")
@@ -161,7 +174,7 @@ extension ProfileController {
 
 extension ProfileController {
     
-    func tabBarButtonsConfigure() {
+    func navigationBarButtonsConfigure() {
         
         let openSettings = UIAction(title: "Account Settings") { action in
             self.openSettings()
@@ -203,9 +216,7 @@ extension ProfileController {
         if let tabBarVC = self.tabBarController {
             var viewControllers = tabBarVC.viewControllers
             
-            let controller = TabBarController()
-            
-            let profileVC = controller.createLogin()
+            let profileVC = LoginController()
             
             UIView.transition(with: tabBarVC.view!,
                               duration: 0.2,

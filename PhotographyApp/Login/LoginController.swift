@@ -115,6 +115,7 @@ class LoginController: UIViewController {
         navBarConfigure()
         addSubviews()
         setConstraints()
+        configureTabBar()
     }
     
     private func navBarConfigure() {
@@ -163,6 +164,10 @@ class LoginController: UIViewController {
         ])
     }
     
+    private func configureTabBar() {
+       tabBarItem =  UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
+    }
+    
     //MARK: - UI Actions
     
     @objc func loginButtonTapped() {
@@ -187,9 +192,7 @@ extension LoginController {
         if let tabBarVC = self.tabBarController {
             var viewControllers = tabBarVC.viewControllers
             
-            let controller = TabBarController()
-            
-            let profileVC = controller.createProfile()
+            let profileVC = ProfileController()
             
             UIView.transition(with: tabBarVC.view!,
                               duration: 0.2,

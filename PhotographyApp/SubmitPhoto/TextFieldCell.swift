@@ -31,6 +31,7 @@ class TextFieldCell: UICollectionViewCell {
         }()
 
     var text: String = ""
+    var callback: (() -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -80,5 +81,6 @@ extension TextFieldCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
             let size = textView.sizeThatFits(CGSize(width: textView.frame.width, height: CGFloat.greatestFiniteMagnitude))
             textView.heightAnchor.constraint(equalToConstant: size.height).isActive = true
+        callback?()
         }
 }
