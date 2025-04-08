@@ -10,15 +10,16 @@ import PhotosUI
 
 class UploadCell: UICollectionViewCell {
     
+    //MARK: - UI Elements
+    
     private lazy var imageView : UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.image = UIImage(systemName: "photo")
         image.backgroundColor = .gray
         image.clipsToBounds = true
+        image.image = UIImage(named: "uploadImage")
         image.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openLibrary))
-        image.addGestureRecognizer(tapGesture)
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -34,6 +35,8 @@ class UploadCell: UICollectionViewCell {
         return label
     }()
     
+    //MARK: - Lifcycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -43,27 +46,44 @@ class UploadCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - UI Configure
+    
     private func configureUI() {
+        addSubviews()
+        setgConstraints()
+//        setLines()
+        
+       
+    }
+    
+    private func addSubviews() {
         addSubview(imageView)
-        addSubview(title)
-        
-        setLines()
-        
+//        addSubview(title)
+    }
+    
+    private func setgConstraints() {
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-            imageView.heightAnchor.constraint(equalToConstant: 50),
-            imageView.widthAnchor.constraint(equalToConstant: 50),
-            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+//            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+//            imageView.heightAnchor.constraint(equalToConstant: 50),
+//            imageView.widthAnchor.constraint(equalToConstant: 50),
+//            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            title.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
-            title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32)
+//            title.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
+//            title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+//            title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32)
         ])
     }
     
+    
+    //MARK: - Image
+    
     func setLines() {
         drawLine()
-        drawLine(xValue: 0, yValue: Int(frame.maxY) - 10)
+        drawLine(xValue: 0, yValue: Int(frame.maxY) - 40)
     }
     
     func drawLine(xValue: Int = 0, yValue: Int = 0) {
@@ -72,23 +92,13 @@ class UploadCell: UICollectionViewCell {
         
         for num in 0...count {
             if num%2 == 0 {
-                let shadowPath = UIBezierPath(cgPath: UIBezierPath(roundedRect: CGRect(x: num * width, y: yValue, width: width, height: 4), cornerRadius: 1).cgPath)
+                let shadowPath = UIBezierPath(cgPath: UIBezierPath(roundedRect: CGRect(x: num * width, y: yValue, width: width, height: 3), cornerRadius: 1).cgPath)
                 let shapeShadowLayer = CAShapeLayer()
                 shapeShadowLayer.path = shadowPath.cgPath
                 shapeShadowLayer.fillColor = UIColor.gray.cgColor
                 layer.addSublayer(shapeShadowLayer)
             }
         }
-    }
-    
-    @objc func openLibrary() {
-//        print("rrrr")
-//        var config = PHPickerConfiguration()
-//        config.selectionLimit = 9
-//        
-//        let picker = PHPickerViewController(configuration: config)
-//        picker.delegate = self
-//        self.window?.rootViewController?.present(picker, animated: true)
     }
 }
 

@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 enum Sections {
+    case contributionText
     case image
     case topicText
     case topics
@@ -19,7 +20,7 @@ enum Sections {
 class UploadViewModel {
     
     // Sections
-    let sections: [Sections] = [.image, .topicText, .topics, .blogText, .blog]
+    let sections: [Sections] = [.contributionText, .image, .topicText, .topics, .blogText, .blog]
     
     enum ViewState {
         case loading
@@ -49,21 +50,19 @@ class UploadViewModel {
             switch self.sections[sectionNumber] {
             case .image:
                 UploadLayout.createUploadCell()
-            case .topicText:
+            case .topicText, .blogText, .contributionText:
                 LayoutClass.createTextCell()
             case .topics:
                 LayoutClass.createVerticalDoubleCell(groupWidth: 0.4)
             case .blog:
                 UploadLayout.createLatestFromBlogCell()
-            case .blogText:
-                LayoutClass.createTextCell()
             }
         }
     }
     
     func numOfCells (section: Int) -> Int {
         switch sections[section] {
-        case .image, .topicText, .blogText:
+        case .image, .topicText, .blogText, .contributionText:
             1
         case .topics:
             topics?.count ?? 0

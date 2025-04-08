@@ -8,13 +8,15 @@
 import UIKit
 
 class TopicsCell: UICollectionViewCell {
+    
+    //MARK: - UI Elements
     private lazy var imageView : UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.image = UIImage(systemName: "photo")
         image.backgroundColor = .gray
         image.clipsToBounds = true
-        image.layer.cornerRadius = 4
+        image.layer.cornerRadius = 12
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -23,8 +25,9 @@ class TopicsCell: UICollectionViewCell {
     private lazy var label : UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.font = .systemFont(ofSize: 14, weight: .bold)
         label.textAlignment = .center
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -37,6 +40,8 @@ class TopicsCell: UICollectionViewCell {
         return view
     }()
     
+    //MARK: - Lifcycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -46,13 +51,21 @@ class TopicsCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - UI Configure
+    
     private func configureUI() {
+        layer.cornerRadius = 12
+        addSubviews()
+        setCnstraints()
+    }
+    
+    private func addSubviews() {
         addSubview(imageView)
         [darkerView,
          label].forEach({imageView.addSubview($0)})
-        
-        layer.cornerRadius = 8
-
+    }
+    
+    private func setCnstraints() {
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: topAnchor),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -65,11 +78,16 @@ class TopicsCell: UICollectionViewCell {
             darkerView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
             
             label.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
+            label.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+            label.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
+            label.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 8)
         ])
     }
     
-    func configure(url: String) {
+    //MARK: - Sent Data
+    
+    func configure(url: String, topic: String) {
         imageView.loadImage(url: url)
+        label.text = topic
     }
 }

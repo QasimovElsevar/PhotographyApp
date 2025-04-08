@@ -86,6 +86,10 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch viewModel.sections[indexPath.section] {
+        case .contributionText:
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
+            cell.configure(text: "Contribute to Unsplash", textSize: 20)
+            return cell
         case .image:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "UploadCell", for: indexPath) as! UploadCell
             return cell
@@ -95,7 +99,7 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .topics:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TopicsCell", for: indexPath) as! TopicsCell
-            cell.configure(url: /*viewModel.topics?[indexPath.row].coverPhoto?.urls?.thumb ?? ""*/"")
+            cell.configure(url: viewModel.topics?[indexPath.row].coverPhoto?.urls?.thumb ?? "", topic: viewModel.topics?[indexPath.row].title ?? "")
             return cell
         case .blog:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "LatestBlogCell", for: indexPath) as! LatestBlogCell
@@ -109,7 +113,7 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        5
+        6
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -147,6 +151,7 @@ extension UploadController {
         
         viewModel.success = {
             self.collection.reloadData()
+            print("got it")
         }
     }
     

@@ -10,41 +10,41 @@ import Foundation
 // MARK: - WelcomeElement
 struct Topics: Codable {
     let id, slug, title, description: String?
-//    let publishedAt, updatedAt, startsAt: Date?
-//    let endsAt, onlySubmissionsAfter: JSONNull?
-//    let visibility: Visibility?
-//    let featured: Bool?
-//    let totalPhotos: Int?
-//    let currentUserContributions: [JSONAny]?
-//    let totalCurrentUserSubmissions: TotalCurrentUserSubmissions?
-//    let links: WelcomeLinks?
-//    let mediaTypes: [AssetTypeElement]?
-//    let status: WelcomeStatus?
-//    let owners: [User]?
-//    let coverPhoto: CoverPhoto?
-//    let previewPhotos: [PreviewPhoto]?
+    let publishedAt, updatedAt, startsAt: String?
+    let endsAt, onlySubmissionsAfter: JSONNull?
+    let visibility: Visibility?
+    let featured: Bool?
+    let totalPhotos: Int?
+    let currentUserContributions: [JSONAny]?
+    let totalCurrentUserSubmissions: TotalCurrentUserSubmissions?
+    let links: WelcomeLinks?
+    let mediaTypes: [AssetTypeElement]?
+    let status: WelcomeStatus?
+    let owners: [User]?
+    let coverPhoto: CoverPhoto?
+    let previewPhotos: [PreviewPhoto]?
 
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case slug = "slug"
         case title = "title"
         case description = "description"
-//        case publishedAt = "published_at"
-//        case updatedAt = "updated_at"
-//        case startsAt = "starts_at"
-//        case endsAt = "ends_at"
-//        case onlySubmissionsAfter = "only_submissions_after"
-//        case visibility = "visibility"
-//        case featured = "featured"
-//        case totalPhotos = "total_photos"
-//        case currentUserContributions = "current_user_contributions"
-//        case totalCurrentUserSubmissions = "total_current_user_submissions"
-//        case links = "links"
-//        case mediaTypes = "media_types"
-//        case status = "status"
-//        case owners = "owners"
-//        case coverPhoto = "cover_photo"
-//        case previewPhotos = "preview_photos"
+        case publishedAt = "published_at"
+        case updatedAt = "updated_at"
+        case startsAt = "starts_at"
+        case endsAt = "ends_at"
+        case onlySubmissionsAfter = "only_submissions_after"
+        case visibility = "visibility"
+        case featured = "featured"
+        case totalPhotos = "total_photos"
+        case currentUserContributions = "current_user_contributions"
+        case totalCurrentUserSubmissions = "total_current_user_submissions"
+        case links = "links"
+        case mediaTypes = "media_types"
+        case status = "status"
+        case owners = "owners"
+        case coverPhoto = "cover_photo"
+        case previewPhotos = "preview_photos"
     }
 }
 
@@ -52,8 +52,8 @@ struct Topics: Codable {
 struct CoverPhoto: Codable {
     let id, slug: String?
     let alternativeSlugs: AlternativeSlugs?
-    let createdAt, updatedAt: Date?
-    let promotedAt: Date?
+    let createdAt, updatedAt: String?
+    let promotedAt: String?
     let width, height: Int?
     let color, blurHash: String?
     let description: String?
@@ -69,24 +69,24 @@ struct CoverPhoto: Codable {
     let assetType: AssetTypeElement?
     let user: User?
 
-//    enum CodingKeys: String, CodingKey {
-//        case id, slug
-//        case alternativeSlugs = "alternative_slugs"
-//        case createdAt = "created_at"
-//        case updatedAt = "updated_at"
-//        case promotedAt = "promoted_at"
-//        case width, height, color
-//        case blurHash = "blur_hash"
-//        case description
-//        case altDescription = "alt_description"
-//        case breadcrumbs, urls, links, likes
-//        case likedByUser = "liked_by_user"
-//        case currentUserCollections = "current_user_collections"
-//        case sponsorship
-//        case topicSubmissions = "topic_submissions"
-//        case assetType = "asset_type"
-//        case user
-//    }
+    enum CodingKeys: String, CodingKey {
+        case id, slug
+        case alternativeSlugs = "alternative_slugs"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case promotedAt = "promoted_at"
+        case width, height, color
+        case blurHash = "blur_hash"
+        case description
+        case altDescription = "alt_description"
+        case breadcrumbs, urls, links, likes
+        case likedByUser = "liked_by_user"
+        case currentUserCollections = "current_user_collections"
+        case sponsorship
+        case topicSubmissions = "topic_submissions"
+        case assetType = "asset_type"
+        case user
+    }
 }
 
 // MARK: - AlternativeSlugs
@@ -104,11 +104,11 @@ enum AssetTypeElement: String, Codable {
 struct CoverPhotoLinks: Codable {
     let linksSelf, html, download, downloadLocation: String?
 
-//    enum CodingKeys: String, CodingKey {
-//        case linksSelf = "self"
-//        case html, download
-//        case downloadLocation = "download_location"
-//    }
+    enum CodingKeys: String, CodingKey {
+        case linksSelf = "self"
+        case html, download
+        case downloadLocation = "download_location"
+    }
 }
 
 // MARK: - TopicSubmissions
@@ -118,28 +118,28 @@ struct TopicSubmissions: Codable {
     let texturesPatterns, the3DRenders, architectureInterior, travel: The3_DRenders?
     let film, streetPhotography, people, animals: The3_DRenders?
 
-//    enum CodingKeys: String, CodingKey {
-//        case wallpapers, nature
-//        case blackAndWhite = "black-and-white"
-//        case monochromatic
-//        case texturesPatterns = "textures-patterns"
-//        case the3DRenders = "3d-renders"
-//        case architectureInterior = "architecture-interior"
-//        case travel, film
-//        case streetPhotography = "street-photography"
-//        case people, animals
-//    }
+    enum CodingKeys: String, CodingKey {
+        case wallpapers, nature
+        case blackAndWhite = "black-and-white"
+        case monochromatic
+        case texturesPatterns = "textures-patterns"
+        case the3DRenders = "3d-renders"
+        case architectureInterior = "architecture-interior"
+        case travel, film
+        case streetPhotography = "street-photography"
+        case people, animals
+    }
 }
 
 // MARK: - The3_DRenders
 struct The3_DRenders: Codable {
     let status: The3DRendersStatus?
-    let approvedOn: Date?
+    let approvedOn: String?
 
-//    enum CodingKeys: String, CodingKey {
-//        case status
-//        case approvedOn = "approved_on"
-//    }
+    enum CodingKeys: String, CodingKey {
+        case status
+        case approvedOn = "approved_on"
+    }
 }
 
 enum The3DRendersStatus: String, Codable {
@@ -157,16 +157,16 @@ struct Urls: Codable {
     let raw, full, regular, small: String?
     let thumb, smallS3: String?
 
-//    enum CodingKeys: String, CodingKey {
-//        case raw, full, regular, small, thumb
-//        case smallS3 = "small_s3"
-//    }
+    enum CodingKeys: String, CodingKey {
+        case raw, full, regular, small, thumb
+        case smallS3 = "small_s3"
+    }
 }
 
 // MARK: - User
 struct User: Codable {
     let id: String?
-    let updatedAt: Date?
+    let updatedAt: String?
     let username, name, firstName: String?
     let lastName, twitterUsername: String?
     let portfolioURL: String?
@@ -179,27 +179,27 @@ struct User: Codable {
     let acceptedTos, forHire: Bool?
     let social: Social?
 
-//    enum CodingKeys: String, CodingKey {
-//        case id
-//        case updatedAt = "updated_at"
-//        case username, name
-//        case firstName = "first_name"
-//        case lastName = "last_name"
-//        case twitterUsername = "twitter_username"
-//        case portfolioURL = "portfolio_url"
-//        case bio, location, links
-//        case profileImage = "profile_image"
-//        case instagramUsername = "instagram_username"
-//        case totalCollections = "total_collections"
-//        case totalLikes = "total_likes"
-//        case totalPhotos = "total_photos"
-//        case totalPromotedPhotos = "total_promoted_photos"
-//        case totalIllustrations = "total_illustrations"
-//        case totalPromotedIllustrations = "total_promoted_illustrations"
-//        case acceptedTos = "accepted_tos"
-//        case forHire = "for_hire"
-//        case social
-//    }
+    enum CodingKeys: String, CodingKey {
+        case id
+        case updatedAt = "updated_at"
+        case username, name
+        case firstName = "first_name"
+        case lastName = "last_name"
+        case twitterUsername = "twitter_username"
+        case portfolioURL = "portfolio_url"
+        case bio, location, links
+        case profileImage = "profile_image"
+        case instagramUsername = "instagram_username"
+        case totalCollections = "total_collections"
+        case totalLikes = "total_likes"
+        case totalPhotos = "total_photos"
+        case totalPromotedPhotos = "total_promoted_photos"
+        case totalIllustrations = "total_illustrations"
+        case totalPromotedIllustrations = "total_promoted_illustrations"
+        case acceptedTos = "accepted_tos"
+        case forHire = "for_hire"
+        case social
+    }
 }
 
 // MARK: - UserLinks
@@ -207,10 +207,10 @@ struct UserLinks: Codable {
     let linksSelf, html, photos, likes: String?
     let portfolio, following, followers: String?
 
-//    enum CodingKeys: String, CodingKey {
-//        case linksSelf = "self"
-//        case html, photos, likes, portfolio, following, followers
-//    }
+    enum CodingKeys: String, CodingKey {
+        case linksSelf = "self"
+        case html, photos, likes, portfolio, following, followers
+    }
 }
 
 // MARK: - ProfileImage
@@ -225,40 +225,40 @@ struct Social: Codable {
     let twitterUsername: String?
     let paypalEmail: JSONNull?
 
-//    enum CodingKeys: String, CodingKey {
-//        case instagramUsername = "instagram_username"
-//        case portfolioURL = "portfolio_url"
-//        case twitterUsername = "twitter_username"
-//        case paypalEmail = "paypal_email"
-//    }
+    enum CodingKeys: String, CodingKey {
+        case instagramUsername = "instagram_username"
+        case portfolioURL = "portfolio_url"
+        case twitterUsername = "twitter_username"
+        case paypalEmail = "paypal_email"
+    }
 }
 
 // MARK: - WelcomeLinks
 struct WelcomeLinks: Codable {
     let linksSelf, html, photos: String?
 
-//    enum CodingKeys: String, CodingKey {
-//        case linksSelf = "self"
-//        case html, photos
-//    }
+    enum CodingKeys: String, CodingKey {
+        case linksSelf = "self"
+        case html, photos
+    }
 }
 
 // MARK: - PreviewPhoto
 struct PreviewPhoto: Codable {
     let id, slug: String?
-    let createdAt, updatedAt: Date?
+    let createdAt, updatedAt: String?
     let blurHash: String?
     let assetType: AssetTypeElement?
     let urls: Urls?
 
-//    enum CodingKeys: String, CodingKey {
-//        case id, slug
-//        case createdAt = "created_at"
-//        case updatedAt = "updated_at"
-//        case blurHash = "blur_hash"
-//        case assetType = "asset_type"
-//        case urls
-//    }
+    enum CodingKeys: String, CodingKey {
+        case id, slug
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case blurHash = "blur_hash"
+        case assetType = "asset_type"
+        case urls
+    }
 }
 
 enum WelcomeStatus: String, Codable {
@@ -516,3 +516,4 @@ class JSONAny: Codable {
             }
     }
 }
+

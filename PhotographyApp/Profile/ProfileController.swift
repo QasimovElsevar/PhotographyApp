@@ -145,7 +145,7 @@ extension ProfileController {
         }
         
         viewModel.success = {
-            print("success: \(self.viewModel.userData?.firstName ?? "")")
+//            print("success: \(self.viewModel.userData?.firstName ?? "")")
         }
     }
     
