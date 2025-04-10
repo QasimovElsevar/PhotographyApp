@@ -23,27 +23,34 @@ class SearchController: UIViewController {
         return collection
     }()
     
-    private lazy var search : UISearchBar = {
-        let search = UISearchBar()
-        search.backgroundColor = .myBackground
-        search.target(forAction: #selector(searchPhoto), withSender: nil)
-        search.translatesAutoresizingMaskIntoConstraints = false
+//    private lazy var search : UISearchBar = {
+//        let search = UISearchBar()
+//        search.backgroundColor = .myBackground
+//        search.target(forAction: #selector(searchPhoto), withSender: nil)
+//        search.translatesAutoresizingMaskIntoConstraints = false
+//        return search
+//    }()
+    
+    private lazy var searchController: UISearchController = {
+        let search = UISearchController(searchResultsController: SearchResultsController())
+        search.searchResultsUpdater = self
+        search.searchBar.delegate = self
+        search.showsSearchResultsController = true
         return search
     }()
     
     //MARK: - Properties
 
     let viewModel = SearchViewModel()
-    let searchController = UISearchController()
+//    let searchController = UISearchController(searchResultsController: SearchResultsController())
    
     
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchController.searchResultsUpdater = self
         configureUI()
-        FireBaseManager.shared.printCurrentUser()
+        getData()
     }
     
     //  MARK: - UI Configuration
@@ -59,11 +66,11 @@ class SearchController: UIViewController {
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            search.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            search.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            search.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            search.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+//            search.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            search.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            collection.topAnchor.constraint(equalTo: search.bottomAnchor),
+            collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -72,7 +79,7 @@ class SearchController: UIViewController {
     
     private func addSubviews() {
         view.addSubview(collection)
-        view.addSubview(search)
+//        view.addSubview(search)
     }
     
     private func configureTabBar() {
@@ -81,6 +88,8 @@ class SearchController: UIViewController {
 }
 
 extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    //MARK: - Collection
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.numberOfSections(index: section)
     }
@@ -100,7 +109,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .discover:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DoubleHorizontalCell", for: indexPath) as! DoubleHorizontalCell
-            cell.configure(data: viewModel.searchArray?[indexPath.row].urls?.regular ?? "")
+            cell.configure(data: viewModel.photoList?[indexPath.row].urls?.regular ?? "", text: viewModel.photoList?[indexPath.row].user?.name ?? "")
             return cell
         }
     }
@@ -110,15 +119,20 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
     }
 }
 
-extension SearchController: UISearchResultsUpdating {
+extension SearchController: UISearchResultsUpdating, UISearchBarDelegate {
+    
+    //MARK: - SearchBar
     func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else {return}
+        guard let query = searchController.searchBar.text else {return}
         
-        print(text)
     }
     
-    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let query = searchController.searchBar.text else {return}
+        searchController.isActive = false
+    }
 }
+
 extension SearchController {
     private func bindViewModel() {
         viewModel.stateUpdate = { [weak self] state in
@@ -145,7 +159,9 @@ extension SearchController {
         }
     }
     
-    @objc private func searchPhoto() async {
-        await viewModel.search(query: search.text ?? "")
+    func getData() {
+        Task {
+            await viewModel.getList()
+        }
     }
 }

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol SearchUserCase {
-    func search(query: String) async throws -> [Photos]
+    func getList() async throws -> [Photos]
 }

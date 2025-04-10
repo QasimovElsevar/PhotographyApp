@@ -27,7 +27,7 @@ class SearchViewModel {
         case idle
     }
     
-    var searchArray: [Photos]?
+    var photoList: [Photos]?
     
     let manager = SearchManager()
     
@@ -63,15 +63,15 @@ class SearchViewModel {
         case .browse:
         10
         case .discover:
-            10
+            photoList?.count ?? 0
         }
     }
     
     //MARK: - Data
     
-    func search(query: String) async {
+    func getList() async {
         do {
-            searchArray = try await manager.search(query: query)
+            photoList = try await manager.getList()
             Task {
                 state = .success
             }

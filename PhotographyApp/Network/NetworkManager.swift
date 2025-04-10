@@ -47,7 +47,7 @@ class NetworkManager {
                              method: HTTPMethod = .get,
                              params: Parameters? = nil,
                              encodingType: EncodingType = .url) async throws -> T {
-        return await withCheckedContinuation { continuation in
+        return try await withCheckedThrowingContinuation { continuation in
             AF.request(endPoint,
                        method: method,
                        parameters: params,
@@ -56,8 +56,8 @@ class NetworkManager {
                 switch response.result {
                 case .success(let data):
                     continuation.resume(returning: data)
-                default:
-                    break
+                case .failure(let error):
+                    continuation.resume(throwing: error)
                 }
             }
         }

@@ -24,7 +24,7 @@ class DoubleHorizontalCell: UICollectionViewCell {
     private lazy var label : UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.font = .systemFont(ofSize: 12, weight: .bold)
         label.text = "Abraaakadabraa"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -59,7 +59,8 @@ class DoubleHorizontalCell: UICollectionViewCell {
         ])
     }
     
-    func configure(data: String) {
+    func configure(data: String, text: String) {
         imageView.loadImage(url: data)
+        label.text = text
     }
 }
