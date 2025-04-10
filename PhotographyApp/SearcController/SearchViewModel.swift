@@ -16,8 +16,31 @@ enum Section {
 }
 
 class SearchViewModel {
+    
     let sections: [Section] = [.browseText, .browse, .discoverText, .discover]
     
+    enum ViewState {
+        case loading
+        case loaded
+        case success
+        case error(String)
+        case idle
+    }
+    
+    var searchArray: [Photos]?
+    
+    let manager = SearchManager()
+    
+    var stateUpdate: ((ViewState) -> Void)?
+    
+    var state: ViewState = .idle {
+        didSet {
+            stateUpdate?(state)
+        }
+    }
+    
+    //MARK: - UI configuration
+        
     func createLayaout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             switch self.sections[sectionNumber] {
@@ -41,6 +64,21 @@ class SearchViewModel {
         10
         case .discover:
             10
+        }
+    }
+    
+    //MARK: - Data
+    
+    func search(query: String) async {
+        do {
+            searchArray = try await manager.search(query: query)
+            Task {
+                state = .success
+            }
+        } catch {
+            Task {
+                state = .error(error.localizedDescription)
+            }
         }
     }
 }

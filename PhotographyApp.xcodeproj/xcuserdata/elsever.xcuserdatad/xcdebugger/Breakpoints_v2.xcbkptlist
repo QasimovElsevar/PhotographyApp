@@ -148,5 +148,125 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8712B9B2-D537-4CF9-9A31-597A8533C125"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhotographyApp/SearcController/SearchViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "search(query:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B2340249-5D58-44D6-A569-79205A919575"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhotographyApp/SearcController/SearchViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "search(query:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "88AD022F-E966-469F-AF0E-4C3F1DD592BC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhotographyApp/SearcController/SearchController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "searchPhoto()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "88AD022F-E966-469F-AF0E-4C3F1DD592BC - f053b84a2c3c0d49"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for PhotographyApp.SearchController.searchPhoto() async -&gt; ()"
+                  moduleName = "PhotographyApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/SearcController/SearchController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "147"
+                  endingLineNumber = "147">
+               </Location>
+               <Location
+                  uuid = "88AD022F-E966-469F-AF0E-4C3F1DD592BC - 2a8d2e8dd8e885ea"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for PhotographyApp.SearchController.searchPhoto() async -&gt; ()"
+                  moduleName = "PhotographyApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/SearcController/SearchController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "147"
+                  endingLineNumber = "147">
+               </Location>
+               <Location
+                  uuid = "88AD022F-E966-469F-AF0E-4C3F1DD592BC - 78b4ace03ab3d94f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for PhotographyApp.SearchController.searchPhoto() async -&gt; ()"
+                  moduleName = "PhotographyApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/SearcController/SearchController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "147"
+                  endingLineNumber = "147">
+               </Location>
+               <Location
+                  uuid = "88AD022F-E966-469F-AF0E-4C3F1DD592BC - 413532911d4e616f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhotographyApp.SearchController.searchPhoto() async -&gt; ()"
+                  moduleName = "PhotographyApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/SearcController/SearchController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "148"
+                  endingLineNumber = "148">
+               </Location>
+               <Location
+                  uuid = "88AD022F-E966-469F-AF0E-4C3F1DD592BC - f053b84a2c3c0d66"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for PhotographyApp.SearchController.searchPhoto() async -&gt; ()"
+                  moduleName = "PhotographyApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/SearcController/SearchController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "148"
+                  endingLineNumber = "148">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

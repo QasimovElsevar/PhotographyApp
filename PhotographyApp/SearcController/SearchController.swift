@@ -26,6 +26,7 @@ class SearchController: UIViewController {
     private lazy var search : UISearchBar = {
         let search = UISearchBar()
         search.backgroundColor = .myBackground
+        search.target(forAction: #selector(searchPhoto), withSender: nil)
         search.translatesAutoresizingMaskIntoConstraints = false
         return search
     }()
@@ -33,11 +34,14 @@ class SearchController: UIViewController {
     //MARK: - Properties
 
     let viewModel = SearchViewModel()
+    let searchController = UISearchController()
+   
     
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchController.searchResultsUpdater = self
         configureUI()
         FireBaseManager.shared.printCurrentUser()
     }
@@ -46,9 +50,11 @@ class SearchController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .myBackground
+        tabBarController?.navigationItem.searchController = searchController
         addSubviews()
         setConstraints()
         configureTabBar()
+        bindViewModel()
     }
     
     private func setConstraints() {
@@ -94,11 +100,52 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .discover:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DoubleHorizontalCell", for: indexPath) as! DoubleHorizontalCell
+            cell.configure(data: viewModel.searchArray?[indexPath.row].urls?.regular ?? "")
             return cell
         }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         4
+    }
+}
+
+extension SearchController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else {return}
+        
+        print(text)
+    }
+    
+    
+}
+extension SearchController {
+    private func bindViewModel() {
+        viewModel.stateUpdate = { [weak self] state in
+            
+            DispatchQueue.main.async { [weak self] in
+                guard let self else {return}
+                switch state {
+                case .loading:
+//                  loadingView.startAnimating()
+                    print("ff")
+                case  .loaded:
+//                    loadingView.stopAnimating()
+                    print("ff")
+                case .success:
+                    print("success")
+                    collection.reloadData()
+                case .error(let error):
+                    print(error)
+                case .idle:
+                    break
+                }
+                
+            }
+        }
+    }
+    
+    @objc private func searchPhoto() async {
+        await viewModel.search(query: search.text ?? "")
     }
 }

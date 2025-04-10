@@ -12,7 +12,7 @@ class UploadManager: UploadUserCase {
     let networkManager = NetworkManager()
     
     func getData(completion: @escaping ([Topics]?, String?) -> Void) {
-        let path = TopicsEndPoint.list.path
+        let path = TopicsEndPoint.topic.path
         networkManager.request(endPoint: path, model: [Topics].self, completion: completion)
     }
 }

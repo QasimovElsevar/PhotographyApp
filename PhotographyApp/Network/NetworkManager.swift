@@ -42,6 +42,27 @@ class NetworkManager {
         }
     }
     
+    func request<T: Codable>(endPoint: String,
+                             model: T.Type,
+                             method: HTTPMethod = .get,
+                             params: Parameters? = nil,
+                             encodingType: EncodingType = .url) async throws -> T {
+        return await withCheckedContinuation { continuation in
+            AF.request(endPoint,
+                       method: method,
+                       parameters: params,
+                       encoding: encodingType == .url ? URLEncoding.default : JSONEncoding.default,
+                       headers: header).responseDecodable(of: model.self) { response in
+                switch response.result {
+                case .success(let data):
+                    continuation.resume(returning: data)
+                default:
+                    break
+                }
+            }
+        }
+    }
+    
     func configureUrl(endPoint: String) -> String {
         return "\(baseUrl)\(endPoint)"
     }

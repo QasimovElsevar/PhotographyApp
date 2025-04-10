@@ -44,7 +44,6 @@ class DoubleHorizontalCell: UICollectionViewCell {
     private func configureUI() {
         addSubview(imageView)
         imageView.addSubview(label)
-        configure()
         setConstraints()
     }
     
@@ -60,7 +59,7 @@ class DoubleHorizontalCell: UICollectionViewCell {
         ])
     }
     
-    func configure() {
-        imageView.image = UIImage(named: "testImage")
+    func configure(data: String) {
+        imageView.loadImage(url: data)
     }
 }

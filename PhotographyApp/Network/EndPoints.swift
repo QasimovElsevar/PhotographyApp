@@ -8,12 +8,14 @@
 import Foundation
 
 enum TopicsEndPoint {
-    case list
+    case topic
     
     var path: String {
         switch self {
-        case .list:
+        case .topic:
             NetworkManager.shared.configureUrl(endPoint: "topics")
         }
     }
 }
+
+
