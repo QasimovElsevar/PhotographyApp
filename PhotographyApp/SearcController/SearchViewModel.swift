@@ -27,7 +27,8 @@ class SearchViewModel {
         case idle
     }
     
-    var photoList: [Photos]?
+    var photoList: [Photos] = []
+    var page = 1
     
     let manager = SearchManager()
     
@@ -63,7 +64,7 @@ class SearchViewModel {
         case .browse:
         10
         case .discover:
-            photoList?.count ?? 0
+            photoList.count 
         }
     }
     
@@ -71,9 +72,11 @@ class SearchViewModel {
     
     func getList() async {
         do {
-            photoList = try await manager.getList()
+            let data =  try await manager.getList(page: page)
             Task {
+                photoList.append(contentsOf: data)
                 state = .success
+                page += 1
             }
         } catch {
             Task {

@@ -52,7 +52,7 @@ class UploadController: UIViewController {
         addSubviews()
         setConstrains()
         bindViewModel()
-        configureTabBar()
+//        configureTabBar()
     }
     
     func addSubviews() {
@@ -127,6 +127,8 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
             present(picker, animated: true)
         }
     }
+    
+    
 }
 
 extension UploadController: PHPickerViewControllerDelegate {

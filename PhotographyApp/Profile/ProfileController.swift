@@ -56,11 +56,11 @@ class ProfileController: UIViewController {
         setCostraints()
         navigationBarConfigure()
         bindViewModel()
-        configureTabBar()
+//        configureTabBar()
     }
     
     private func navigationBarConfigure() {
-        tabBarController?.navigationItem.title = "Qasimov"
+        tabBarController?.navigationItem.title = viewModel.userData?.username
         tabBarController?.navigationItem.titleView?.tintColor = .label
 
         navigationBarButtonsConfigure()
@@ -105,6 +105,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
         switch viewModel.sections[indexPath.section] {
         case .profile:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
+            cell.configure(firstName: viewModel.userData?.firstName ?? "", lastName: viewModel.userData?.lastName ?? "")
             return cell
             
         case .selection:
@@ -160,7 +161,7 @@ extension ProfileController {
                 case  .loaded:
                     loadingView.stopAnimating()
                 case .success:
-                    print("success")
+                    collection.reloadData()
                 case .error:
                     print("error")
                 case .idle:

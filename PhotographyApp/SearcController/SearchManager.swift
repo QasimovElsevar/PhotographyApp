@@ -11,8 +11,8 @@ class SearchManager: SearchUserCase {
     
     let manager = NetworkManager()
     
-    func getList() async throws -> [Photos] {
-        let path = PhotosEndPoint.listOfPhotos.path
+    func getList(page: Int) async throws -> [Photos] {
+        let path = PhotosEndPoint.listOfPhotos(page).path
         return try await manager.request(endPoint: path, model: [Photos].self)
     }
 }

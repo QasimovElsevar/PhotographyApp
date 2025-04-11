@@ -42,8 +42,6 @@ class SearchController: UIViewController {
     //MARK: - Properties
 
     let viewModel = SearchViewModel()
-//    let searchController = UISearchController(searchResultsController: SearchResultsController())
-   
     
     //MARK: - Lifecycle
 
@@ -60,7 +58,7 @@ class SearchController: UIViewController {
         tabBarController?.navigationItem.searchController = searchController
         addSubviews()
         setConstraints()
-        configureTabBar()
+//        configureTabBar()
         bindViewModel()
     }
     
@@ -109,13 +107,21 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .discover:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DoubleHorizontalCell", for: indexPath) as! DoubleHorizontalCell
-            cell.configure(data: viewModel.photoList?[indexPath.row].urls?.regular ?? "", text: viewModel.photoList?[indexPath.row].user?.name ?? "")
+            cell.configure(data: viewModel.photoList[indexPath.row].urls?.regular ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
             return cell
         }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.section == 3 && indexPath.row == (viewModel.photoList.count ?? 0) - 1 {
+            Task {
+               await viewModel.getList()
+            }
+        }
     }
 }
 
@@ -124,7 +130,6 @@ extension SearchController: UISearchResultsUpdating, UISearchBarDelegate {
     //MARK: - SearchBar
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text else {return}
-        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

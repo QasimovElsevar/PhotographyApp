@@ -59,8 +59,8 @@ class ProfileCell: UICollectionViewCell {
         ])
     }
     
-    func configure(text: String) {
-        label.text = "JGYJGJHJ"
+    func configure(firstName: String, lastName: String) {
+        label.text = "\(firstName) \(lastName)"
     }
     
 }

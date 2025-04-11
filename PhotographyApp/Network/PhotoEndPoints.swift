@@ -8,13 +8,13 @@
 import Foundation
 
 enum  PhotosEndPoint {
-    case listOfPhotos
+    case listOfPhotos(Int)
     case downloadTrack(Int)
     
     var path: String {
         switch self {
-        case .listOfPhotos:
-            NetworkManager.shared.configureUrl(endPoint: "photos")
+        case .listOfPhotos(let page):
+            NetworkManager.shared.configureUrl(endPoint: "photos?page=\(page)")
         case .downloadTrack(let id):
             NetworkManager.shared.configureUrl(endPoint: "photos/:\(id)/download")
         }

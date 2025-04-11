@@ -20,40 +20,40 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
     }
 
-//    func createHome() -> UIViewController {
-//        let tab = SearchController()
-//        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
-//        tab.tabBarItem = tabBarItem
-//        return tab
-//    }
+    func createHome() -> UIViewController {
+        let tab = SearchController()
+        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+        tab.tabBarItem = tabBarItem
+        return tab
+    }
     
-//    func createFeed()  -> UIViewController {
-//        let tab = SearchController()
-//        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "book.closed"), selectedImage: UIImage(systemName: "book.closed.fill"))
-//        tab.tabBarItem = tabBarItem
-//        return tab
-//    }
+    func createFeed()  -> UIViewController {
+        let tab = SearchController()
+        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "book.closed"), selectedImage: UIImage(systemName: "book.closed.fill"))
+        tab.tabBarItem = tabBarItem
+        return tab
+    }
     
-//    func createloadController()  -> UIViewController{
-//        let tab = UploadController()
-//        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "photo"), selectedImage: UIImage(systemName: "photo"))
-//        tab.tabBarItem = tabBarItem
-//        return tab
-//    }
+    func createloadController()  -> UIViewController{
+        let tab = UploadController()
+        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "photo"), selectedImage: UIImage(systemName: "photo"))
+        tab.tabBarItem = tabBarItem
+        return tab
+    }
     
-//    func createLogin()  -> UIViewController {
-//        let tab = LoginController()
-//        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
-//        tab.tabBarItem = tabBarItem
-//        return tab
-//    }
+    func createLogin()  -> UIViewController {
+        let tab = LoginController()
+        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
+        tab.tabBarItem = tabBarItem
+        return tab
+    }
     
-//    func createProfile()  -> UIViewController {
-//        let tab = ProfileController()
-//        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
-//        tab.tabBarItem = tabBarItem
-//        return tab
-//    }
+    func createProfile()  -> UIViewController {
+        let tab = ProfileController()
+        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
+        tab.tabBarItem = tabBarItem
+        return tab
+    }
     
     func createTab() {
         if UserDefaults.standard.string(forKey: "userID") == nil{

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PhotoSubmitController: UIViewController {
+final class PhotoSubmitController: UIViewController {
 
     //MARK: -UI Elements
     
@@ -36,13 +36,24 @@ class PhotoSubmitController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .clear
         view.addSubview(collection)
-        
+        setConstraints()
+        navigationBarConfigure()
+    }
+    
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func navigationBarConfigure() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = "Review Images"
+        navigationItem.leftBarButtonItem = .init(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
+        configureNavRightButton()
     }
 }
 
@@ -97,4 +108,29 @@ extension PhotoSubmitController: UICollectionViewDelegate, UICollectionViewDataS
         return 7
     }
     
+}
+
+extension PhotoSubmitController {
+    
+    //MARK: - NavBar Actions
+    
+    @objc func handleCancel() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func handleSubmit() {
+        print("submited")
+    }
+    
+    func configureNavRightButton() {
+        let boldFont = UIFont.boldSystemFont(ofSize: 17)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: boldFont
+        ]
+
+        let rightButton = UIBarButtonItem(title: "Submit", style: .plain, target: self, action: #selector(handleSubmit))
+        rightButton.setTitleTextAttributes(attributes, for: .normal)
+
+        navigationItem.rightBarButtonItem = rightButton
+    }
 }

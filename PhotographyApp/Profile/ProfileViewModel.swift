@@ -90,7 +90,7 @@ class ProfileViewModel {
             } else {
                 userData = data
                 UserDefaults.standard.set(data?.accessKey, forKey: "key")
-                success?()
+                state = .success
                 state = .loaded
             }
         }
