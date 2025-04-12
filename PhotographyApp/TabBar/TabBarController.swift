@@ -13,55 +13,88 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         self.delegate = self
         tabBar.backgroundColor = .myBackground
-        createTab()
+//        createTab()
         
+        setupNavigationTabs()
         //tanBarController.viewController = [
-        
-        
     }
+    
+    func setupNavigationTabs() {
+        setupTabBarAppearance()
+        createTab()
+    }
+    
 
-    func createHome() -> UIViewController {
-        let tab = SearchController()
-        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
-        tab.tabBarItem = tabBarItem
-        return tab
+    func createHome() -> UINavigationController {
+        let searchController = SearchController()
+        let searchNav = UINavigationController(rootViewController: searchController)
+        searchController.viewModel.coordinator = MainCoordinator(navigationController: searchNav)
+        let tabBarItem = UITabBarItem(
+            title: "Search",
+            image: UIImage(systemName: "house"),
+            selectedImage: UIImage(systemName: "house.fill")
+        )
+        searchController.tabBarItem = tabBarItem
+        return searchNav
     }
     
-    func createFeed()  -> UIViewController {
-        let tab = SearchController()
-        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "book.closed"), selectedImage: UIImage(systemName: "book.closed.fill"))
-        tab.tabBarItem = tabBarItem
-        return tab
+    func createFeed() -> UINavigationController {
+        let searchController = SearchController()
+        let searchNav = UINavigationController(rootViewController: searchController)
+        searchController.viewModel.coordinator = MainCoordinator(navigationController: searchNav)
+        let tabBarItem = UITabBarItem(
+            title: "Search",
+            image: UIImage(systemName: "house"),
+            selectedImage: UIImage(systemName: "house.fill")
+        )
+        searchController.tabBarItem = tabBarItem
+        return searchNav
     }
     
-    func createloadController()  -> UIViewController{
-        let tab = UploadController()
-        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "photo"), selectedImage: UIImage(systemName: "photo"))
-        tab.tabBarItem = tabBarItem
-        return tab
+    func createloadController() -> UINavigationController {
+        let uploadController = UploadController()
+        let uploadNav = UINavigationController(rootViewController: uploadController)
+        uploadController.viewModel.coordinator = MainCoordinator(navigationController: uploadNav)
+        let tabBarItem = UITabBarItem(
+            title: "Upload",
+            image: UIImage(systemName: "photo"),
+            selectedImage: UIImage(systemName: "photo")
+        )
+        uploadController.tabBarItem = tabBarItem
+        return uploadNav
     }
     
-    func createLogin()  -> UIViewController {
-        let tab = LoginController()
-        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
-        tab.tabBarItem = tabBarItem
-        return tab
+    func createLogin() -> UINavigationController {
+        let loginController = LoginController()
+        let loginNav = UINavigationController(rootViewController: loginController)
+        loginController.viewModel.coordinator = MainCoordinator(navigationController: loginNav)
+        let tabBarItem = UITabBarItem(
+            title: "Login",
+            image: UIImage(systemName: "person"),
+            selectedImage: UIImage(systemName: "person.fill")
+        )
+        loginController.tabBarItem = tabBarItem
+        return loginNav
     }
     
-    func createProfile()  -> UIViewController {
-        let tab = ProfileController()
-        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
-        tab.tabBarItem = tabBarItem
-        return tab
-    }
-    
-    func createTab() {
-        if UserDefaults.standard.string(forKey: "userID") == nil{
-            self.viewControllers = [SearchController(), SearchController(), UploadController(), LoginController()]
-        } else {
-            self.viewControllers = [SearchController(), SearchController(), UploadController(), ProfileController()]
-        }
+    func createProfile() -> UINavigationController {
+        let profileController = ProfileController()
+        let profileNav = UINavigationController(rootViewController: profileController)
+        profileController.viewModel.coordinator = MainCoordinator(navigationController: profileNav)
+        let tabBarItem = UITabBarItem(
+            title: "Profile",
+            image: UIImage(systemName: "person"),
+            selectedImage: UIImage(systemName: "person.fill")
+        )
+        profileController.tabBarItem = tabBarItem
         
+//        UINavigationBar.appearance().backgroundColor = .myBackground
+//        UINavigationBar.appearance().isTranslucent = false
+//        UINavigationBar.appearance().tintColor = .label
+        return profileNav
+    }
+    
+    func setupTabBarAppearance() {
         UITabBar.appearance().backgroundColor = .myBackground
         UITabBar.appearance().isTranslucent = false
         UITabBar.appearance().barTintColor = .myBackground
@@ -72,10 +105,18 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         UINavigationBar.appearance().tintColor = .label
     }
     
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if let navController = viewController as? UINavigationController,
-            let topVC = navController.topViewController {
-            topVC.title = "New Title"
+    func createTab() {
+        if UserDefaults.standard.string(forKey: "userID") == nil{
+            self.viewControllers = [createHome(), createFeed(), createloadController(), createLogin()]
+        } else {
+            self.viewControllers = [createHome(), createFeed(), createloadController(), createProfile()]
         }
     }
+//    
+//    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+//        if let navController = viewController as? UINavigationController,
+//            let topVC = navController.topViewController {
+//            topVC.title = "New Title"
+//        }
+//    }
 }

@@ -10,6 +10,7 @@ import Foundation
 class LoginViewModel {
     
     var userInfo: UserModel?
+    var coordinator: MainCoordinator?
     
     func InvalidMail(_ value: String) -> String? {
         let regExp = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"

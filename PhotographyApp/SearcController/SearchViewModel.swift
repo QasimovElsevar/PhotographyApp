@@ -16,7 +16,8 @@ enum Section {
 }
 
 class SearchViewModel {
-    
+    var coordinator: MainCoordinator?
+
     let sections: [Section] = [.browseText, .browse, .discoverText, .discover]
     
     enum ViewState {

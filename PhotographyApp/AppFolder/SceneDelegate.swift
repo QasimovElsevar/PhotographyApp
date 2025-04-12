@@ -18,7 +18,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        let coordinator = AppCoordinator(navigationController: UINavigationController(), window: window)
+        let coordinator = MainCoordinator(navigationController: UINavigationController())
+
+        coordinator.window = window
         coordinator.start()
     }
 

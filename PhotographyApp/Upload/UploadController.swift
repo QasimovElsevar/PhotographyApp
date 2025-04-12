@@ -52,7 +52,6 @@ class UploadController: UIViewController {
         addSubviews()
         setConstrains()
         bindViewModel()
-//        configureTabBar()
     }
     
     func addSubviews() {
@@ -72,10 +71,6 @@ class UploadController: UIViewController {
             loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    private func configureTabBar() {
-        tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "photo"), selectedImage: UIImage(systemName: "photo"))
     }
 }
 

@@ -20,6 +20,5 @@ class SettingsCoordinator: Coordinator {
         let nvConreoller = UINavigationController(rootViewController: controller)
         navigationController.present(nvConreoller, animated: true)
     }
-    
-    
 }
+

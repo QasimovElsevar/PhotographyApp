@@ -20,6 +20,7 @@ enum ProfileSelections {
 }
 
 class ProfileViewModel {
+    var coordinator: MainCoordinator?
     let sections: [sections] = [.profile, .selection, .collection]
     let selections: [ProfileSelections] = [.photos, .likes, .collections]
     

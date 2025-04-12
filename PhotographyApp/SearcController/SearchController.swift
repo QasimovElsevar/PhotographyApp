@@ -55,10 +55,9 @@ class SearchController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .myBackground
-        tabBarController?.navigationItem.searchController = searchController
+        navigationItem.searchController = searchController
         addSubviews()
         setConstraints()
-//        configureTabBar()
         bindViewModel()
     }
     
@@ -80,9 +79,6 @@ class SearchController: UIViewController {
 //        view.addSubview(search)
     }
     
-    private func configureTabBar() {
-        tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), selectedImage: UIImage(systemName: "magnifyingglass"))
-    }
 }
 
 extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource {

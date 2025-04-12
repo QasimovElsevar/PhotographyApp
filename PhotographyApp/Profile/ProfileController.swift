@@ -50,19 +50,28 @@ class ProfileController: UIViewController {
     //MARK: - UI Configuration
     
     func configureUI() {
-        view.backgroundColor = .myBackground
+        view.backgroundColor = .profile
         
         addSubviews()
         setCostraints()
         navigationBarConfigure()
         bindViewModel()
-//        configureTabBar()
     }
     
     private func navigationBarConfigure() {
-        tabBarController?.navigationItem.title = viewModel.userData?.username
-        tabBarController?.navigationItem.titleView?.tintColor = .label
-
+//        navigationItem.titleView?.tintColor = .label
+//        navigationItem.titleView?.alpha = 0
+        navigationController?.navigationBar.backgroundColor = .profile.withAlphaComponent(0.8)
+//        navigationController?.isNavigationBarHidden = true
+//        UINavigationBar.appearance().backgroundColor?.withAlphaComponent(0)
+//        UINavigationBar.appearance().backgroundColor = .profile.withAlphaComponent(0)
+//        UINavigationBar.appearance().isTranslucent = false
+//        UINavigationBar.appearance().tintColor = .label
+        
+        UINavigationBar.appearance().backgroundColor = .myBackground
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().tintColor = .label
+        navigationItem.title = "Elsever"
         navigationBarButtonsConfigure()
     }
     
@@ -71,9 +80,6 @@ class ProfileController: UIViewController {
         view.addSubview(loadingView)
     }
     
-    private func configureTabBar() {
-        tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
-    }
     
     private func setCostraints() {
         NSLayoutConstraint.activate([
@@ -130,8 +136,13 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
 //  MARK: - Navigation Bar Appearance
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        tabBarController?.navigationController?.navigationBar.alpha = 0 + scrollView.contentOffset.y / 100
-        
+//            navigationController?.isNavigationBarHidden = false
+//            UINavigationBar.appearance().backgroundColor?.withAlphaComponent(0 + scrollView.contentOffset.y / 100)
+            navigationController?.navigationBar.backgroundColor  = .profile.withAlphaComponent(0.5)
+//        } else {
+//            navigationController?.isNavigationBarHidden = true
+
+//        }
     }
 }
 
@@ -174,6 +185,7 @@ extension ProfileController {
 }
 
 extension ProfileController {
+    //MARK: - navigationController Configuration
     
     func navigationBarButtonsConfigure() {
         
@@ -203,7 +215,7 @@ extension ProfileController {
         }()
         
         
-        tabBarController?.navigationItem.rightBarButtonItems = [shareButton, menuButton]
+        navigationItem.rightBarButtonItems = [shareButton, menuButton]
     }
     
     //MARK: - Menu Actions
@@ -216,8 +228,9 @@ extension ProfileController {
     func goToProfile() {
         if let tabBarVC = self.tabBarController {
             var viewControllers = tabBarVC.viewControllers
+            let tabController = TabBarController()
             
-            let profileVC = LoginController()
+            let profileVC = tabController.createLogin()
             
             UIView.transition(with: tabBarVC.view!,
                               duration: 0.2,
