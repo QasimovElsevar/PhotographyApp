@@ -8,29 +8,30 @@
 import Foundation
 import UIKit
 
-class AppCoordinator: Coordinator {
+//class AppCoordinator: Coordinator {
     
-    var navigationController: UINavigationController
-    var window: UIWindow?
-    
-    init(navigationController: UINavigationController, window: UIWindow?) {
-        self.navigationController = navigationController
-        self.window = window
-    }
-    
-    func start() {
-        GoToHome()
-    }
-    
-    func GoToHome() {
-        let controller = TabBarController()
-        window?.rootViewController = UINavigationController(rootViewController: controller)
-        window?.makeKeyAndVisible()
-    }
-    
-    func login() {
-        let controller = LoginController()
-        window?.rootViewController = UINavigationController(rootViewController: controller)
-        window?.makeKeyAndVisible()
-    }
-}
+    //    var navigationController: UINavigationController
+    //    var window: UIWindow?
+    //
+    //    init(navigationController: UINavigationController, window: UIWindow?) {
+    //        self.navigationController = navigationController
+    //        self.window = window
+    //    }
+    //
+    //    func start() {
+    //        GoToHome()
+    //    }
+    //
+    //    func GoToHome() {
+    //        let controller = TabBarController()
+    //        window?.rootViewController = UINavigationController(rootViewController: controller)
+    //        window?.makeKeyAndVisible()
+    //    }
+    //
+    //    func login() {
+    //        let controller = LoginController()
+    //        window?.rootViewController = UINavigationController(rootViewController: controller)
+    //        window?.makeKeyAndVisible()
+    //    }
+    //}
+//}

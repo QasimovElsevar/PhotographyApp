@@ -113,7 +113,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.section == 3 && indexPath.row == (viewModel.photoList.count ?? 0) - 1 {
+        if indexPath.section == 3 && indexPath.row == (viewModel.photoList.count) - 1 {
             Task {
                await viewModel.getList()
             }

@@ -8,8 +8,17 @@
 import Foundation
 import UIKit
 
+protocol MainNavigation {
+    func start ()
+   // func showFeedController()
+    func showSearchController()
+    func showUploadController()
+    func showLoginCOntroller()
+    func showProfileController()
+}
+
 protocol Coordinator {
-    var navigationController: UINavigationController { get }
+    var navigationController: UINavigationController {get}
     
     func start()
 }

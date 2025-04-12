@@ -8,5 +8,9 @@
 import Foundation
 
 protocol ProfileUseCase {
-    //    func getData(endPoint: DataEndPoints, completion: @escaping (Movie?, String?) -> Void)}
+    func getPhotos() async throws -> [Photos]
+    
+    func getLikes() async throws -> [Photos]
+    
+    func getCollections() async throws -> [Photos]
 }

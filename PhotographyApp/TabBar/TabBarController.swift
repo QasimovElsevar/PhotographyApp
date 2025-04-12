@@ -26,7 +26,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
 
     func createHome() -> UINavigationController {
-        let searchController = SearchController()
+        let searchController = FeedController()
         let searchNav = UINavigationController(rootViewController: searchController)
         searchController.viewModel.coordinator = MainCoordinator(navigationController: searchNav)
         let tabBarItem = UITabBarItem(
@@ -44,8 +44,8 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         searchController.viewModel.coordinator = MainCoordinator(navigationController: searchNav)
         let tabBarItem = UITabBarItem(
             title: "Search",
-            image: UIImage(systemName: "house"),
-            selectedImage: UIImage(systemName: "house.fill")
+            image: UIImage(systemName: "magnifyingglass"),
+            selectedImage: UIImage(systemName: "magnifyingglass.fill")
         )
         searchController.tabBarItem = tabBarItem
         return searchNav

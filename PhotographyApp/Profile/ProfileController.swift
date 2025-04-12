@@ -56,6 +56,7 @@ class ProfileController: UIViewController {
         setCostraints()
         navigationBarConfigure()
         bindViewModel()
+        configureTitle()
     }
     
     private func navigationBarConfigure() {
@@ -216,6 +217,14 @@ extension ProfileController {
         
         
         navigationItem.rightBarButtonItems = [shareButton, menuButton]
+    }
+    
+    func configureTitle() {
+        navigationController?.navigationBar.titleTextAttributes = [
+                .font: UIFont.boldSystemFont(ofSize: 18) // Change the size if needed
+            ]
+        
+        navigationController?.title = "Photography"
     }
     
     //MARK: - Menu Actions

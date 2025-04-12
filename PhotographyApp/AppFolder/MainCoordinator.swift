@@ -7,16 +7,8 @@
 
 import UIKit
 
-protocol MainNavigation {
-    func start ()
-   // func showFeedController()
-    func showSearchController()
-    func showUploadController()
-    func showLoginCOntroller()
-    func showProfileController()
-}
-
 final class MainCoordinator: MainNavigation {
+    
     var navigationController: UINavigationController
     var window: UIWindow?
 
@@ -33,6 +25,11 @@ final class MainCoordinator: MainNavigation {
     
     func start() {
         setupTabBarController()
+    }
+    
+    func showFeedController() {
+        let controller = FeedController()
+        navigationController.show(controller, sender: nil)
     }
     
     func showSearchController() {
