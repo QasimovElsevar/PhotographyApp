@@ -1,13 +1,13 @@
 //
-//  SettingsViewController.swift
+//  InfoController.swift
 //  PhotographyApp
 //
-//  Created by Elsever on 02.04.25.
+//  Created by Elsever on 13.04.25.
 //
 
 import UIKit
 
-final class SettingsViewController: UIViewController {
+final class InfoController: UIViewController {
 
     //MARK: - UI Elements
     
@@ -22,9 +22,7 @@ final class SettingsViewController: UIViewController {
         return tableView
     }()
     
-    //MARK: - Properties
-    
-    let viewModel = SettingsViewModel()
+    let viewModel = InfoViewModel()
     
     //MARK: - Lifecycle
     
@@ -36,10 +34,6 @@ final class SettingsViewController: UIViewController {
     //MARK: - UI Configuration
     
     private func configureUI() {
-        configureConstraints()
-    }
-    
-    private func configureConstraints() {
         view.backgroundColor = .settings
         addSubviews()
         setConstraints()
@@ -60,15 +54,13 @@ final class SettingsViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        title = "Settings"
         navigationController?.navigationBar.backgroundColor = .settings
         navigationController?.navigationBar.isTranslucent = true
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(closeSettings))
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
     }
 }
 
-extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
+extension InfoController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.numberOfRows(in: section)
     }
@@ -76,11 +68,11 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = table.dequeueReusableCell(withIdentifier: "SettingHeadCell", for: indexPath) as! SettingHeadCell
-            cell.configure(imageName: "person.fill", text: "name")
+            cell.configure(imageName: "camera", text: "")
             return cell
         } else {
             let cell = table.dequeueReusableCell(withIdentifier: "TableTextCell", for: indexPath) as! TableTextCell
-            cell.configure(settingOptions: viewModel.options[indexPath.row].rawValue)
+            cell.configure(settingOptions: "Recommend")
             return cell
         }
     }
@@ -97,8 +89,8 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension SettingsViewController {
-    @objc private func closeSettings() {
+extension InfoController {
+    @objc private func handleDone() {
         dismiss(animated: true)
     }
 }

@@ -13,7 +13,7 @@ enum EncodingType {
     case json
 }
 
-class NetworkManager {
+final class NetworkManager {
     static let shared = NetworkManager()
     
     let baseUrl = "https://api.unsplash.com/"

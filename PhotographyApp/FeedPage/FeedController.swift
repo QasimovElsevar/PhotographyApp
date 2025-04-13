@@ -21,7 +21,20 @@ final class FeedController: UIViewController {
         return collection
     }()
     
-    var customButton: UIButton!
+    private lazy var switchLayoutButton: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        button.image = UIImage(systemName: "square.split.2x1.fill")
+        button.action = #selector(switchLayout)
+        return button
+    }()
+    
+    private lazy var infoButton: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        button.image = UIImage(systemName: "camera")
+        button.action = #selector(showInfo)
+        return button
+    }()
+    
     
     let viewModel = FeedViewModel()
     var isInFourSquaresState: Bool = true
@@ -39,6 +52,7 @@ final class FeedController: UIViewController {
         setConstraints()
         bindViewModel()
         configureTitle()
+        configureNavButtons()
     }
     
     private func setConstraints() {
@@ -58,9 +72,21 @@ extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if viewModel.isLayoutChanged == false {
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "DoubleHorizontalCell", for: indexPath) as! DoubleHorizontalCell
+            cell.configure(data: viewModel.photoList[indexPath.row].urls?.regular ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
+            cell.callback = {
+                self.collection.collectionViewLayout.invalidateLayout()
+            }
+            return cell
+    } else {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "DoubleHorizontalCell", for: indexPath) as! DoubleHorizontalCell
-        cell.configure(data: viewModel.photoList[indexPath.row].urls?.regular ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
+        cell.configure(data: viewModel.photoList[indexPath.row].urls?.small ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
+        cell.callback = {
+            self.collection.collectionViewLayout.invalidateLayout()
+        }
         return cell
+    }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -117,19 +143,36 @@ extension FeedController {
     
     func configureTitle() {
         navigationController?.navigationBar.titleTextAttributes = [
-                .font: UIFont.boldSystemFont(ofSize: 18)
-            ]
+            .font: UIFont(name: "impact", size: 18) ?? UIFont()
+        ]
         
         navigationItem.title = "Photography"
     }
     
-    func configureRightButton() {
-        let shareButton: UIBarButtonItem = {
-            let button = UIBarButtonItem()
-            button.image = UIImage(systemName: "square.and.arrow.up")
-            button.target = self
-//            button.action = #selector()
-            return button
-        }()
+    func configureNavButtons() {
+        switchLayoutButton.target = self
+        navigationItem.rightBarButtonItem = switchLayoutButton
+        infoButton.target = self
+        navigationItem.leftBarButtonItem = infoButton
+        
+    }
+    
+    //MARK: - MavButton Actions
+    
+    @objc private func switchLayout() {
+        if viewModel.isLayoutChanged == false {
+            viewModel.isLayoutChanged = true
+            switchLayoutButton.image = UIImage(systemName: "square.split.2x2.fill")
+            collection.reloadData()
+        } else {
+            viewModel.isLayoutChanged = false
+            switchLayoutButton.image = UIImage(systemName: "square.split.2x1.fill")
+            collection.reloadData()
+        }
+    }
+    
+    @objc private func showInfo() {
+        let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
+        coordinator.showInfoController()
     }
 }

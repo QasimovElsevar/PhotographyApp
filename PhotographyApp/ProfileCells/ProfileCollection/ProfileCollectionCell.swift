@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileCollectionCell: UICollectionViewCell {
+final class ProfileCollectionCell: UICollectionViewCell {
     private lazy var collection: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: ProfileCollectionLayout.profileCell())
         collection.delegate = self

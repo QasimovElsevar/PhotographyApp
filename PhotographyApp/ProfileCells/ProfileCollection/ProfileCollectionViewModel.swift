@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ProfileCollectionViewModel {
+final class ProfileCollectionViewModel {
     let selections: [ProfileSelections] = [.photos, .likes, .collections]
     
 }

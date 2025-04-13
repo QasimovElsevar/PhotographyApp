@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RegisterViewModel {
+final class RegisterViewModel {
     
     let builder = UserBuilder()
     

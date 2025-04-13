@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class PhotoSubmitCoordinator: Coordinator {
+final class PhotoSubmitCoordinator: Coordinator {
     
     var navigationController: UINavigationController
     

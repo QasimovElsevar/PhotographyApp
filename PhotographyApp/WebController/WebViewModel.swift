@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class WebViewModel {
+final class WebViewModel {
     
     let builder: UserBuilder
     var success: (() -> Void)?

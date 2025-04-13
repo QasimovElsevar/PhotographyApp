@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TopicsCell: UICollectionViewCell {
+final class TopicsCell: UICollectionViewCell {
     
     //MARK: - UI Elements
     private lazy var imageView : UIImageView = {

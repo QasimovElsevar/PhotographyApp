@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TextCell: UICollectionViewCell {
+final class TextCell: UICollectionViewCell {
     
     //MARK: - UI Elements
     

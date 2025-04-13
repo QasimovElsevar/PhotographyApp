@@ -13,7 +13,7 @@ enum Selections {
     case collections
 }
 
-class ProfileSelectionViewModel {
+final class ProfileSelectionViewModel {
     
     let selections: [Selections] = [.photos, .likes, .collections]
 }

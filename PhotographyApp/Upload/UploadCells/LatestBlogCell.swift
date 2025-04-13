@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LatestBlogCell: UICollectionViewCell {
+final class LatestBlogCell: UICollectionViewCell {
     private lazy var imageView : UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill

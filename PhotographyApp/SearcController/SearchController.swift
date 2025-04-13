@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchController: UIViewController {
+final class SearchController: UIViewController {
     
     //  MARK: -UI Elements
 

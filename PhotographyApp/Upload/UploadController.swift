@@ -8,7 +8,7 @@
 import UIKit
 import PhotosUI
 
-class UploadController: UIViewController {
+final class UploadController: UIViewController {
 
     //  MARK: -UI Elements
 

@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class WebController: UIViewController, WKUIDelegate {
+final class WebController: UIViewController, WKUIDelegate {
 
     //MARK: -UI Elements
     

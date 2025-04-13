@@ -18,7 +18,7 @@ enum SettingsOptions: String {
     case account = "Account"
 }
 
-class SettingsViewModel {
+final class SettingsViewModel {
     let section: [SettingsSections] = [.profile, .menu]
     let options: [SettingsOptions] = [.profileediting, .changePassword, .account]
     

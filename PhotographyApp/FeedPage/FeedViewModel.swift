@@ -7,11 +7,12 @@
 
 import UIKit
 
-class FeedViewModel {
+final class FeedViewModel {
     
     var coordinator: MainCoordinator?
     var photoList: [Photos] = []
     var userData: UserModel?
+    var isLayoutChanged = false
     var page = 1
     
     let manager = FeedManager()
@@ -34,7 +35,11 @@ class FeedViewModel {
     
     func createLayaout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
-            LayoutClass.createHorizontalDoubleCell()
+            if self.isLayoutChanged == false {
+                ProfileCellLayout.profileCollection()
+            } else {
+                LayoutClass.createHorizontalDoubleCell()
+            }
         }
     }
     

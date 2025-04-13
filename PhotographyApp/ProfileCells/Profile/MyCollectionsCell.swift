@@ -7,6 +7,6 @@
 
 import UIKit
 
-class MyCollectionsCell: UICollectionViewCell {
+final class MyCollectionsCell: UICollectionViewCell {
     
 }

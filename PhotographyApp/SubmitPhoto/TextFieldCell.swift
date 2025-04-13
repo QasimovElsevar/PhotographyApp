@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TextFieldCell: UICollectionViewCell {
+final class TextFieldCell: UICollectionViewCell {
 
     let textView: UITextView = {
         let textView = UITextView()

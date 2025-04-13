@@ -9,7 +9,7 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestore
 
-class FirestoreManager {
+final class FirestoreManager {
     
     static let shared = FirestoreManager()
     

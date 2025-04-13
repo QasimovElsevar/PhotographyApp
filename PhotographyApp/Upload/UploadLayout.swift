@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class UploadLayout {
+final class UploadLayout {
     
     static func createUploadCell() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))

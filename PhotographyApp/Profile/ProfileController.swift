@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileController: UIViewController {
+final class ProfileController: UIViewController {
     
     //MARK: - UI Elements
     
@@ -44,7 +44,7 @@ class ProfileController: UIViewController {
         super.viewDidLoad()
         configureUI()
         FireBaseManager.shared.printCurrentUser()
-        getData()
+        viewModel.getUserData()
     }
     
     //MARK: - UI Configuration
@@ -150,17 +150,6 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
 extension ProfileController {
     
     //MARK: - Data
-    func getData() {
-        viewModel.getUserData()
-        
-        viewModel.completion = { error in
-            print(error)
-        }
-        
-        viewModel.success = {
-//            print("success: \(self.viewModel.userData?.firstName ?? "")")
-        }
-    }
     
     private func bindViewModel() {
         viewModel.stateUpdate = { [weak self] state in
@@ -174,8 +163,8 @@ extension ProfileController {
                     loadingView.stopAnimating()
                 case .success:
                     collection.reloadData()
-                case .error:
-                    print("error")
+                case .error(let error):
+                    print(error)
                 case .idle:
                     break
                 }

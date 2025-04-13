@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileSelectionCell: UICollectionViewCell {
+final class ProfileSelectionCell: UICollectionViewCell {
     
     //MARK: - UI Elements
     

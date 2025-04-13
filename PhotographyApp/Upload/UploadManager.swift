@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UploadManager: UploadUserCase {
+final class UploadManager: UploadUserCase {
     
     let networkManager = NetworkManager()
     

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class PhotoSubmitLayout {
+final class PhotoSubmitLayout {
     
     static func selectionCell(height: CGFloat) -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(200)))

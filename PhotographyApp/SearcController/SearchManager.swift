@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SearchManager: SearchUserCase {
+final class SearchManager: SearchUserCase {
     
     let manager = NetworkManager()
     

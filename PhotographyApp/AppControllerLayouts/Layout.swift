@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class LayoutClass {
+final class LayoutClass {
     static func createVerticalDoubleCell(groupWidth: CGFloat) -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5)))
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)

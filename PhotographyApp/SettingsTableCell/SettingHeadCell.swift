@@ -7,13 +7,14 @@
 
 import UIKit
 
-class SettingHeadCell: UITableViewCell {
+final class SettingHeadCell: UITableViewCell {
 
     private lazy var image: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.image = UIImage(systemName: "person.fill")
-        image.backgroundColor = .gray
+        image.backgroundColor = .selectionView
+        image.tintColor = .white
         image.clipsToBounds = true
         image.layer.cornerRadius = 40
         image.contentMode = .scaleAspectFill
@@ -64,5 +65,10 @@ class SettingHeadCell: UITableViewCell {
             label.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 8),
             label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
+    }
+    
+    func configure(imageName: String, text: String) {
+        self.image.image = UIImage(systemName: imageName)
+        label.text = text
     }
 }

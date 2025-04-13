@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ProfileCell: UICollectionViewCell {
+final class ProfileCell: UICollectionViewCell {
+    
+    //MARK: - UI Elements
     
     private lazy var imageView : UIImageView = {
         let image = UIImageView()
@@ -30,6 +32,8 @@ class ProfileCell: UICollectionViewCell {
         return label
     }()
     
+    //MARK: - Lifcycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -39,14 +43,21 @@ class ProfileCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: UI Configure
+    
     func configureUI() {
-        [
-            label,
-            imageView
-        ].forEach( {addSubview($0)} )
-        
         backgroundColor = .profile
-        
+        addSubviews()
+        setConstraints()
+    }
+    
+    private func addSubviews() {
+        [label,
+        imageView
+        ].forEach( {addSubview($0)} )
+    }
+    
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24),
             label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
@@ -55,10 +66,10 @@ class ProfileCell: UICollectionViewCell {
             imageView.heightAnchor.constraint(equalToConstant: 80),
             imageView.bottomAnchor.constraint(equalTo: label.topAnchor, constant: -8),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-//            imageView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     
+    //MARK: - Cell Data
     func configure(firstName: String, lastName: String) {
         label.text = "\(firstName) \(lastName)"
     }

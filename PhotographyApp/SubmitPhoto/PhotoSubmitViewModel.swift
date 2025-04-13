@@ -18,7 +18,7 @@ enum PhotoSubmitSections {
     case tagsText
 }
 
-class PhotoSubmitViewModel {
+final class PhotoSubmitViewModel {
     
     let sections: [PhotoSubmitSections] = [.selectedPhotos, .descriptionText, .description, .locationText, .location, .tagsText, .tags]
     

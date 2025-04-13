@@ -17,7 +17,7 @@ enum Sections {
     case blog
 }
 
-class UploadViewModel {
+final class UploadViewModel {
     
     // Sections
     var coordinator: MainCoordinator?

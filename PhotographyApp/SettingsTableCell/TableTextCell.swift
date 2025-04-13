@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TableTextCell: UITableViewCell {
+final class TableTextCell: UITableViewCell {
 
     private lazy var label : UILabel = {
         let label = UILabel()

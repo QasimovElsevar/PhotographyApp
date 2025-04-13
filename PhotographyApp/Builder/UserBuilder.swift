@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UserBuilder {
+final class UserBuilder {
     private var firstname: String?
     private var lastname: String?
     private var username: String?

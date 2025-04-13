@@ -7,7 +7,8 @@
 
 import Foundation
 import UIKit
-class ProfileCollectionLayout {
+
+final class ProfileCollectionLayout {
     
     static func profileCell() -> UICollectionViewCompositionalLayout {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))

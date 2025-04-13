@@ -8,7 +8,7 @@
 import UIKit
 import PhotosUI
 
-class UploadCell: UICollectionViewCell {
+final class UploadCell: UICollectionViewCell {
     
     //MARK: - UI Elements
     

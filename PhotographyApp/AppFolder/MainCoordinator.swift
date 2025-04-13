@@ -32,6 +32,12 @@ final class MainCoordinator: MainNavigation {
         navigationController.show(controller, sender: nil)
     }
     
+    func showInfoController() {
+        let controller = InfoController()
+        let searchNav = UINavigationController(rootViewController: controller)
+        navigationController.present(searchNav, animated: true)
+    }
+    
     func showSearchController() {
         let controller = SearchController()
         navigationController.show(controller, sender: nil)

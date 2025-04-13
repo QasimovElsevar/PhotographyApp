@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DoubleHorizontalCell: UICollectionViewCell {
+final class DoubleHorizontalCell: UICollectionViewCell {
     
     //MARK: - UI Elements
     
@@ -30,6 +30,8 @@ class DoubleHorizontalCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    var callback: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,5 +64,6 @@ class DoubleHorizontalCell: UICollectionViewCell {
     func configure(data: String, text: String) {
         imageView.loadImage(url: data)
         label.text = text
+        callback?()
     }
 }

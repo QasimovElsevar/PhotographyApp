@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegisterController: UIViewController {
+final class RegisterController: UIViewController {
 
     // MARK: - UI Elements
         

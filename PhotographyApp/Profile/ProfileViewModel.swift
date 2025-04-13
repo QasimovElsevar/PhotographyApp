@@ -19,23 +19,24 @@ enum ProfileSelections {
     case collections
 }
 
-class ProfileViewModel {
+final class ProfileViewModel {
+    
+    //MARK: - Properies
+    
     var coordinator: MainCoordinator?
-    let sections: [sections] = [.profile, .selection, .collection]
-    let selections: [ProfileSelections] = [.photos, .likes, .collections]
+    var index = 0
+    var userData: UserModel?
+    
+    //MARK: - States
     
     enum ViewState {
         case loading
         case loaded
         case success
-        case error
+        case error(String)
         case idle
     }
-    
-    var index = 0
-    var userData: UserModel?
-    var completion: ((String) -> Void)?
-    var success: (() -> Void)?
+
     var stateUpdate: ((ViewState) -> Void)?
     
     var state: ViewState = .idle {
@@ -43,7 +44,12 @@ class ProfileViewModel {
             stateUpdate?(state)
         }
     }
-
+    
+    //MARK: - Collecrtion Layout
+    
+    let sections: [sections] = [.profile, .selection, .collection]
+    let selections: [ProfileSelections] = [.photos, .likes, .collections]
+    
     func createLayaout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             switch self.sections[sectionNumber] {
@@ -81,13 +87,15 @@ class ProfileViewModel {
         }
     }
     
+    //MARK: - Data
+    
     func getUserData() {
         state = .loading
         FirestoreManager.shared.getUserData { [weak self] data, error in
             guard let self else {return}
             
             if let error = error {
-                completion?(error)
+                state = .error(error)
             } else {
                 userData = data
                 UserDefaults.standard.set(data?.accessKey, forKey: "key")
