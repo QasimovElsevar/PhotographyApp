@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol MainNavigation {
+protocol Coordinator {
     func start ()
    // func showFeedController()
     func showSearchController()
@@ -17,8 +17,8 @@ protocol MainNavigation {
     func showProfileController()
 }
 
-protocol Coordinator {
-    var navigationController: UINavigationController {get}
-    
-    func start()
-}
+//protocol Coordinator {
+//    var navigationController: UINavigationController {get}
+//    
+//    func start()
+//}

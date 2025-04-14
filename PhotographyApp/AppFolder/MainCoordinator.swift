@@ -7,14 +7,16 @@
 
 import UIKit
 
-final class MainCoordinator: MainNavigation {
+final class MainCoordinator: Coordinator {
     
     var navigationController: UINavigationController
     var window: UIWindow?
 
+    var photoId: String?
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController/*, photoId: Int*/) {
         self.navigationController = navigationController
+//        self.photoId = photoId
     }
     
     private func setupTabBarController() {
@@ -36,6 +38,11 @@ final class MainCoordinator: MainNavigation {
         let controller = InfoController()
         let searchNav = UINavigationController(rootViewController: controller)
         navigationController.present(searchNav, animated: true)
+    }
+    
+    func showImageController() {
+        let controller = ImageController(viewModel: .init(photoId: photoId ?? ""))
+        navigationController.show(controller, sender: nil)
     }
     
     func showSearchController() {

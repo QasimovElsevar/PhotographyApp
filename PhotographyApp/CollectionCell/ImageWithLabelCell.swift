@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DoubleHorizontalCell: UICollectionViewCell {
+final class ImageWithLabelCell: UICollectionViewCell {
     
     //MARK: - UI Elements
     
@@ -16,7 +16,6 @@ final class DoubleHorizontalCell: UICollectionViewCell {
         image.image = UIImage(systemName: "photo")
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()

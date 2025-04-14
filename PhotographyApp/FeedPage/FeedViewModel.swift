@@ -9,6 +9,8 @@ import UIKit
 
 final class FeedViewModel {
     
+    //MARK: - Properties
+    
     var coordinator: MainCoordinator?
     var photoList: [Photos] = []
     var userData: UserModel?
@@ -17,6 +19,7 @@ final class FeedViewModel {
     
     let manager = FeedManager()
     
+    //MARK: - State
     enum ViewState {
         case loading
         case loaded
@@ -33,7 +36,9 @@ final class FeedViewModel {
         }
     }
     
-    func createLayaout() -> UICollectionViewCompositionalLayout {
+    //MARK: - Collection Layout
+    
+    func createLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             if self.isLayoutChanged == false {
                 ProfileCellLayout.profileCollection()
@@ -42,6 +47,8 @@ final class FeedViewModel {
             }
         }
     }
+    
+    //MARK: - Data
     
     func getList() async {
         do {

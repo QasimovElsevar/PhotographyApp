@@ -1,0 +1,111 @@
+//
+//  ImageViewModel.swift
+//  PhotographyApp
+//
+//  Created by Elsever on 14.04.25.
+//
+
+import UIKit
+
+enum PhotoSections {
+    case mainPhoto
+    case relatedPhotos
+}
+
+class ImageViewModel {
+    
+    //MARK: Properties
+    
+    let manager = ImageManager()
+    
+    let sections: [PhotoSections] = [.mainPhoto, .relatedPhotos]
+    var photoId: String
+    var photoArray = [Photos]()
+    var photo: PhotoDetails?
+    
+    init(photoId: String) {
+        self.photoId = photoId
+    }
+    
+    //MARK: - State
+    
+    enum ViewState {
+        case loading
+        case loaded
+        case success
+        case error(String)
+        case idle
+    }
+    
+    var stateUpdate: ((ViewState) -> Void)?
+    
+    var state: ViewState = .idle {
+        didSet {
+            stateUpdate?(state)
+        }
+    }
+    
+    //MARK: collection Layout
+    
+    func createLayout() -> UICollectionViewCompositionalLayout {
+        UICollectionViewCompositionalLayout { sectionNumber, environment in
+            switch self.sections[sectionNumber] {
+            case .mainPhoto:
+                ProfileCellLayout.profileCollection()
+            case .relatedPhotos:
+                LayoutClass.createHorizontalDoubleCell()
+            }
+
+        }
+    }
+    
+    func numberOfItems(sections: Int) -> Int {
+        switch self.sections[sections] {
+        case .mainPhoto:
+            1
+        case .relatedPhotos:
+            photoArray.count
+        }
+    }
+    
+    //MARK: Data
+    
+    func getPhoto() async  {
+        do {
+            let photo =  try await manager.getPhoto(id: photoId)
+//            let photoArrayFirstTag = try await manager.getRelatedPhotos(query: photo.tags?[0].title ?? "")
+//            let photoArraySecondTag = try await manager.getRelatedPhotos(query: photo.tags?[1].title ?? "")
+//            let photoArrayThirdTag = try await manager.getRelatedPhotos(query: photo.tags?[2].title ?? "")
+            Task {
+                self.photo = photo
+                photoArray.shuffle()
+                state = .success
+                await getRelatedPhotos()
+            }
+        } catch {
+            Task {
+                state = .error(error.localizedDescription)
+            }
+        }
+    }
+    
+    func getRelatedPhotos() async {
+        do {
+            let photoArrayFirstTag = try await manager.getRelatedPhotos(query: photo?.tags?[0].title ?? "")
+            let photoArraySecondTag = try await manager.getRelatedPhotos(query: photo?.tags?[1].title ?? "")
+            let photoArrayThirdTag = try await manager.getRelatedPhotos(query: photo?.tags?[2].title ?? "")
+            Task {
+                print("id \(photoArrayFirstTag[1].id)")
+                photoArray.append(contentsOf: photoArrayFirstTag)
+                photoArray.append(contentsOf: photoArraySecondTag)
+                photoArray.append(contentsOf: photoArrayThirdTag)
+                photoArray.shuffle()
+                state = .success
+            }
+        } catch {
+            Task {
+                state = .error(error.localizedDescription)
+            }
+        }
+    }
+}

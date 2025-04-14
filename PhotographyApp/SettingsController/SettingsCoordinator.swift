@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class SettingsCoordinator: Coordinator {
+final class SettingsCoordinator: Coordinator2 {
     var navigationController: UINavigationController
     
     init(navigationController: UINavigationController) {

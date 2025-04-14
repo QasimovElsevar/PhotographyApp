@@ -22,8 +22,8 @@ struct Photos: Codable {
     let likes: Int?
     let likedByUser: Bool?
     let currentUserCollections: [JSONAny]?
-    let sponsorship: JSONNull?
-    let topicSubmissions: TopicSubmissions?
+    let sponsorship: Sponsorship?
+//    let topicSubmissions: TopicSubmissions?
     let assetType: AssetTypeElement?
     let user: User?
 
@@ -41,8 +41,40 @@ struct Photos: Codable {
         case likedByUser = "liked_by_user"
         case currentUserCollections = "current_user_collections"
         case sponsorship
-        case topicSubmissions = "topic_submissions"
+//        case topicSubmissions = "topic_submissions"
         case assetType = "asset_type"
         case user
     }
 }
+
+// MARK: - Sponsorship
+struct Sponsorship: Codable {
+    let impressionUrls: [JSONAny]?
+    let tagline: String?
+    let taglineURL: String?
+    let sponsor: User?
+
+    enum CodingKeys: String, CodingKey {
+        case impressionUrls = "impression_urls"
+        case tagline
+        case taglineURL = "tagline_url"
+        case sponsor
+    }
+}
+
+// MARK: - TopicSubmissions
+//struct TopicSubmissions: Codable {
+//    let foodDrink: FoodDrink?
+//    let travel, wallpapers, the3DRenders, architectureInterior: The3_DRenders?
+//    let nature: FoodDrink?
+//    let film, streetPhotography: The3_DRenders?
+//
+//    enum CodingKeys: String, CodingKey {
+//        case foodDrink = "food-drink"
+//        case travel, wallpapers
+//        case the3DRenders = "3d-renders"
+//        case architectureInterior = "architecture-interior"
+//        case nature, film
+//        case streetPhotography = "street-photography"
+//    }
+//}

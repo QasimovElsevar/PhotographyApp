@@ -12,11 +12,11 @@ final class FeedController: UIViewController {
     //MARK: - UI Elemenets
     
     private lazy var collection: UICollectionView = {
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayaout())
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayout())
         collection.delegate = self
         collection.dataSource = self
         collection.backgroundColor = .clear
-        collection.register(DoubleHorizontalCell.self, forCellWithReuseIdentifier: "DoubleHorizontalCell")
+        collection.register(ImageWithLabelCell.self, forCellWithReuseIdentifier: "ImageWithLabelCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
@@ -73,14 +73,14 @@ extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if viewModel.isLayoutChanged == false {
-            let cell = collection.dequeueReusableCell(withReuseIdentifier: "DoubleHorizontalCell", for: indexPath) as! DoubleHorizontalCell
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
             cell.configure(data: viewModel.photoList[indexPath.row].urls?.regular ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
             cell.callback = {
                 self.collection.collectionViewLayout.invalidateLayout()
             }
             return cell
     } else {
-        let cell = collection.dequeueReusableCell(withReuseIdentifier: "DoubleHorizontalCell", for: indexPath) as! DoubleHorizontalCell
+        let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
         cell.configure(data: viewModel.photoList[indexPath.row].urls?.small ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
         cell.callback = {
             self.collection.collectionViewLayout.invalidateLayout()
@@ -99,6 +99,12 @@ extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource {
                await viewModel.getList()
             }
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
+        coordinator.photoId = viewModel.photoList[indexPath.row].id
+        coordinator.showImageController()
     }
 }
 

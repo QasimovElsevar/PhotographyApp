@@ -50,12 +50,13 @@ struct Topics: Codable {
 
 // MARK: - TopicSubmissions
 struct TopicSubmissions: Codable {
-    let wallpapers, nature, blackAndWhite: The3_DRenders?
-    let monochromatic: Monochromatic?
-    let texturesPatterns, the3DRenders, architectureInterior, travel: The3_DRenders?
-    let film, streetPhotography, people, animals: The3_DRenders?
+    let foodDrink: FoodDrink?
+       let travel, wallpapers,nature, blackAndWhite, texturesPatterns,the3DRenders, architectureInterior: The3_DRenders?
+       let monochromatic: Monochromatic?
+       let film, streetPhotography, people, animals: The3_DRenders?
 
     enum CodingKeys: String, CodingKey {
+        case foodDrink = "food-drink"
         case wallpapers, nature
         case blackAndWhite = "black-and-white"
         case monochromatic
@@ -66,6 +67,17 @@ struct TopicSubmissions: Codable {
         case streetPhotography = "street-photography"
         case people, animals
     }
+}
+
+// MARK: - FoodDrink
+struct FoodDrink: Codable {
+    let status: Status?
+}
+
+enum Status: String, Codable {
+    case approved = "approved"
+    case rejected = "rejected"
+    case unevaluated = "unevaluated"
 }
 
 // MARK: - The3_DRenders

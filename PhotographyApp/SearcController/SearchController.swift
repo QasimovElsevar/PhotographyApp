@@ -18,7 +18,7 @@ final class SearchController: UIViewController {
         collection.backgroundColor = .clear
         collection.register(TextCell.self, forCellWithReuseIdentifier: "TextCell")
         collection.register(TopicsCell.self, forCellWithReuseIdentifier: "TopicsCell")
-        collection.register(DoubleHorizontalCell.self, forCellWithReuseIdentifier: "DoubleHorizontalCell")
+        collection.register(ImageWithLabelCell.self, forCellWithReuseIdentifier: "ImageWithLabelCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
@@ -102,8 +102,8 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             cell.configure(text: "Discover", textSize: 20)
             return cell
         case .discover:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DoubleHorizontalCell", for: indexPath) as! DoubleHorizontalCell
-            cell.configure(data: viewModel.photoList[indexPath.row].urls?.regular ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
+//            cell.configure(data: viewModel.photoList[indexPath.row].urls?.regular ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
             return cell
         }
     }
