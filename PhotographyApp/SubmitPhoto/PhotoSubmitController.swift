@@ -34,7 +34,7 @@ final class PhotoSubmitController: UIViewController {
     }
     
     private func configureUI() {
-        view.backgroundColor = .clear
+        view.backgroundColor = .myBackground
         view.addSubview(collection)
         setConstraints()
         navigationBarConfigure()

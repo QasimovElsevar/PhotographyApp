@@ -64,4 +64,9 @@ final class MainCoordinator: Coordinator {
         let controller = ProfileController()
         navigationController.show(controller, sender: nil)
     }
+    
+    func showSubmitController() {
+        let controller = PhotoSubmitController()
+        navigationController.show(controller, sender: nil)
+    }
 }

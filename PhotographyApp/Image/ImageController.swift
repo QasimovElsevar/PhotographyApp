@@ -126,7 +126,7 @@ extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource 
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        imageView.alpha = 1 - scrollView.contentOffset.y / view.frame.height
+        imageView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
     }
 }
 

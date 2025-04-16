@@ -52,9 +52,9 @@ final class UploadViewModel {
             case .image:
                 UploadLayout.createUploadCell()
             case .topicText, .blogText, .contributionText:
-                LayoutClass.createTextCell()
+                UploadLayout.CreateTextSizeLayout()
             case .topics:
-                LayoutClass.createVerticalDoubleCell(groupWidth: 0.4)
+                UploadLayout.createVerticalDoubleCell()
             case .blog:
                 UploadLayout.createLatestFromBlogCell()
             }

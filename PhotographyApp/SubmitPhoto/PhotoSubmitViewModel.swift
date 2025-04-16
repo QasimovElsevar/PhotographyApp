@@ -28,15 +28,15 @@ final class PhotoSubmitViewModel {
             case .selectedPhotos:
                 return PhotoSubmitLayout.selectionCell(height: 250)
             case .descriptionText:
-                return LayoutClass.createTextCell()
+                return PhotoSubmitLayout.CreateTextSizeLayout()
             case .description:
                 return PhotoSubmitLayout.selectionCell(height: 150)
             case .locationText:
-                return LayoutClass.createTextCell()
+                return PhotoSubmitLayout.CreateTextSizeLayout()
             case .location:
                 return PhotoSubmitLayout.selectionCell(height: 45)
             case .tagsText:
-                return LayoutClass.createTextCell()
+                return PhotoSubmitLayout.CreateTextSizeLayout()
             case .tags:
                 return PhotoSubmitLayout.selectionCell(height: 45)
             }

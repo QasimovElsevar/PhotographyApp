@@ -33,6 +33,17 @@ final class UploadController: UIViewController {
         return loadingView
     }()
     
+    private lazy var pickerViewController: PHPickerViewController = {
+        var config = PHPickerConfiguration()
+        config.selectionLimit = 9
+        let picker = PHPickerViewController(configuration: config)
+//        picker.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
+        picker.delegate = self
+        picker.modalPresentationStyle = .fullScreen
+        return picker
+    }()
+
+    
     //MARK: - Properties
     
     let viewModel = UploadViewModel()
@@ -113,28 +124,36 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if viewModel.sections[indexPath.section] == .image {
-            var config = PHPickerConfiguration()
-            config.selectionLimit = 9
-            
-            let picker = PHPickerViewController(configuration: config)
-            picker.delegate = self
-            picker.modalPresentationStyle = .fullScreen
-            present(picker, animated: true)
+//            var config = PHPickerConfiguration()
+//            config.selectionLimit = 9
+//            
+//            let picker = PHPickerViewController(configuration: config)
+//            picker.delegate = self
+//            picker.modalPresentationStyle = .fullScreen
+//            pickerViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismiss))
+            present(pickerViewController, animated: true)
         }
     }
-    
-    
 }
 
 extension UploadController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        dismiss(animated: true) {
-            let coordinator = PhotoSubmitCoordinator(navigationController: self.navigationController ?? UINavigationController())
-            coordinator.start()
+        if let selectedImage = results.first?.itemProvider {
+            dismiss(animated: true) {
+                selectedImage.registeredTypeIdentifiers.forEach { print($0) }
+                let coordinator = MainCoordinator(navigationController: self.navigationController ?? UINavigationController())
+                coordinator.showSubmitController()
+            }
         }
-       
-//        let controller = PhotoSubmitController()
-//        navigationController?.show(controller, sender: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage {
+            dismiss(animated: true) {
+                let coordinator = MainCoordinator(navigationController: self.navigationController ?? UINavigationController())
+                coordinator.showSubmitController()
+            }
+        }
     }
 }
 
@@ -172,5 +191,11 @@ extension UploadController {
                 
             }
         }
+    }
+}
+
+extension UploadController {
+    @objc private func handleAdd() {
+       
     }
 }
