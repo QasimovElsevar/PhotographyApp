@@ -41,9 +41,9 @@ final class FeedViewModel {
     func createLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             if self.isLayoutChanged == false {
-                ProfileCellLayout.profileCollection()
+                FeedLayout.profileCollection()
             } else {
-                LayoutClass.createHorizontalDoubleCell()
+                FeedLayout.createHorizontalDoubleCell()
             }
         }
     }

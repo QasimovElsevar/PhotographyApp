@@ -24,7 +24,7 @@ final class ImageWithLabelCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .white
         label.font = .systemFont(ofSize: 12, weight: .bold)
-        label.text = "Abraaakadabraa"
+        label.text = "imageWithLabel"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

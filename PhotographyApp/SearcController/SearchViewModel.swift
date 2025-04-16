@@ -47,13 +47,13 @@ class SearchViewModel {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             switch self.sections[sectionNumber] {
             case .browseText:
-                LayoutClass.createTextCell()
+                SearchLayout.CreateTextSizeLayout()
             case .browse:
-                LayoutClass.createVerticalDoubleCell(groupWidth: 0.3)
+                SearchLayout.createVerticalDoubleCell()
             case .discoverText:
-                LayoutClass.createTextCell()
+                SearchLayout.CreateTextSizeLayout()
             case .discover:
-                LayoutClass.createHorizontalDoubleCell()
+                SearchLayout.createHorizontalDoubleCell()
             }
         }
     }

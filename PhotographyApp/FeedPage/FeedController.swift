@@ -75,16 +75,16 @@ extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource {
         if viewModel.isLayoutChanged == false {
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
             cell.configure(data: viewModel.photoList[indexPath.row].urls?.regular ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
-            cell.callback = {
-                self.collection.collectionViewLayout.invalidateLayout()
-            }
+//            cell.callback = {
+//                self.collection.collectionViewLayout.invalidateLayout()
+//            }
             return cell
     } else {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
         cell.configure(data: viewModel.photoList[indexPath.row].urls?.small ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
-        cell.callback = {
-            self.collection.collectionViewLayout.invalidateLayout()
-        }
+//        cell.callback = {
+//            self.collection.collectionViewLayout.invalidateLayout()
+//        }
         return cell
     }
     }

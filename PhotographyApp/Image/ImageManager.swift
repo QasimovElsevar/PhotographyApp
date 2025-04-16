@@ -13,9 +13,9 @@ class ImageManager: ImageUserCase {
         return try await NetworkManager.shared.request(endPoint: path, model: PhotoDetails.self)
     }
     
-    func getRelatedPhotos(query: String) async throws -> [Photos] {
+    func getRelatedPhotos(query: String) async throws -> Search {
         let path = SearchEndPoints.searchPhoto(query).path
-        return try await NetworkManager.shared.request(endPoint: path, model: [Photos].self)
+        return try await NetworkManager.shared.request(endPoint: path, model: Search.self)
     }
     
     

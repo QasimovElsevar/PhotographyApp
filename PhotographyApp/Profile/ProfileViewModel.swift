@@ -60,7 +60,7 @@ final class ProfileViewModel {
             case .collection:
                 switch self.selections[self.index] {
                 case .photos:
-                    LayoutClass.createHorizontalDoubleCell()
+                    ProfileCellLayout.createHorizontalDoubleCell()
                 case .likes:
                     ProfileCellLayout.profileCollection()
                 case .collections:

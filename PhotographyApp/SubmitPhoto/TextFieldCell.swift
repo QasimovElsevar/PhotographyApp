@@ -68,19 +68,20 @@ final class TextFieldCell: UICollectionViewCell {
 extension TextFieldCell: UITextViewDelegate {
 
     internal func textViewDidBeginEditing(_ textView: UITextView) {
-        placeholderLabel.isHidden = true
+//        placeholderLabel.isHidden = true
         }
 
         // If empty after editing, reapply placeholder
     internal func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text == "" {
-            placeholderLabel.isHidden = false
-        }
+//        if textView.text == "" {
+//            placeholderLabel.isHidden = false
+//        }
         }
     
     func textViewDidChange(_ textView: UITextView) {
-            let size = textView.sizeThatFits(CGSize(width: textView.frame.width, height: CGFloat.greatestFiniteMagnitude))
-            textView.heightAnchor.constraint(equalToConstant: size.height).isActive = true
-        callback?()
+        placeholderLabel.isHidden = !textView.text.isEmpty
+//            let size = textView.sizeThatFits(CGSize(width: textView.frame.width, height: CGFloat.greatestFiniteMagnitude))
+//            textView.heightAnchor.constraint(equalToConstant: size.height).isActive = true
+//        callback?()
         }
 }

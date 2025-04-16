@@ -10,5 +10,5 @@ import Foundation
 protocol ImageUserCase {
     func getPhoto(id: String) async throws -> PhotoDetails
     
-    func getRelatedPhotos(query: String) async throws -> [Photos]
+    func getRelatedPhotos(query: String) async throws -> Search
 }

@@ -18,8 +18,8 @@ final class ProfileController: UIViewController {
         collection.backgroundColor = .clear
         collection.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
         collection.register(ProfileSelectionCell.self, forCellWithReuseIdentifier: "ProfileSelectionCell")
-        collection.register(ProfileCollectionCell.self, forCellWithReuseIdentifier: "ProfileCollectionCell")
-        collection.register(ProfileCollectionPhotosCell.self, forCellWithReuseIdentifier: "ProfileCollectionPhotosCell")
+//        collection.register(ProfileCollectionCell.self, forCellWithReuseIdentifier: "ProfileCollectionCell")
+        collection.register(ImageWithLabelCell.self, forCellWithReuseIdentifier: "ImageWithLabelCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
         
         return collection
@@ -124,7 +124,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             return cell
             
         case .collection:
-            let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCollectionPhotosCell", for: indexPath) as! ProfileCollectionPhotosCell
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
             cell.backgroundColor = .red
             return cell
         }

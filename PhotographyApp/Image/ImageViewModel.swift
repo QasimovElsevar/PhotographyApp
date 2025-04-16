@@ -20,7 +20,8 @@ class ImageViewModel {
     
     let sections: [PhotoSections] = [.mainPhoto, .relatedPhotos]
     var photoId: String
-    var photoArray = [Photos]()
+    var searchPhoto: Search?
+    var photoResultArray = [Result]()
     var photo: PhotoDetails?
     
     init(photoId: String) {
@@ -51,9 +52,9 @@ class ImageViewModel {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             switch self.sections[sectionNumber] {
             case .mainPhoto:
-                ProfileCellLayout.profileCollection()
+                ImageLayout.wholeScreen()
             case .relatedPhotos:
-                LayoutClass.createHorizontalDoubleCell()
+                ImageLayout.createHorizontalDoubleCell()
             }
 
         }
@@ -64,7 +65,7 @@ class ImageViewModel {
         case .mainPhoto:
             1
         case .relatedPhotos:
-            photoArray.count
+            photoResultArray.count 
         }
     }
     
@@ -78,7 +79,6 @@ class ImageViewModel {
 //            let photoArrayThirdTag = try await manager.getRelatedPhotos(query: photo.tags?[2].title ?? "")
             Task {
                 self.photo = photo
-                photoArray.shuffle()
                 state = .success
                 await getRelatedPhotos()
             }
@@ -95,11 +95,11 @@ class ImageViewModel {
             let photoArraySecondTag = try await manager.getRelatedPhotos(query: photo?.tags?[1].title ?? "")
             let photoArrayThirdTag = try await manager.getRelatedPhotos(query: photo?.tags?[2].title ?? "")
             Task {
-                print("id \(photoArrayFirstTag[1].id)")
-                photoArray.append(contentsOf: photoArrayFirstTag)
-                photoArray.append(contentsOf: photoArraySecondTag)
-                photoArray.append(contentsOf: photoArrayThirdTag)
-                photoArray.shuffle()
+//                searchPhoto = photoArrayFirstTag
+                photoResultArray.append(contentsOf: photoArrayFirstTag.results ?? [])
+                photoResultArray.append(contentsOf: photoArraySecondTag.results ?? [])
+                photoResultArray.append(contentsOf: photoArrayThirdTag.results ?? [])
+                photoResultArray.shuffle()
                 state = .success
             }
         } catch {
