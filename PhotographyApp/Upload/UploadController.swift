@@ -9,9 +9,9 @@ import UIKit
 import PhotosUI
 
 final class UploadController: UIViewController {
-
+    
     //  MARK: -UI Elements
-
+    
     private lazy var collection: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayaout())
         collection.delegate = self
@@ -20,29 +20,20 @@ final class UploadController: UIViewController {
         collection.register(UploadCell.self, forCellWithReuseIdentifier: "UploadCell")
         collection.register(TextCell.self, forCellWithReuseIdentifier: "TextCell")
         collection.register(TopicsCell.self, forCellWithReuseIdentifier: "TopicsCell")
-        collection.register(LatestBlogCell.self, forCellWithReuseIdentifier: "LatestBlogCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
-    }()
-    
-    private lazy var loadingView: UIActivityIndicatorView = {
-        let loadingView = UIActivityIndicatorView()
-        loadingView.style = .medium
-        loadingView.color = .label
-        loadingView.translatesAutoresizingMaskIntoConstraints = false
-        return loadingView
     }()
     
     private lazy var pickerViewController: PHPickerViewController = {
         var config = PHPickerConfiguration()
         config.selectionLimit = 9
         let picker = PHPickerViewController(configuration: config)
-//        picker.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
+        //        picker.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
         picker.delegate = self
         picker.modalPresentationStyle = .fullScreen
         return picker
     }()
-
+    
     
     //MARK: - Properties
     
@@ -53,7 +44,7 @@ final class UploadController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        getData()
+        viewModel.getData()
     }
     
     //MARK: - UI Configuration
@@ -67,7 +58,6 @@ final class UploadController: UIViewController {
     
     func addSubviews() {
         view.addSubview(collection)
-        view.addSubview(loadingView)
     }
     
     func setConstrains() {
@@ -76,16 +66,14 @@ final class UploadController: UIViewController {
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
-            loadingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
 
 extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    //MARK: - Collection
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.numOfCells(section: section)
     }
@@ -107,36 +95,30 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TopicsCell", for: indexPath) as! TopicsCell
             cell.configure(url: viewModel.topics?[indexPath.row].coverPhoto?.urls?.thumb ?? "", topic: viewModel.topics?[indexPath.row].title ?? "")
             return cell
-        case .blog:
-            let cell = collection.dequeueReusableCell(withReuseIdentifier: "LatestBlogCell", for: indexPath) as! LatestBlogCell
-            return cell
-        case .blogText:
-            let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
-            cell.configure(text: "Latest from the blog", textSize: 16)
-            return cell
         }
-       
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        6
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if viewModel.sections[indexPath.section] == .image {
-//            var config = PHPickerConfiguration()
-//            config.selectionLimit = 9
-//            
-//            let picker = PHPickerViewController(configuration: config)
-//            picker.delegate = self
-//            picker.modalPresentationStyle = .fullScreen
-//            pickerViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismiss))
-            present(pickerViewController, animated: true)
+        
+        func numberOfSections(in collectionView: UICollectionView) -> Int {
+            4
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            if viewModel.sections[indexPath.section] == .image {
+                //            var config = PHPickerConfiguration()
+                //            config.selectionLimit = 9
+                //
+                //            let picker = PHPickerViewController(configuration: config)
+                //            picker.delegate = self
+                //            picker.modalPresentationStyle = .fullScreen
+                //            pickerViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismiss))
+                present(pickerViewController, animated: true)
+            }
         }
     }
 }
 
 extension UploadController: PHPickerViewControllerDelegate {
+    
+    //MARK: - Picker
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         if let selectedImage = results.first?.itemProvider {
             dismiss(animated: true) {
@@ -158,44 +140,23 @@ extension UploadController: PHPickerViewControllerDelegate {
 }
 
 extension UploadController {
-    func getData() {
-        viewModel.getData()
-        
-        viewModel.failure = { error in
-            print(error)
-        }
-        
-        viewModel.success = {
-            self.collection.reloadData()
-            print("got it")
-        }
-    }
-    
     private func bindViewModel() {
         viewModel.stateUpdate = { [weak self] state in
             
             DispatchQueue.main.async { [weak self] in
                 guard let self else {return}
                 switch state {
-                case .loading:
-                    loadingView.startAnimating()
-                case  .loaded:
-                    loadingView.stopAnimating()
                 case .success:
                     print("success")
+                    collection.reloadData()
                 case .error:
                     print("error")
                 case .idle:
                     break
                 }
-                
             }
         }
     }
 }
 
-extension UploadController {
-    @objc private func handleAdd() {
-       
-    }
-}
+

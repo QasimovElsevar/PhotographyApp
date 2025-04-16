@@ -13,21 +13,17 @@ enum Sections {
     case image
     case topicText
     case topics
-    case blogText
-    case blog
 }
 
 final class UploadViewModel {
     
     // Sections
     var coordinator: MainCoordinator?
-    let sections: [Sections] = [.contributionText, .image, .topicText, .topics, .blogText, .blog]
+    let sections: [Sections] = [.contributionText, .image, .topicText, .topics]
     
     enum ViewState {
-        case loading
-        case loaded
         case success
-        case error
+        case error(String)
         case idle
     }
     
@@ -35,8 +31,6 @@ final class UploadViewModel {
     let manager = UploadManager()
     var topics: [Topics]?
     
-    var success: (() -> Void)?
-    var failure: ((String) -> Void)?
     var stateUpdate: ((ViewState) -> Void)?
     
     var state: ViewState = .idle {
@@ -51,40 +45,33 @@ final class UploadViewModel {
             switch self.sections[sectionNumber] {
             case .image:
                 UploadLayout.createUploadCell()
-            case .topicText, .blogText, .contributionText:
+            case .topicText, .contributionText:
                 UploadLayout.CreateTextSizeLayout()
             case .topics:
                 UploadLayout.createVerticalDoubleCell()
-            case .blog:
-                UploadLayout.createLatestFromBlogCell()
             }
         }
     }
     
     func numOfCells (section: Int) -> Int {
         switch sections[section] {
-        case .image, .topicText, .blogText, .contributionText:
+        case .image, .topicText, .contributionText:
             1
         case .topics:
             topics?.count ?? 0
-        case .blog:
-            10
         }
     }
     
     // Data
     func getData() {
-        state = .loading
         manager.getData { [weak self] array, error in
             guard let self else {return}
             
             if let error = error {
-                failure?(error)
-                state = .loaded
+                state = .error(error)
             } else {
                 topics = array
-                success?()
-                state = .loaded
+                state = .success
             }
         }
     }

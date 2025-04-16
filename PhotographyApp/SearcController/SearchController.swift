@@ -33,9 +33,10 @@ final class SearchController: UIViewController {
     
     private lazy var searchController: UISearchController = {
         let search = UISearchController(searchResultsController: SearchResultsController())
-        search.searchResultsUpdater = self
+//        search.searchResultsUpdater = self
         search.searchBar.delegate = self
-        search.showsSearchResultsController = true
+//        search.showsSearchResultsController = true
+        search.searchSuggestions = [UISearchSuggestionItem(localizedSuggestion: "hello")]
         return search
     }()
     
