@@ -19,10 +19,12 @@ class ImageViewModel {
     let manager = ImageManager()
     
     let sections: [PhotoSections] = [.mainPhoto, .relatedPhotos]
-    var photoId: String
     var searchPhoto: Search?
     var photoResultArray = [Result]()
     var photo: PhotoDetails?
+    
+    var photoId: String
+    var isLiked = false
     
     init(photoId: String) {
         self.photoId = photoId
@@ -31,8 +33,8 @@ class ImageViewModel {
     //MARK: - State
     
     enum ViewState {
-        case loading
-        case loaded
+        case liked
+        case unlike
         case success
         case error(String)
         case idle
@@ -74,9 +76,6 @@ class ImageViewModel {
     func getPhoto() async  {
         do {
             let photo =  try await manager.getPhoto(id: photoId)
-//            let photoArrayFirstTag = try await manager.getRelatedPhotos(query: photo.tags?[0].title ?? "")
-//            let photoArraySecondTag = try await manager.getRelatedPhotos(query: photo.tags?[1].title ?? "")
-//            let photoArrayThirdTag = try await manager.getRelatedPhotos(query: photo.tags?[2].title ?? "")
             Task {
                 self.photo = photo
                 state = .success
@@ -95,12 +94,24 @@ class ImageViewModel {
             let photoArraySecondTag = try await manager.getRelatedPhotos(query: photo?.tags?[1].title ?? "")
             let photoArrayThirdTag = try await manager.getRelatedPhotos(query: photo?.tags?[2].title ?? "")
             Task {
-//                searchPhoto = photoArrayFirstTag
                 photoResultArray.append(contentsOf: photoArrayFirstTag.results ?? [])
                 photoResultArray.append(contentsOf: photoArraySecondTag.results ?? [])
                 photoResultArray.append(contentsOf: photoArrayThirdTag.results ?? [])
                 photoResultArray.shuffle()
                 state = .success
+            }
+        } catch {
+            Task {
+                state = .error(error.localizedDescription)
+            }
+        }
+    }
+    
+    func likePhoto() async{
+        do {
+            let likedPhoto = try await manager.likePhoto(id: photoId)
+            Task {
+                state = .liked
             }
         } catch {
             Task {

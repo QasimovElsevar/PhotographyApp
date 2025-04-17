@@ -25,9 +25,9 @@ enum  PhotosEndPoint {
 }
 
 enum  PhotoActionsEndPoints {
-    case upload(Int)
-    case like(Int)
-    case unlike(Int)
+    case upload(String)
+    case like(String)
+    case unlike(String)
     
     var path: String {
         switch self {

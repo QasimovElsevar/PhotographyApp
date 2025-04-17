@@ -17,18 +17,55 @@ enum Section {
 
 class SearchViewModel {
     var coordinator: MainCoordinator?
-
-    let sections: [Section] = [.browseText, .browse, .discoverText, .discover]
+    
+    let sections: [Section] = [
+        .browseText,
+        .browse,
+        .discoverText,
+        .discover
+    ]
+    
+    let categories = [
+        "Minimal",
+        "Nature",
+        "Flowers",
+        "Film",
+        "Animals",
+        "Abstract",
+        "Sky",
+        "Space",
+        "Sport",
+        "Travel"
+    ]
+    
+    var suggestions: [UISearchSuggestion] = [
+        UISearchSuggestionItem(
+            localizedSuggestion: "Walpapper"
+        ),
+        UISearchSuggestionItem(
+            localizedSuggestion: "Summer"
+        ),
+        UISearchSuggestionItem(
+            localizedSuggestion: "Forest"
+        ),
+        UISearchSuggestionItem(
+            localizedSuggestion: "Italy"
+        ),
+        UISearchSuggestionItem(
+            localizedSuggestion: "Beach"
+        ),
+    ]
+    
+    //MARK: - States
     
     enum ViewState {
-        case loading
-        case loaded
         case success
         case error(String)
         case idle
     }
     
-    var photoList: [Photos] = []
+    var searchResult: Search?
+    var searchArray = [Result]()
     var page = 1
     
     let manager = SearchManager()
@@ -40,9 +77,9 @@ class SearchViewModel {
             stateUpdate?(state)
         }
     }
+
+    //MARK: - Collection configuration
     
-    //MARK: - UI configuration
-        
     func createLayaout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             switch self.sections[sectionNumber] {
@@ -63,19 +100,20 @@ class SearchViewModel {
         case .browseText, .discoverText:
             1
         case .browse:
-        10
+            categories.count
         case .discover:
-            photoList.count 
+            searchArray.count
         }
     }
     
     //MARK: - Data
     
-    func getList() async {
+    func getList(query: String) async {
         do {
-            let data =  try await manager.getList(page: page)
+            let data =  try await manager.getSearchResult(query: query, page: page)
             Task {
-                photoList.append(contentsOf: data)
+                searchResult = data
+                searchArray.append(contentsOf: searchResult?.results ?? [])
                 state = .success
                 page += 1
             }

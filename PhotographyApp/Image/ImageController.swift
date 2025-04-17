@@ -16,6 +16,7 @@ class ImageController: UIViewController {
         collection.delegate = self
         collection.dataSource = self
         collection.backgroundColor = .clear
+        collection.showsVerticalScrollIndicator = false
         collection.register(ImageWithLabelCell.self, forCellWithReuseIdentifier: "ImageWithLabelCell")
         collection.register(TransparentViewCell.self, forCellWithReuseIdentifier: "TransparentViewCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -24,29 +25,72 @@ class ImageController: UIViewController {
     
     private lazy var imageView : UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "photo")
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
+    }()
+    
+    private lazy var likeBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.layer.cornerRadius = 20
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleLike))
+        view.addGestureRecognizer(tapGesture)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var addToCollectionBackgrounfView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.layer.cornerRadius = 20
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var downloadBackgrounfView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 20
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private lazy var likeImage : UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "photo")
         image.contentMode = .scaleAspectFill
+        image.image = UIImage(systemName: "heart.fill")
         image.clipsToBounds = true
+        image.tintColor = .white
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    private lazy var likeButton : UIButton = {
+    private lazy var addToCollectionImage : UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
+        image.image = UIImage(systemName: "plus")
+        image.tintColor = .white
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
+    private lazy var downloadImage : UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
+        image.image = UIImage(systemName: "arrow.down")
+        image.tintColor = .black
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
+    private lazy var infoButton : UIButton = {
         let button = UIButton()
-//        button.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 200, height: 200))
-        button.layer.cornerRadius = 30
-        button.setImage(UIImage(systemName: "heart"), for: .normal) // Add your heart image asset
-        button.tintColor = .systemRed
-        button.backgroundColor = .myBackground
+        button.setImage(UIImage(systemName: "info.circle"), for: .normal) // Add your heart image asset
+        button.tintColor = .white
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -81,9 +125,16 @@ class ImageController: UIViewController {
     }
     
     private func addSubviews() {
-        view.addSubview(imageView)
-        view.addSubview(collection)
-        view.addSubview(likeButton)
+        [imageView,
+         collection,
+         likeBackgroundView,
+         addToCollectionBackgrounfView,
+         downloadBackgrounfView,
+         infoButton].forEach( {view.addSubview($0)})
+        
+        likeBackgroundView.addSubview(likeImage)
+        addToCollectionBackgrounfView.addSubview(addToCollectionImage)
+        downloadBackgrounfView.addSubview(downloadImage)
     }
     
     private func setConstraints() {
@@ -98,9 +149,44 @@ class ImageController: UIViewController {
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            likeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32),
-            likeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12)
+            likeBackgroundView.bottomAnchor.constraint(equalTo: addToCollectionBackgrounfView.topAnchor, constant: -20),
+            likeBackgroundView.heightAnchor.constraint(equalToConstant: 40),
+            likeBackgroundView.widthAnchor.constraint(equalToConstant: 40),
+            likeBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            
+            addToCollectionBackgrounfView.bottomAnchor.constraint(equalTo: downloadBackgrounfView.topAnchor, constant: -20),
+            addToCollectionBackgrounfView.heightAnchor.constraint(equalToConstant: 40),
+            addToCollectionBackgrounfView.widthAnchor.constraint(equalToConstant: 40),
+            addToCollectionBackgrounfView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            
+            downloadBackgrounfView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            downloadBackgrounfView.heightAnchor.constraint(equalToConstant: 40),
+            downloadBackgrounfView.widthAnchor.constraint(equalToConstant: 40),
+            downloadBackgrounfView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            
+            likeImage.centerXAnchor.constraint(equalTo: likeBackgroundView.centerXAnchor),
+            likeImage.heightAnchor.constraint(equalToConstant: 20),
+            likeImage.widthAnchor.constraint(equalToConstant: 20),
+            likeImage.centerYAnchor.constraint(equalTo: likeBackgroundView.centerYAnchor),
+            
+            addToCollectionImage.centerXAnchor.constraint(equalTo: addToCollectionBackgrounfView.centerXAnchor),
+            addToCollectionImage.heightAnchor.constraint(equalToConstant: 20),
+            addToCollectionImage.widthAnchor.constraint(equalToConstant: 20),
+            addToCollectionImage.centerYAnchor.constraint(equalTo: addToCollectionBackgrounfView.centerYAnchor),
+            
+            downloadImage.centerXAnchor.constraint(equalTo: downloadBackgrounfView.centerXAnchor),
+            downloadImage.heightAnchor.constraint(equalToConstant: 20),
+            downloadImage.widthAnchor.constraint(equalToConstant: 20),
+            downloadImage.centerYAnchor.constraint(equalTo: downloadBackgrounfView.centerYAnchor),
+            
+            infoButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            infoButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12)
+            
         ])
+    }
+    
+    private func configureNavBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .redo)
     }
 }
 
@@ -125,8 +211,20 @@ extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource 
         2
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 2 {
+            let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
+            coordinator.photoId = viewModel.photoResultArray[indexPath.row].id
+            coordinator.showImageController()
+        }
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         imageView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        likeBackgroundView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        addToCollectionBackgrounfView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        downloadBackgrounfView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        infoButton.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
     }
 }
 
@@ -139,12 +237,10 @@ extension ImageController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else {return}
                 switch state {
-                case .loading:
-//                  loadingView.startAnimating()
-                    print("ff")
-                case  .loaded:
-//                    loadingView.stopAnimating()
-                    print("ff")
+                case .liked:
+                    likeImage.tintColor = .red
+                case  .unlike:
+                    likeImage.tintColor = .white
                 case .success:
                     print("success")
                     collection.reloadData()
@@ -154,7 +250,6 @@ extension ImageController {
                 case .idle:
                     break
                 }
-                
             }
         }
     }
@@ -162,6 +257,14 @@ extension ImageController {
     func getData() {
         Task {
             await viewModel.getPhoto()
+        }
+    }
+    
+    //MARK: - Button Actions
+    
+    @objc private func handleLike() {
+        Task {
+            await viewModel.likePhoto()
         }
     }
 }

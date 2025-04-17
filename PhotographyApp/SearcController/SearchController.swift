@@ -10,12 +10,13 @@ import UIKit
 final class SearchController: UIViewController {
     
     //  MARK: -UI Elements
-
+    
     private lazy var collection: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayaout())
         collection.delegate = self
         collection.dataSource = self
         collection.backgroundColor = .clear
+        collection.showsVerticalScrollIndicator = false
         collection.register(TextCell.self, forCellWithReuseIdentifier: "TextCell")
         collection.register(TopicsCell.self, forCellWithReuseIdentifier: "TopicsCell")
         collection.register(ImageWithLabelCell.self, forCellWithReuseIdentifier: "ImageWithLabelCell")
@@ -23,51 +24,39 @@ final class SearchController: UIViewController {
         return collection
     }()
     
-//    private lazy var search : UISearchBar = {
-//        let search = UISearchBar()
-//        search.backgroundColor = .myBackground
-//        search.target(forAction: #selector(searchPhoto), withSender: nil)
-//        search.translatesAutoresizingMaskIntoConstraints = false
-//        return search
-//    }()
-    
     private lazy var searchController: UISearchController = {
         let search = UISearchController(searchResultsController: SearchResultsController())
-//        search.searchResultsUpdater = self
+        search.searchResultsUpdater = self
         search.searchBar.delegate = self
-//        search.showsSearchResultsController = true
-        search.searchSuggestions = [UISearchSuggestionItem(localizedSuggestion: "hello")]
+        search.hidesNavigationBarDuringPresentation = false
+        search.obscuresBackgroundDuringPresentation = false
+        search.searchSuggestions = viewModel.suggestions
         return search
     }()
     
     //MARK: - Properties
-
+    
     let viewModel = SearchViewModel()
     
     //MARK: - Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        getData()
     }
     
     //  MARK: - UI Configuration
     
     private func configureUI() {
         view.backgroundColor = .myBackground
-        navigationItem.searchController = searchController
         addSubviews()
         setConstraints()
+        configureNavBar()
         bindViewModel()
     }
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-//            search.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//            search.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            search.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
             collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -77,9 +66,15 @@ final class SearchController: UIViewController {
     
     private func addSubviews() {
         view.addSubview(collection)
-//        view.addSubview(search)
     }
     
+    func configureNavBar() {
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.searchController?.isActive = true
+        navigationItem.searchController?.searchBar.becomeFirstResponder()
+    }
 }
 
 extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -97,6 +92,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .browse:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TopicsCell", for: indexPath) as! TopicsCell
+            cell.configure(topic: viewModel.categories[indexPath.row])
             return cell
         case .discoverText:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
@@ -104,7 +100,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .discover:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-//            cell.configure(data: viewModel.photoList[indexPath.row].urls?.regular ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
+            cell.configure(data: viewModel.searchResult?.results?[indexPath.row].urls?.regular ?? "", text: viewModel.searchArray[indexPath.row].user?.name ?? "")
             return cell
         }
     }
@@ -114,10 +110,18 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.section == 3 && indexPath.row == (viewModel.photoList.count) - 1 {
-            Task {
-               await viewModel.getList()
-            }
+        if viewModel.searchResult?.totalPages ?? 0 < viewModel.page && indexPath.row == viewModel.searchArray.count - 1 && indexPath.section == 3 {
+            getSearch()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            getData(query: viewModel.categories[indexPath.row])
+        } else if indexPath.section == 3 {
+            let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
+            coordinator.photoId = viewModel.searchArray[indexPath.row].id
+            coordinator.showImageController()
         }
     }
 }
@@ -125,13 +129,27 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
 extension SearchController: UISearchResultsUpdating, UISearchBarDelegate {
     
     //MARK: - SearchBar
+    
     func updateSearchResults(for searchController: UISearchController) {
-        guard let query = searchController.searchBar.text else {return}
+        let query = searchController.searchBar.text ?? ""
+        if query.isEmpty {
+            searchController.searchSuggestions = viewModel.suggestions
+        } else {
+            searchController.searchSuggestions = viewModel.suggestions.filter {
+                $0.localizedSuggestion?.lowercased().contains(query.lowercased()) ?? true
+            }
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let query = searchController.searchBar.text else {return}
-        searchController.isActive = false
+        getSearch()
+    }
+    
+    func searchController(_ searchController: UISearchController, didSelect suggestion: UISearchSuggestion) {
+        let selectedText = suggestion.localizedSuggestion
+        print("Selected suggestion: \(selectedText)")
+        self.searchController.searchBar.text = selectedText
+        getSearch()
     }
 }
 
@@ -142,12 +160,6 @@ extension SearchController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else {return}
                 switch state {
-                case .loading:
-//                  loadingView.startAnimating()
-                    print("ff")
-                case  .loaded:
-//                    loadingView.stopAnimating()
-                    print("ff")
                 case .success:
                     print("success")
                     collection.reloadData()
@@ -161,9 +173,15 @@ extension SearchController {
         }
     }
     
-    func getData() {
+    func getSearch() {
+        guard let query = searchController.searchBar.text else {return}
+        getData(query:query)
+        searchController.isActive = false
+    }
+    
+    func getData(query: String) {
         Task {
-            await viewModel.getList()
+            await viewModel.getList(query: query)
         }
     }
 }

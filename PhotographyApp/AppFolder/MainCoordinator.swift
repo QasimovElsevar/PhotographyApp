@@ -42,6 +42,7 @@ final class MainCoordinator: Coordinator {
     
     func showImageController() {
         let controller = ImageController(viewModel: .init(photoId: photoId ?? ""))
+        controller.hidesBottomBarWhenPushed = true
         navigationController.show(controller, sender: nil)
     }
     

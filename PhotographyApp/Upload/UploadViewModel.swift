@@ -58,7 +58,8 @@ final class UploadViewModel {
         case .image, .topicText, .contributionText:
             1
         case .topics:
-            topics?.count ?? 0
+//            topics?.count ?? 0
+            10
         }
     }
     

@@ -8,14 +8,14 @@
 import Foundation
 
 enum SearchEndPoints {
-    case searchPhoto(String)
+    case searchPhoto(String, Int)
     case searchCollection(String)
     case searchUser(String)
     
     var path: String {
         switch self {
-        case .searchPhoto(let query):
-            NetworkManager.shared.configureUrl(endPoint: "search/photos?query=\(query)")
+        case .searchPhoto(let query, let page):
+            NetworkManager.shared.configureUrl(endPoint: "search/photos?query=\(query)&page=\(page)")
         case .searchCollection(let query):
             NetworkManager.shared.configureUrl(endPoint: "search/collections?query=\(query)")
         case .searchUser(let query):

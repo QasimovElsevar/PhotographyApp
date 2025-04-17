@@ -13,7 +13,6 @@ final class ImageWithLabelCell: UICollectionViewCell {
     
     private lazy var imageView : UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "photo")
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
