@@ -27,7 +27,7 @@ final class ProfileViewModel {
     let manager = ProfileManager()
     var index = 0
     var userPhotos: [Photos] = []
-    var userLiked: [Photos] = []
+//    var userLiked: [Photos] = []
     var userCollections: [Collections] = []
     var userData: UserModel?
     

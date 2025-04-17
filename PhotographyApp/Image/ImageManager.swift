@@ -9,9 +9,14 @@ import Foundation
 
 class ImageManager: ImageUserCase {
     
+    func unlikePhoto(id: String) async throws -> Photos {
+        let path = PhotoActionsEndPoints.like(id).path
+        return try await NetworkManager.shared.request(endPoint: path, model: Photos.self, method: .delete)
+    }
+    
     func likePhoto(id: String) async throws -> Photos {
         let path = PhotoActionsEndPoints.like(id).path
-        return try await NetworkManager.shared.request(endPoint: path, model: Photos.self)
+        return try await NetworkManager.shared.request(endPoint: path, model: Photos.self, method: .post)
     }
     
     func getPhoto(id: String) async throws -> PhotoDetails {

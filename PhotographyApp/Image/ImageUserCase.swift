@@ -13,4 +13,6 @@ protocol ImageUserCase {
     func getRelatedPhotos(query: String) async throws -> Search
     
     func likePhoto(id: String) async throws -> Photos
+    
+    func unlikePhoto(id: String) async throws -> Photos
 }

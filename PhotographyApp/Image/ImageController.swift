@@ -188,6 +188,14 @@ class ImageController: UIViewController {
     private func configureNavBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .redo)
     }
+    
+    private func imageConfigure() {
+        if viewModel.photo?.likedByUser ?? false {
+            likeImage.tintColor = .red
+        } else {
+            likeImage.tintColor = .white
+        }
+    }
 }
 
 extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -199,11 +207,18 @@ extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource 
         switch viewModel.sections[indexPath.section] {
         case .mainPhoto:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TransparentViewCell", for: indexPath) as! TransparentViewCell
+            cell.configure(text: "")
             return cell
         case .relatedPhotos:
-            let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-            cell.configure(data: viewModel.photoResultArray[indexPath.row].urls?.regular ?? "" , text: viewModel.photoResultArray[indexPath.row].user?.name ?? "")
-            return cell
+            if viewModel.photoResultArray.isEmpty {
+                let cell = collection.dequeueReusableCell(withReuseIdentifier: "TransparentViewCell", for: indexPath) as! TransparentViewCell
+                cell.configure(text: "No related photos")
+                return cell
+            } else {
+                let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
+                cell.configure(data: viewModel.photoResultArray[indexPath.row].urls?.regular ?? "" , text: viewModel.photoResultArray[indexPath.row].user?.name ?? "")
+                return cell
+            }
         }
     }
     
@@ -219,6 +234,13 @@ extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource 
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.section == 1 && viewModel.photo?.tags?.count ?? 5 <= 3 && indexPath.row == viewModel.photoResultArray.count - 2 {
+            Task {
+                await viewModel.getRelatedPhotos()
+            }
+        }
+    }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         imageView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
         likeBackgroundView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
@@ -239,11 +261,12 @@ extension ImageController {
                 switch state {
                 case .liked:
                     likeImage.tintColor = .red
-                case  .unlike:
+                case  .unliked:
                     likeImage.tintColor = .white
                 case .success:
                     print("success")
                     collection.reloadData()
+                    imageConfigure()
                     imageView.loadImage(url: viewModel.photo?.urls?.regular ?? "")
                 case .error(let error):
                     print(error)
@@ -264,7 +287,11 @@ extension ImageController {
     
     @objc private func handleLike() {
         Task {
-            await viewModel.likePhoto()
+            if viewModel.photo?.likedByUser ?? true {
+                await viewModel.unlikePhoto()
+            } else {
+                await viewModel.likePhoto()
+            }
         }
     }
 }

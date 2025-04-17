@@ -36,7 +36,6 @@ final class ProfileController: UIViewController {
    //MARK: - Properties
 
     let viewModel =  ProfileViewModel()
-    var index = 0
     
     //MARK: - Lifecycle
     
@@ -142,6 +141,14 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if viewModel.index == 0 || viewModel.index == 1 {
+            let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
+            coordinator.photoId = viewModel.userPhotos[indexPath.row].id
+            coordinator.showImageController()
+        }
     }
     
 //  MARK: - Navigation Bar Appearance

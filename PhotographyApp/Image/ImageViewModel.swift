@@ -22,6 +22,7 @@ class ImageViewModel {
     var searchPhoto: Search?
     var photoResultArray = [Result]()
     var photo: PhotoDetails?
+    var count = 0
     
     var photoId: String
     var isLiked = false
@@ -34,7 +35,7 @@ class ImageViewModel {
     
     enum ViewState {
         case liked
-        case unlike
+        case unliked
         case success
         case error(String)
         case idle
@@ -56,7 +57,11 @@ class ImageViewModel {
             case .mainPhoto:
                 ImageLayout.wholeScreen()
             case .relatedPhotos:
-                ImageLayout.createHorizontalDoubleCell()
+                if self.photoResultArray.isEmpty {
+                    ImageLayout.wholeScreen()
+                } else {
+                    ImageLayout.createHorizontalDoubleCell()
+                }
             }
 
         }
@@ -67,7 +72,11 @@ class ImageViewModel {
         case .mainPhoto:
             1
         case .relatedPhotos:
-            photoResultArray.count 
+            if self.photoResultArray.isEmpty {
+                1
+            } else {
+                photoResultArray.count
+            }
         }
     }
     
@@ -79,7 +88,9 @@ class ImageViewModel {
             Task {
                 self.photo = photo
                 state = .success
-                await getRelatedPhotos()
+                if !(photo.tags?.isEmpty ?? true) {
+                    await getRelatedPhotos()
+                }
             }
         } catch {
             Task {
@@ -90,14 +101,10 @@ class ImageViewModel {
     
     func getRelatedPhotos() async {
         do {
-            let photoArrayFirstTag = try await manager.getRelatedPhotos(query: photo?.tags?[0].title ?? "")
-            let photoArraySecondTag = try await manager.getRelatedPhotos(query: photo?.tags?[1].title ?? "")
-            let photoArrayThirdTag = try await manager.getRelatedPhotos(query: photo?.tags?[2].title ?? "")
+            let photoArrayFirstTag = try await manager.getRelatedPhotos(query: photo?.tags?[count].title ?? "")
             Task {
                 photoResultArray.append(contentsOf: photoArrayFirstTag.results ?? [])
-                photoResultArray.append(contentsOf: photoArraySecondTag.results ?? [])
-                photoResultArray.append(contentsOf: photoArrayThirdTag.results ?? [])
-                photoResultArray.shuffle()
+                count += 1
                 state = .success
             }
         } catch {
@@ -107,11 +114,24 @@ class ImageViewModel {
         }
     }
     
-    func likePhoto() async{
+    func likePhoto() async {
         do {
-            let likedPhoto = try await manager.likePhoto(id: photoId)
+            let _ = try await manager.likePhoto(id: photoId)
             Task {
                 state = .liked
+            }
+        } catch {
+            Task {
+                state = .error(error.localizedDescription)
+            }
+        }
+    }
+    
+    func unlikePhoto() async {
+        do {
+            let _ = try await manager.unlikePhoto(id: photoId)
+            Task {
+                state = .unliked
             }
         } catch {
             Task {

@@ -32,11 +32,11 @@ enum  PhotoActionsEndPoints {
     var path: String {
         switch self {
         case .upload(let id):
-            NetworkManager.shared.configureUrl(endPoint: "photos/:\(id)")
+            NetworkManager.shared.configureUrl(endPoint: "photos/\(id)")
         case .like(let id):
-            NetworkManager.shared.configureUrl(endPoint: "/photos/:\(id)/like")
+            NetworkManager.shared.configureUrl(endPoint: "photos/\(id)/like")
         case .unlike(let id):
-            NetworkManager.shared.configureUrl(endPoint: "/photos/:\(id)/like")
+            NetworkManager.shared.configureUrl(endPoint: "photos/\(id)/like")
         }
     }
 }
