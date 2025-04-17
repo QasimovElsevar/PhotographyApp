@@ -24,7 +24,11 @@ final class ProfileViewModel {
     //MARK: - Properies
     
     var coordinator: MainCoordinator?
+    let manager = ProfileManager()
     var index = 0
+    var userPhotos: [Photos] = []
+    var userLiked: [Photos] = []
+    var userCollections: [Collections] = []
     var userData: UserModel?
     
     //MARK: - States
@@ -76,20 +80,54 @@ final class ProfileViewModel {
         case .profile, .selection:
             1
         case .collection:
-            switch self.selections[index] {
+            switch self.selections[self.index] {
             case .photos:
-                10
+                userPhotos.count
             case .likes:
-                5
+                userPhotos.count
             case .collections:
-                5
+                userPhotos.count
             }
         }
     }
     
     //MARK: - Data
     
-    func getUserData() {
+    func getUserData() async {
+        do {
+            switch selections[self.index] {
+            case .photos:
+                let data = try await manager.getPhotos()
+                Task {
+                    userPhotos = data
+                    state = .success
+                }
+            case .likes:
+                let data = try await manager.getLikes()
+                Task {
+                    userPhotos = data
+                    state = .success
+                }
+            case .collections:
+                let data = try await manager.getCollections()
+                Task {
+                    userPhotos = data
+                    state = .success
+                }
+            }
+        } catch {
+            Task {
+                state = .error(error.localizedDescription)
+            }
+        }
+        
+    }
+    
+    func makeRequest() async {
+     
+    }
+    
+    func getUser() {
         state = .loading
         FirestoreManager.shared.getUserData { [weak self] data, error in
             guard let self else {return}

@@ -7,17 +7,22 @@
 
 import Foundation
 
-//final class ProfileManager: ProfileUseCase {
-//
-////    func getPhotos() async throws -> [Photos] {
-////        <#code#>
-////    }
-////    
-////    func getLikes() async throws -> [Photos] {
-////        <#code#>
-////    }
-////    
-////    func getCollections() async throws -> [Photos] {
-////        <#code#>
-////    }
-//}
+final class ProfileManager: ProfileUseCase {
+
+    let manager = NetworkManager()
+    
+    func getPhotos() async throws -> [Photos] {
+        let path = UserEndPoints.userPhotos.path
+        return try await manager.request(endPoint: path, model: [Photos].self)
+    }
+    
+    func getLikes() async throws -> [Photos] {
+        let path = UserEndPoints.userLikes.path
+        return try await manager.request(endPoint: path, model: [Photos].self)
+    }
+    
+    func getCollections() async throws -> [Photos] {
+        let path = UserEndPoints.userLikes.path
+        return try await manager.request(endPoint: path, model: [Photos].self)
+    }
+}

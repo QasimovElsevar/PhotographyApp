@@ -44,7 +44,7 @@ final class ProfileController: UIViewController {
         super.viewDidLoad()
         configureUI()
         FireBaseManager.shared.printCurrentUser()
-        viewModel.getUserData()
+        
     }
     
     //MARK: - UI Configuration
@@ -55,6 +55,7 @@ final class ProfileController: UIViewController {
         addSubviews()
         setCostraints()
         navigationBarConfigure()
+        getData()
         bindViewModel()
         configureTitle()
     }
@@ -119,13 +120,22 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileSelectionCell", for: indexPath) as! ProfileSelectionCell
             cell.callback = { tag in
                 self.viewModel.index = tag
-                self.collection.reloadData()
+                self.getData()
             }
             return cell
             
         case .collection:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-            cell.backgroundColor = .red
+            
+            switch viewModel.selections[viewModel.index] {
+            case .photos:
+                cell.configure(data: viewModel.userPhotos[indexPath.row].urls?.regular ?? "", text: "")
+            case .likes:
+                cell.configure(data: viewModel.userPhotos[indexPath.row].urls?.regular ?? "", text: viewModel.userPhotos[indexPath.row].user?.name ?? "")
+            case .collections:
+                cell.configure(data: viewModel.userPhotos[indexPath.row].urls?.regular ?? "", text: "")
+            }
+            
             return cell
         }
     }
@@ -150,6 +160,12 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
 extension ProfileController {
     
     //MARK: - Data
+    
+    private func getData() {
+        Task {
+            await viewModel.getUserData()
+        }
+    }
     
     private func bindViewModel() {
         viewModel.stateUpdate = { [weak self] state in

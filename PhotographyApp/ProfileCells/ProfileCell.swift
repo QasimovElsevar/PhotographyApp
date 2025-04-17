@@ -73,5 +73,4 @@ final class ProfileCell: UICollectionViewCell {
     func configure(firstName: String, lastName: String) {
         label.text = "\(firstName) \(lastName)"
     }
-    
 }
