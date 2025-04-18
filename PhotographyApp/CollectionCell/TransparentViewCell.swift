@@ -9,6 +9,7 @@ import UIKit
 
 final class TransparentViewCell: UICollectionViewCell {
     
+    //MARK: UI Elemenets
     private lazy var view: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
@@ -18,12 +19,13 @@ final class TransparentViewCell: UICollectionViewCell {
     
     private lazy var label: UILabel = {
         let label = UILabel()
-        label.textColor = .systemGray5
+        label.textColor = .systemGray6
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+    //MARK: - Lyfcycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -33,6 +35,7 @@ final class TransparentViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - UI Configure
     private func configureUI() {
         addSubviews()
         setConstraints()

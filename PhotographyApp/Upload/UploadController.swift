@@ -93,12 +93,12 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .topics:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TopicsCell", for: indexPath) as! TopicsCell
-//            cell.configure(url: viewModel.topics?[indexPath.row].coverPhoto?.urls?.thumb ?? "", topic: viewModel.topics?[indexPath.row].title ?? "")
+            cell.configure(url: viewModel.topics?[indexPath.row].coverPhoto?.urls?.thumb ?? "", topic: viewModel.topics?[indexPath.row].title ?? "")
             return cell
         }
         
         func numberOfSections(in collectionView: UICollectionView) -> Int {
-            1
+            4
         }
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

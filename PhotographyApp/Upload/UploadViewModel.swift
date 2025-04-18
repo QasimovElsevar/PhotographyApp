@@ -17,7 +17,7 @@ enum Sections {
 
 final class UploadViewModel {
     
-    // Sections
+    //MARK: - Sections
     var coordinator: MainCoordinator?
     let sections: [Sections] = [.contributionText, .image, .topicText, .topics]
     
@@ -27,7 +27,7 @@ final class UploadViewModel {
         case idle
     }
     
-    // Properties
+    //MARK: -  Properties
     let manager = UploadManager()
     var topics: [Topics]?
     
@@ -39,7 +39,7 @@ final class UploadViewModel {
         }
     }
     
-    // Collection related
+    //MARK: -  Collection related
     func createLayaout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             switch self.sections[sectionNumber] {
@@ -58,12 +58,11 @@ final class UploadViewModel {
         case .image, .topicText, .contributionText:
             1
         case .topics:
-//            topics?.count ?? 0
-            10
+            topics?.count ?? 0
         }
     }
     
-    // Data
+    //MARK: -  Data
     func getData() {
         manager.getData { [weak self] array, error in
             guard let self else {return}

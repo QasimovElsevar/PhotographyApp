@@ -45,6 +45,13 @@ class ImageController: UIViewController {
         let view = UIView()
         view.backgroundColor = .black
         view.layer.cornerRadius = 20
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(
+                handleAddingToCollection
+            )
+        )
+        view.addGestureRecognizer(tapGesture)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -53,6 +60,8 @@ class ImageController: UIViewController {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDownload))
+        view.addGestureRecognizer(tapGesture)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -89,7 +98,7 @@ class ImageController: UIViewController {
     
     private lazy var infoButton : UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "info.circle"), for: .normal) // Add your heart image asset
+        button.setImage(UIImage(systemName: "info.circle"), for: .normal) 
         button.tintColor = .white
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -122,6 +131,7 @@ class ImageController: UIViewController {
         addSubviews()
         setConstraints()
         bindViewModel()
+        configureNavBar()
     }
     
     private func addSubviews() {
@@ -185,10 +195,6 @@ class ImageController: UIViewController {
         ])
     }
     
-    private func configureNavBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .redo)
-    }
-    
     private func imageConfigure() {
         if viewModel.photo?.likedByUser ?? false {
             likeImage.tintColor = .red
@@ -199,6 +205,9 @@ class ImageController: UIViewController {
 }
 
 extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    //MARK: - Collection
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.numberOfItems(sections: section)
     }
@@ -241,12 +250,9 @@ extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource 
             }
         }
     }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        imageView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
-        likeBackgroundView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
-        addToCollectionBackgrounfView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
-        downloadBackgrounfView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
-        infoButton.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        changeAlpha(scrollView: scrollView)
     }
 }
 
@@ -268,6 +274,7 @@ extension ImageController {
                     collection.reloadData()
                     imageConfigure()
                     imageView.loadImage(url: viewModel.photo?.urls?.regular ?? "")
+                    navigationItem.title = viewModel.photo?.user?.name ?? ""
                 case .error(let error):
                     print(error)
                 case .idle:
@@ -287,11 +294,74 @@ extension ImageController {
     
     @objc private func handleLike() {
         Task {
-            if viewModel.photo?.likedByUser ?? true {
+            if viewModel.isLiked {
                 await viewModel.unlikePhoto()
+                viewModel.isLiked = false
             } else {
                 await viewModel.likePhoto()
+                viewModel.isLiked = true
             }
         }
+    }
+    
+    @objc private func handleDownload() {
+        savePhotoToLibrary()
+    }
+    
+    @objc private func handleAddingToCollection() {
+        
+    }
+    
+    @objc private func handleInfo() {
+    
+    }
+    
+    private func changeAlpha(scrollView: UIScrollView) {
+        imageView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        likeBackgroundView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        addToCollectionBackgrounfView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        downloadBackgrounfView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        infoButton.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+    }
+    
+    func savePhotoToLibrary() {
+        let saver = ImageSaver()
+        saver.writeToPhotoAlbum(image: imageView.image ?? UIImage())
+        
+        saver.success = {
+            UIView.transition(with: self.downloadImage, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                self.downloadImage.image = UIImage(systemName: "checkmark")
+            })
+        }
+        
+        saver.failure = { error in
+            self.showAllert(title: "Error", message: "Couldn`t save image")
+        }
+    }
+    
+    //MARK: - NavigationBa Configure
+    
+    private func configureNavBar() {
+        navBarTitleConfigure()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"),style: .plain, target: self, action: #selector(handleDismiss))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(handleShare))
+    }
+    
+    private func navBarTitleConfigure() {
+        navigationController?.navigationBar.titleTextAttributes = [
+            .font: UIFont.systemFont(ofSize: 15, weight: .bold)
+        ]
+    }
+    
+    //MARK: - BarButton Action
+    
+    @objc func handleShare() {
+        let items = [URL(string: viewModel.photo?.urls?.regular ?? "")]
+        let ac = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
+        present(ac, animated: true)
+    }
+    
+    @objc private func handleDismiss() {
+        navigationController?.popViewController(animated: true)
     }
 }

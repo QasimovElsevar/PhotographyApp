@@ -63,7 +63,6 @@ class ImageViewModel {
                     ImageLayout.createHorizontalDoubleCell()
                 }
             }
-
         }
     }
     
@@ -87,6 +86,7 @@ class ImageViewModel {
             let photo =  try await manager.getPhoto(id: photoId)
             Task {
                 self.photo = photo
+                isLiked = photo.likedByUser ?? false
                 state = .success
                 if !(photo.tags?.isEmpty ?? true) {
                     await getRelatedPhotos()
@@ -139,4 +139,14 @@ class ImageViewModel {
             }
         }
     }
+    
+//    func saveToLibrary(_ image: UIImage) {
+//        UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)
+//    }
+//    
+//    @objc func saveCompleted(_ image: UIImage, didFinishSavingWithError error:
+//    Error?, contextInfo: UnsafeRawPointer) {
+//        print("Saved")
+//    }
+    
 }

@@ -92,7 +92,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .browse:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TopicsCell", for: indexPath) as! TopicsCell
-            cell.configure(topic: viewModel.categories[indexPath.row])
+            cell.configure(url: "",topic: viewModel.categories[indexPath.row])
             return cell
         case .discoverText:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
@@ -100,7 +100,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .discover:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-            cell.configure(data: viewModel.searchResult?.results?[indexPath.row].urls?.regular ?? "", text: viewModel.searchArray[indexPath.row].user?.name ?? "")
+            cell.configure(data: viewModel.searchArray[indexPath.row].urls?.regular ?? "", text: viewModel.searchArray[indexPath.row].user?.name ?? "")
             return cell
         }
     }

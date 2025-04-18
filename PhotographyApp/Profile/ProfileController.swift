@@ -233,8 +233,8 @@ extension ProfileController {
     
     func configureTitle() {
         navigationController?.navigationBar.titleTextAttributes = [
-                .font: UIFont.boldSystemFont(ofSize: 18) // Change the size if needed
-            ]
+                .font: UIFont.boldSystemFont(ofSize: 18)
+        ]
         
         navigationController?.title = "Photography"
     }
