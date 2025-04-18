@@ -74,6 +74,10 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
     
     //MARK: - Collection
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        4
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.numOfCells(section: section)
     }
@@ -93,27 +97,17 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .topics:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TopicsCell", for: indexPath) as! TopicsCell
-            cell.configure(url: viewModel.topics?[indexPath.row].coverPhoto?.urls?.thumb ?? "", topic: viewModel.topics?[indexPath.row].title ?? "")
+            cell.configure(url: viewModel.topics?[indexPath.row].coverPhoto?.urls?.small ?? "", topic: viewModel.topics?[indexPath.row].title ?? "")
             return cell
         }
-        
-        func numberOfSections(in collectionView: UICollectionView) -> Int {
-            4
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            if viewModel.sections[indexPath.section] == .image {
-                //            var config = PHPickerConfiguration()
-                //            config.selectionLimit = 9
-                //
-                //            let picker = PHPickerViewController(configuration: config)
-                //            picker.delegate = self
-                //            picker.modalPresentationStyle = .fullScreen
-                //            pickerViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismiss))
-                present(pickerViewController, animated: true)
-            }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if viewModel.sections[indexPath.section] == .image {
+            present(pickerViewController, animated: true)
         }
     }
+
 }
 
 extension UploadController: PHPickerViewControllerDelegate {
@@ -123,20 +117,22 @@ extension UploadController: PHPickerViewControllerDelegate {
         if let selectedImage = results.first?.itemProvider {
             dismiss(animated: true) {
                 selectedImage.registeredTypeIdentifiers.forEach { print($0) }
-                let coordinator = MainCoordinator(navigationController: self.navigationController ?? UINavigationController())
+                let coordinator = UploadCoordinator(navigationController: self.navigationController ?? UINavigationController())
                 coordinator.showSubmitController()
             }
+        } else {
+            dismiss(animated: true)
         }
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let selectedImage = info[.originalImage] as? UIImage {
-            dismiss(animated: true) {
-                let coordinator = MainCoordinator(navigationController: self.navigationController ?? UINavigationController())
-                coordinator.showSubmitController()
-            }
-        }
-    }
+//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//        if let selectedImage = info[.originalImage] as? UIImage {
+//            dismiss(animated: true) {
+//                let coordinator = UploadCoordinator(navigationController: self.navigationController ?? UINavigationController())
+//                coordinator.showSubmitController()
+//            }
+//        }
+//    }
 }
 
 extension UploadController {
@@ -148,7 +144,7 @@ extension UploadController {
                 switch state {
                 case .success:
                     print("success")
-                    collection.reloadData() 
+                    collection.reloadData()
                 case .error:
                     print("error")
                 case .idle:

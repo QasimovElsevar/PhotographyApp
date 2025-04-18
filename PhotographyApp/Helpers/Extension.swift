@@ -15,6 +15,14 @@ extension UIImageView {
         let url = URL(string: url)
         self.kf.setImage(with: url)
     }
+    
+    func loadImage(data: String) {
+        if let image = UIImage(named: data) {
+            self.image = image
+        } else {
+            self.kf.setImage(with: URL(string: data))
+        }
+    }
 }
 
 extension UIViewController {

@@ -42,20 +42,23 @@ final class SearchController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
     }
     
     //  MARK: - UI Configuration
     
     private func configureUI() {
+        
+        searchController.searchBar.delegate = self
         view.backgroundColor = .myBackground
-        addSubviews()
         setConstraints()
         configureNavBar()
         bindViewModel()
     }
     
     private func setConstraints() {
+        view.addSubview(collection)
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -64,15 +67,12 @@ final class SearchController: UIViewController {
         ])
     }
     
-    private func addSubviews() {
-        view.addSubview(collection)
-    }
-    
     func configureNavBar() {
         navigationItem.searchController = searchController
         definesPresentationContext = true
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController?.isActive = true
+        navigationItem.searchController?.searchBar.delegate = self
         navigationItem.searchController?.searchBar.becomeFirstResponder()
     }
 }
@@ -80,6 +80,10 @@ final class SearchController: UIViewController {
 extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     //MARK: - Collection
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        4
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.numberOfSections(index: section)
     }
@@ -105,14 +109,13 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
         }
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        4
-    }
-    
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if viewModel.searchResult?.totalPages ?? 0 < viewModel.page && indexPath.row == viewModel.searchArray.count - 1 && indexPath.section == 3 {
-            getSearch()
-        }
+//        if viewModel.searchResult?.totalPages ?? 0 > viewModel.page && indexPath.row == viewModel.searchArray.count - 1 && indexPath.section == 3 {
+//            guard let query = searchController.searchBar.text else {return}
+//            Task {
+//                await viewModel.getPages(query: query)
+//            }
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -167,8 +170,7 @@ extension SearchController {
                     print(error)
                 case .idle:
                     break
-                }
-                
+                }                
             }
         }
     }

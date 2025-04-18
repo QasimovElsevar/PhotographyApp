@@ -10,7 +10,7 @@ import UIKit
 final class FeedController: UIViewController {
 
     //MARK: - UI Elemenets
-    
+
     private lazy var collection: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayout())
         collection.delegate = self
@@ -41,10 +41,10 @@ final class FeedController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
         viewModel.getUserData()
         getData()
-
     }
     
     private func configureUI() {
@@ -63,7 +63,6 @@ final class FeedController: UIViewController {
             collection.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
 }
 
 extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -79,14 +78,14 @@ extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource {
 //                self.collection.collectionViewLayout.invalidateLayout()
 //            }
             return cell
-    } else {
-        let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-        cell.configure(data: viewModel.photoList[indexPath.row].urls?.small ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
+        } else {
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
+            cell.configure(data: viewModel.photoList[indexPath.row].urls?.small ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
 //        cell.callback = {
 //            self.collection.collectionViewLayout.invalidateLayout()
 //        }
-        return cell
-    }
+            return cell
+        }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

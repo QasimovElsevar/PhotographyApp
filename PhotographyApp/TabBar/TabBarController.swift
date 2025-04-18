@@ -24,7 +24,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         createTab()
     }
     
-
     func createHome() -> UINavigationController {
         let searchController = FeedController()
         let searchNav = UINavigationController(rootViewController: searchController)
@@ -54,7 +53,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func createloadController() -> UINavigationController {
         let uploadController = UploadController()
         let uploadNav = UINavigationController(rootViewController: uploadController)
-        uploadController.viewModel.coordinator = MainCoordinator(navigationController: uploadNav)
+        uploadController.viewModel.coordinator = UploadCoordinator(navigationController: uploadNav)
         let tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(systemName: "plus.app.fill"),

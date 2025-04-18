@@ -51,10 +51,7 @@ final class MainCoordinator: Coordinator {
         navigationController.show(controller, sender: nil)
     }
     
-    func showUploadController() {
-        let controller = UploadController()
-        navigationController.show(controller, sender: nil)
-    }
+   
     
     func showLoginCOntroller() {
         let controller = LoginController()
@@ -63,11 +60,6 @@ final class MainCoordinator: Coordinator {
     
     func showProfileController() {
         let controller = ProfileController()
-        navigationController.show(controller, sender: nil)
-    }
-    
-    func showSubmitController() {
-        let controller = PhotoSubmitController()
         navigationController.show(controller, sender: nil)
     }
 }

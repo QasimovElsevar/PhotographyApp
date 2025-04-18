@@ -52,8 +52,6 @@ final class UploadCell: UICollectionViewCell {
         addSubviews()
         setgConstraints()
 //        setLines()
-        
-       
     }
     
     private func addSubviews() {
@@ -63,10 +61,6 @@ final class UploadCell: UICollectionViewCell {
     
     private func setgConstraints() {
         NSLayoutConstraint.activate([
-//            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-//            imageView.heightAnchor.constraint(equalToConstant: 50),
-//            imageView.widthAnchor.constraint(equalToConstant: 50),
-//            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageView.topAnchor.constraint(equalTo: topAnchor),
             imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -91,7 +85,7 @@ final class UploadCell: UICollectionViewCell {
         let width = Int(frame.width) / count
         
         for num in 0...count {
-            if num%2 == 0 {
+            if num % 2 == 0 {
                 let shadowPath = UIBezierPath(cgPath: UIBezierPath(roundedRect: CGRect(x: num * width, y: yValue, width: width, height: 3), cornerRadius: 1).cgPath)
                 let shapeShadowLayer = CAShapeLayer()
                 shapeShadowLayer.path = shadowPath.cgPath
@@ -99,11 +93,5 @@ final class UploadCell: UICollectionViewCell {
                 layer.addSublayer(shapeShadowLayer)
             }
         }
-    }
-}
-
-extension UploadCell: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        window?.rootViewController?.dismiss(animated: true)
     }
 }

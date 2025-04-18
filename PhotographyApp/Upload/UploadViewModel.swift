@@ -18,7 +18,7 @@ enum Sections {
 final class UploadViewModel {
     
     //MARK: - Sections
-    var coordinator: MainCoordinator?
+    var coordinator: UploadCoordinator?
     let sections: [Sections] = [.contributionText, .image, .topicText, .topics]
     
     enum ViewState {

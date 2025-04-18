@@ -109,6 +109,7 @@ class SearchViewModel {
     //MARK: - Data
     
     func getList(query: String) async {
+        reset()
         do {
             let data =  try await manager.getSearchResult(query: query, page: page)
             Task {
@@ -122,5 +123,26 @@ class SearchViewModel {
                 state = .error(error.localizedDescription)
             }
         }
+    }
+    
+    func getPages(query: String) async {
+        do {
+            let data =  try await manager.getSearchResult(query: query, page: page)
+            Task {
+                searchResult = data
+                searchArray.append(contentsOf: searchResult?.results ?? [])
+                state = .success
+                page += 1
+            }
+        } catch {
+            Task {
+                state = .error(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func reset() {
+        page = 1
+        searchArray.removeAll()
     }
 }
