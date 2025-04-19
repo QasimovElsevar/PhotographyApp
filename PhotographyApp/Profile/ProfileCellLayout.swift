@@ -34,11 +34,22 @@ final class ProfileCellLayout {
     static func profileCollection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
         
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.95)), subitems: [item])
-        group.contentInsets.bottom = 2
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.22)), subitems: [item])
+        group.contentInsets = .init(top: 0, leading: 12, bottom: 15, trailing: 12)
         
         let section = NSCollectionLayoutSection(group: group)
         
+        return section
+    }
+    
+    static func likedPhotos() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+        
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.9)), subitems: [item])
+        group.contentInsets.bottom = 2
+        
+        let section = NSCollectionLayoutSection(group: group)
+
         return section
     }
     

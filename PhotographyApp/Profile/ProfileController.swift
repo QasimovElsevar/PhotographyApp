@@ -20,6 +20,7 @@ final class ProfileController: UIViewController {
         collection.register(ProfileSelectionCell.self, forCellWithReuseIdentifier: "ProfileSelectionCell")
 //        collection.register(ProfileCollectionCell.self, forCellWithReuseIdentifier: "ProfileCollectionCell")
         collection.register(ImageWithLabelCell.self, forCellWithReuseIdentifier: "ImageWithLabelCell")
+        collection.register(MyCollectionsCell.self, forCellWithReuseIdentifier: "MyCollectionsCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
         
         return collection
@@ -49,7 +50,7 @@ final class ProfileController: UIViewController {
     //MARK: - UI Configuration
     
     func configureUI() {
-        view.backgroundColor = .profile
+        view.backgroundColor = .myBackground
         
         addSubviews()
         setCostraints()
@@ -124,18 +125,22 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             return cell
             
         case .collection:
-            let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
             
             switch viewModel.selections[viewModel.index] {
             case .photos:
+                let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
                 cell.configure(data: viewModel.userPhotos[indexPath.row].urls?.regular ?? "", text: "")
+                return cell
             case .likes:
+                let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
                 cell.configure(data: viewModel.userPhotos[indexPath.row].urls?.regular ?? "", text: viewModel.userPhotos[indexPath.row].user?.name ?? "")
+                return cell
             case .collections:
-                cell.configure(data: viewModel.userPhotos[indexPath.row].urls?.regular ?? "", text: "")
+                let cell = collection.dequeueReusableCell(withReuseIdentifier: "MyCollectionsCell", for: indexPath) as! MyCollectionsCell
+                let collection = viewModel.userCollections[indexPath.row]
+                cell.configure(photos: collection.previewPhotos ?? [], itemCount: collection.totalPhotos ?? 0, name: collection.title ?? "")
+                return cell
             }
-            
-            return cell
         }
     }
     
@@ -144,7 +149,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if viewModel.index == 0 || viewModel.index == 1 {
+        if (viewModel.index == 0 || viewModel.index == 1) && indexPath.section == 2 {
             let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
             coordinator.photoId = viewModel.userPhotos[indexPath.row].id
             coordinator.showImageController()

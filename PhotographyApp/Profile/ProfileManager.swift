@@ -12,17 +12,17 @@ final class ProfileManager: ProfileUseCase {
     let manager = NetworkManager()
     
     func getPhotos() async throws -> [Photos] {
-        let path = UserEndPoints.userPhotos.path
+        let path = UserEndPoints.userPhotos("elfuciy").path
         return try await manager.request(endPoint: path, model: [Photos].self)
     }
     
     func getLikes() async throws -> [Photos] {
-        let path = UserEndPoints.userLikes.path
+        let path = UserEndPoints.userLikes("elfuciy").path
         return try await manager.request(endPoint: path, model: [Photos].self)
     }
     
-    func getCollections() async throws -> [Photos] {
-        let path = UserEndPoints.userLikes.path
-        return try await manager.request(endPoint: path, model: [Photos].self)
+    func getCollections() async throws -> [Collections] {
+        let path = UserEndPoints.userCollections("elfuciy").path
+        return try await manager.request(endPoint: path, model: [Collections].self)
     }
 }

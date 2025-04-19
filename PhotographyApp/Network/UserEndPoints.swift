@@ -8,18 +8,18 @@
 import Foundation
 
 enum UserEndPoints {
-    case userPhotos
-    case userLikes
-    case userCollections
+    case userPhotos(String)
+    case userLikes(String)
+    case userCollections(String)
     
     var path: String {
         switch self {
-        case .userLikes:
-            NetworkManager.shared.configureUrl(endPoint: "/users/elfuciy/likes")
-        case .userPhotos:
-            NetworkManager.shared.configureUrl(endPoint: "/users/elfuciy/photos")
-        case .userCollections:
-            NetworkManager.shared.configureUrl(endPoint: "/users/elfuciy/collections")
+        case .userLikes(let username):
+            NetworkManager.shared.configureUrl(endPoint: "/users/\(username)/likes")
+        case .userPhotos(let username):
+            NetworkManager.shared.configureUrl(endPoint: "/users/\(username)/photos")
+        case .userCollections(let username):
+            NetworkManager.shared.configureUrl(endPoint: "/users/\(username)/collections")
         }
     }
 }

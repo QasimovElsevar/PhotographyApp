@@ -12,5 +12,5 @@ protocol ProfileUseCase {
     
     func getLikes() async throws -> [Photos]
     
-    func getCollections() async throws -> [Photos]
+    func getCollections() async throws -> [Collections]
 }

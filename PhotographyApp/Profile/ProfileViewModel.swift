@@ -66,7 +66,7 @@ final class ProfileViewModel {
                 case .photos:
                     ProfileCellLayout.createHorizontalDoubleCell()
                 case .likes:
-                    ProfileCellLayout.profileCollection()
+                    ProfileCellLayout.likedPhotos()
                 case .collections:
                     ProfileCellLayout.profileCollection()
                 }
@@ -86,7 +86,7 @@ final class ProfileViewModel {
             case .likes:
                 userPhotos.count
             case .collections:
-                userPhotos.count
+                userCollections.count
             }
         }
     }
@@ -111,7 +111,7 @@ final class ProfileViewModel {
             case .collections:
                 let data = try await manager.getCollections()
                 Task {
-                    userPhotos = data
+                    userCollections = data
                     state = .success
                 }
             }
