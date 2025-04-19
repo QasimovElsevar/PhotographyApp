@@ -47,11 +47,14 @@ final class FeedController: UIViewController {
         getData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        configureTitle()
+    }
+    
     private func configureUI() {
         view.addSubview(collection)
         setConstraints()
         bindViewModel()
-        configureTitle()
         configureNavButtons()
     }
     

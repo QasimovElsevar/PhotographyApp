@@ -125,6 +125,10 @@ class ImageController: UIViewController {
         getData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navBarTitleConfigure()
+    }
+    
     //MARK: - UI Configure
     private func configureUI() {
         view.backgroundColor = .myBackground
@@ -244,7 +248,7 @@ extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.section == 1 && viewModel.photo?.tags?.count ?? 5 <= 3 && indexPath.row == viewModel.photoResultArray.count - 2 {
+        if indexPath.section == 1 && viewModel.count < viewModel.photo?.tags?.count ?? 0 && indexPath.row == viewModel.photoResultArray.count - 2 {
             Task {
                 await viewModel.getRelatedPhotos()
             }
@@ -342,7 +346,6 @@ extension ImageController {
     //MARK: - NavigationBa Configure
     
     private func configureNavBar() {
-        navBarTitleConfigure()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"),style: .plain, target: self, action: #selector(handleDismiss))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(handleShare))
     }

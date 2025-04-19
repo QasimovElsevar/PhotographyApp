@@ -87,7 +87,7 @@ final class TopicsCell: UICollectionViewCell {
     //MARK: - Sent Data
     
     func configure(url: String, topic: String) {
-        imageView.loadImage(data: topic)
+        imageView.loadImage(data: url)
         label.text = topic
     }
 }

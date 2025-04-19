@@ -97,7 +97,7 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .topics:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TopicsCell", for: indexPath) as! TopicsCell
-            cell.configure(url: viewModel.topics?[indexPath.row].coverPhoto?.urls?.small ?? "", topic: viewModel.topics?[indexPath.row].title ?? "")
+            cell.configure(url: viewModel.topics?[indexPath.row].coverPhoto?.urls?.thumb ?? "", topic: viewModel.topics?[indexPath.row].title ?? "")
             return cell
         }
     }

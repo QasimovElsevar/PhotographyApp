@@ -15,6 +15,7 @@ final class SearchController: UIViewController {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayaout())
         collection.delegate = self
         collection.dataSource = self
+        collection.allowsSelection = true
         collection.backgroundColor = .clear
         collection.showsVerticalScrollIndicator = false
         collection.register(TextCell.self, forCellWithReuseIdentifier: "TextCell")
@@ -24,13 +25,14 @@ final class SearchController: UIViewController {
         return collection
     }()
     
+    let resultController = SearchResultsController()
+
     private lazy var searchController: UISearchController = {
-        let search = UISearchController(searchResultsController: SearchResultsController())
+        let search = UISearchController(searchResultsController: resultController)
         search.searchResultsUpdater = self
         search.searchBar.delegate = self
         search.hidesNavigationBarDuringPresentation = false
         search.obscuresBackgroundDuringPresentation = false
-        search.searchSuggestions = viewModel.suggestions
         return search
     }()
     
@@ -50,11 +52,11 @@ final class SearchController: UIViewController {
     
     private func configureUI() {
         
-        searchController.searchBar.delegate = self
         view.backgroundColor = .myBackground
         setConstraints()
         configureNavBar()
         bindViewModel()
+        handeSelectedSuggestion()
     }
     
     private func setConstraints() {
@@ -72,7 +74,6 @@ final class SearchController: UIViewController {
         definesPresentationContext = true
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController?.isActive = true
-        navigationItem.searchController?.searchBar.delegate = self
         navigationItem.searchController?.searchBar.becomeFirstResponder()
     }
 }
@@ -96,7 +97,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .browse:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TopicsCell", for: indexPath) as! TopicsCell
-            cell.configure(url: "",topic: viewModel.categories[indexPath.row])
+            cell.configure(url: viewModel.categories[indexPath.row], topic: viewModel.categories[indexPath.row])
             return cell
         case .discoverText:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
@@ -110,17 +111,17 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        if viewModel.searchResult?.totalPages ?? 0 > viewModel.page && indexPath.row == viewModel.searchArray.count - 1 && indexPath.section == 3 {
-//            guard let query = searchController.searchBar.text else {return}
-//            Task {
-//                await viewModel.getPages(query: query)
-//            }
-//        }
+        if viewModel.searchResult?.totalPages ?? 0 > viewModel.page && indexPath.row == viewModel.searchArray.count - 1 && indexPath.section == 3 {
+            Task {
+                await viewModel.getPages(query: viewModel.query)
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            getData(query: viewModel.categories[indexPath.row])
+            viewModel.query = viewModel.categories[indexPath.row]
+            getData(query: viewModel.query)
         } else if indexPath.section == 3 {
             let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
             coordinator.photoId = viewModel.searchArray[indexPath.row].id
@@ -131,27 +132,17 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
 
 extension SearchController: UISearchResultsUpdating, UISearchBarDelegate {
     
-    //MARK: - SearchBar
-    
     func updateSearchResults(for searchController: UISearchController) {
-        let query = searchController.searchBar.text ?? ""
-        if query.isEmpty {
-            searchController.searchSuggestions = viewModel.suggestions
+        if let query = searchController.searchBar.text, !query.isEmpty {
+            resultController.filterSuggestions(isSearched: true, query: query)
         } else {
-            searchController.searchSuggestions = viewModel.suggestions.filter {
-                $0.localizedSuggestion?.lowercased().contains(query.lowercased()) ?? true
-            }
+            resultController.filterSuggestions(isSearched: false)
         }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        getSearch()
-    }
-    
-    func searchController(_ searchController: UISearchController, didSelect suggestion: UISearchSuggestion) {
-        let selectedText = suggestion.localizedSuggestion
-        print("Selected suggestion: \(selectedText)")
-        self.searchController.searchBar.text = selectedText
+        guard let query = searchController.searchBar.text else {return}
+        viewModel.query = query
         getSearch()
     }
 }
@@ -170,15 +161,23 @@ extension SearchController {
                     print(error)
                 case .idle:
                     break
-                }                
+                }
             }
         }
     }
     
     func getSearch() {
-        guard let query = searchController.searchBar.text else {return}
-        getData(query:query)
+        getData(query: viewModel.query)
         searchController.isActive = false
+    }
+    
+    func handeSelectedSuggestion() {
+        resultController.selected = { selected in
+            self.viewModel.query = selected
+            self.searchController.isActive = false
+            self.getSearch()
+        }
+
     }
     
     func getData(query: String) {

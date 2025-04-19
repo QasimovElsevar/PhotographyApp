@@ -66,6 +66,7 @@ class SearchViewModel {
     
     var searchResult: Search?
     var searchArray = [Result]()
+    var query = ""
     var page = 1
     
     let manager = SearchManager()
@@ -131,6 +132,8 @@ class SearchViewModel {
             Task {
                 searchResult = data
                 searchArray.append(contentsOf: searchResult?.results ?? [])
+                print(searchResult?.totalPages ?? 0)
+                print(searchArray.count)
                 state = .success
                 page += 1
             }
