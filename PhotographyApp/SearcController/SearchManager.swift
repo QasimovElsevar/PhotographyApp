@@ -12,7 +12,7 @@ final class SearchManager: SearchUserCase {
     let manager = NetworkManager()
     
     func getSearchResult(query: String, page: Int) async throws -> Search {
-        let path = SearchEndPoints.searchPhoto(query, page).path
+        let path = PhotosEndPoint.searchPhoto(query, page).path
         return try await manager.request(endPoint: path, model: Search.self)
     }
 }

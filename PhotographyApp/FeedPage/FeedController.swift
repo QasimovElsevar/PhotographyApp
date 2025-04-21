@@ -104,8 +104,7 @@ extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
-        coordinator.photoId = viewModel.photoList[indexPath.row].id
+        let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photoList[indexPath.row].id ?? "")
         coordinator.showImageController()
     }
 }

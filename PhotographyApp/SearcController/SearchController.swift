@@ -123,8 +123,7 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             viewModel.query = viewModel.categories[indexPath.row]
             getData(query: viewModel.query)
         } else if indexPath.section == 3 {
-            let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
-            coordinator.photoId = viewModel.searchArray[indexPath.row].id
+            let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.searchArray[indexPath.row].id ?? "")
             coordinator.showImageController()
         }
     }

@@ -5,28 +5,24 @@
 //  Created by Elsever on 14.04.25.
 //
 
-import Foundation
+import UIKit
 
-//class FeedCoordinator: Coordinator {
-//    func start() {
-//        <#code#>
-//    }
-//    
-//    func showSearchController() {
-//        <#code#>
-//    }
-//    
-//    func showUploadController() {
-//        <#code#>
-//    }
-//    
-//    func showLoginCOntroller() {
-//        <#code#>
-//    }
-//    
-//    func showProfileController() {
-//        <#code#>
-//    }
-//    
-//    
-//}
+class FeedCoordinator: Coordinator {
+    var navigationController: UINavigationController
+    var id: String
+    
+    init(navigationController: UINavigationController, id: String) {
+        self.navigationController = navigationController
+        self.id = id
+    }
+    
+    func start() {
+        print("ffff")
+    }
+    
+    func showImageController() {
+        let controller = ImageController(viewModel: .init(photoId: id))
+        controller.hidesBottomBarWhenPushed = true
+        navigationController.show(controller, sender: nil)
+    }
+}

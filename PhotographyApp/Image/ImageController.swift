@@ -241,8 +241,7 @@ extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 2 {
-            let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
-            coordinator.photoId = viewModel.photoResultArray[indexPath.row].id
+            let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photoResultArray[indexPath.row].id ?? "")
             coordinator.showImageController()
         }
     }

@@ -40,11 +40,7 @@ final class MainCoordinator: Coordinator {
         navigationController.present(searchNav, animated: true)
     }
     
-    func showImageController() {
-        let controller = ImageController(viewModel: .init(photoId: photoId ?? ""))
-        controller.hidesBottomBarWhenPushed = true
-        navigationController.show(controller, sender: nil)
-    }
+    
     
     func showSearchController() {
         let controller = SearchController()

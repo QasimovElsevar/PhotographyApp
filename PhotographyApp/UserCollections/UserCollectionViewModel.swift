@@ -9,7 +9,6 @@ import UIKit
 
 final class UserCollectionViewModel {
     
-    let 
     //MARK: - State
     enum ViewState {
         case loading
@@ -27,11 +26,34 @@ final class UserCollectionViewModel {
         }
     }
     
+    let manager = UserCollectionManager()
+    
+    var photos: [Photos] = []
+    var title: String
+    var id: String
+    
+    init(id: String, title: String) {
+        self.title = title
+        self.id = id
+    }
+    
     //MARK: - Collection Layout
     
     func createLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             UserCollectionLayout.collectionPhotos()
+        }
+    }
+    
+    func getCollection() async {
+        do {
+            let data = try await manager.fetchUserCollection(id: id)
+            Task {
+                photos = data
+                state = .success
+            }
+        } catch { 
+            state = .error(error.localizedDescription)
         }
     }
 }

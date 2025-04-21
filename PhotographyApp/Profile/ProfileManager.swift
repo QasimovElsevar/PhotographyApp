@@ -22,7 +22,7 @@ final class ProfileManager: ProfileUseCase {
     }
     
     func getCollections() async throws -> [Collections] {
-        let path = UserEndPoints.userCollections("elfuciy").path
+        let path = CollectionsEndPoints.userCollections("elfuciy").path
         return try await manager.request(endPoint: path, model: [Collections].self)
     }
 }

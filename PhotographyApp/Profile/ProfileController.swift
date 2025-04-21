@@ -150,11 +150,22 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if (viewModel.index == 0 || viewModel.index == 1) && indexPath.section == 2 {
-            let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
-            coordinator.photoId = viewModel.userPhotos[indexPath.row].id
-            coordinator.showImageController()
+            showImageController(indexPath: indexPath.row)
+        } else if viewModel.index == 2 && indexPath.section == 2 {
+            showUserCollectionController(indexPath: indexPath.row)
         }
     }
+    
+    func showImageController(indexPath: Int) {
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userPhotos[indexPath].id ?? "", title: "")
+        coordinator.showImageController()
+    }
+    
+    func showUserCollectionController(indexPath: Int) {
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userCollections[indexPath].id ?? "", title: viewModel.userCollections[indexPath].title ?? "")
+        coordinator.showUserCollectionController()
+    }
+    
     
 //  MARK: - Navigation Bar Appearance
     
@@ -247,8 +258,8 @@ extension ProfileController {
     //MARK: - Menu Actions
     
     func openSettings() {
-        let coordinator = SettingsCoordinator(navigationController: navigationController ?? UINavigationController())
-        coordinator.start()
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "")
+        coordinator.showSettingsController()
     }
     
     func goToProfile() {

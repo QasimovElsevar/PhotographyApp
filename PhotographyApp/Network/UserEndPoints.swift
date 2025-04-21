@@ -10,7 +10,7 @@ import Foundation
 enum UserEndPoints {
     case userPhotos(String)
     case userLikes(String)
-    case userCollections(String)
+    case searchUser(String)
     
     var path: String {
         switch self {
@@ -18,8 +18,8 @@ enum UserEndPoints {
             NetworkManager.shared.configureUrl(endPoint: "/users/\(username)/likes")
         case .userPhotos(let username):
             NetworkManager.shared.configureUrl(endPoint: "/users/\(username)/photos")
-        case .userCollections(let username):
-            NetworkManager.shared.configureUrl(endPoint: "/users/\(username)/collections")
+        case .searchUser(let query):
+            NetworkManager.shared.configureUrl(endPoint: "search/users?query=\(query)")
         }
     }
 }
