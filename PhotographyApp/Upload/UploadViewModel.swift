@@ -20,6 +20,9 @@ final class UploadViewModel {
     //MARK: - Sections
     var coordinator: UploadCoordinator?
     let sections: [Sections] = [.contributionText, .image, .topicText, .topics]
+    var selectedImages: [UIImage] = []
+    let group = DispatchGroup()
+
     
     enum ViewState {
         case success

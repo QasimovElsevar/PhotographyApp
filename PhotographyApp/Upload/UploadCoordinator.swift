@@ -10,9 +10,11 @@ import UIKit
 class UploadCoordinator: Coordinator {
     
     var navigationController: UINavigationController
+    var image: [UIImage]
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, image: [UIImage]) {
         self.navigationController = navigationController
+        self.image = image
     }
     
     func start() {
@@ -25,7 +27,7 @@ class UploadCoordinator: Coordinator {
     }
     
     func showSubmitController() {
-        let controller = PhotoSubmitController()
+        let controller = PhotoSubmitController(viewModel: .init(image: image))
         navigationController.show(controller, sender: nil)
     }
     

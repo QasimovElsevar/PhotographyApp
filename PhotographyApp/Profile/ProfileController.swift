@@ -18,12 +18,19 @@ final class ProfileController: UIViewController {
         collection.backgroundColor = .clear
         collection.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
         collection.register(ProfileSelectionCell.self, forCellWithReuseIdentifier: "ProfileSelectionCell")
-//        collection.register(ProfileCollectionCell.self, forCellWithReuseIdentifier: "ProfileCollectionCell")
+        //        collection.register(ProfileCollectionCell.self, forCellWithReuseIdentifier: "ProfileCollectionCell")
         collection.register(ImageWithLabelCell.self, forCellWithReuseIdentifier: "ImageWithLabelCell")
         collection.register(MyCollectionsCell.self, forCellWithReuseIdentifier: "MyCollectionsCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
         
         return collection
+    }()
+    
+    private lazy var additionalView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .profile
+        view.autoresizingMask = [.flexibleWidth]
+        return view
     }()
     
     private lazy var loadingView: UIActivityIndicatorView = {
@@ -42,8 +49,28 @@ final class ProfileController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let topInset = view.safeAreaInsets.top
+
+          let statusBarView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: topInset))
+          statusBarView.backgroundColor = UIColor.profile
+          view.addSubview(statusBarView)
         configureUI()
-        FireBaseManager.shared.printCurrentUser()
+//        if let navBar = navigationController?.navigationBar {
+//            view.insertSubview(additionalView, belowSubview: navBar)
+//            } else {
+//                view.addSubview(additionalView)
+//            }
+            // Make background transparent
+            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            navigationController?.navigationBar.shadowImage = UIImage()
+//            navigationController?.navigationBar.alpha = 1
+            navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.backgroundColor = .profile
+        edgesForExtendedLayout = [.top]
+        
+        let backgroundView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 100))
+        backgroundView.backgroundColor = UIColor.red.withAlphaComponent(0) // or any color with alpha
+        view.addSubview(backgroundView)
         
     }
     
@@ -51,7 +78,7 @@ final class ProfileController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .myBackground
-        
+        navigationController?.navigationBar.backgroundColor = .profile
         addSubviews()
         setCostraints()
         navigationBarConfigure()
@@ -61,18 +88,6 @@ final class ProfileController: UIViewController {
     }
     
     private func navigationBarConfigure() {
-//        navigationItem.titleView?.tintColor = .label
-//        navigationItem.titleView?.alpha = 0
-        navigationController?.navigationBar.backgroundColor = .profile.withAlphaComponent(0.8)
-//        navigationController?.isNavigationBarHidden = true
-//        UINavigationBar.appearance().backgroundColor?.withAlphaComponent(0)
-//        UINavigationBar.appearance().backgroundColor = .profile.withAlphaComponent(0)
-//        UINavigationBar.appearance().isTranslucent = false
-//        UINavigationBar.appearance().tintColor = .label
-        
-        UINavigationBar.appearance().backgroundColor = .myBackground
-        UINavigationBar.appearance().isTranslucent = false
-        UINavigationBar.appearance().tintColor = .label
         navigationItem.title = "Elsever"
         navigationBarButtonsConfigure()
     }
@@ -170,13 +185,8 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
 //  MARK: - Navigation Bar Appearance
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//            navigationController?.isNavigationBarHidden = false
-//            UINavigationBar.appearance().backgroundColor?.withAlphaComponent(0 + scrollView.contentOffset.y / 100)
-            navigationController?.navigationBar.backgroundColor  = .profile.withAlphaComponent(0.5)
-//        } else {
-//            navigationController?.isNavigationBarHidden = true
-
-//        }
+//        navigationController?.navigationBar.alpha = 0 + scrollView.contentOffset.y / 100
+        navigationController?.navigationBar.backgroundColor = .myBackground.withAlphaComponent(0 + scrollView.contentOffset.y / 100)
     }
 }
 

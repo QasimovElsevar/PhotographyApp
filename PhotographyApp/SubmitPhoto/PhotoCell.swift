@@ -38,4 +38,8 @@ final class PhotoCell: UICollectionViewCell {
             imageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
+    
+    func configure(image: UIImage) {
+        imageView.image = image
+    }
 }

@@ -17,6 +17,7 @@ final class PhotoSubmitLayout {
         group.contentInsets = .init(top: 0, leading: 10, bottom: 0, trailing: 10)
         
         let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .paging
         
         return section
     }

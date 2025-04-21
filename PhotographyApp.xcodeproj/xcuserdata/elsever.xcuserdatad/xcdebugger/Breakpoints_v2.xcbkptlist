@@ -114,50 +114,6 @@
             endingLineNumber = "101"
             landmarkName = "collectionView(_:willDisplay:forItemAt:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "AF289754-23F0-4A22-80EE-FE03E268BCA2 - 328870b9905eafc0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in PhotographyApp.FeedController.collectionView(_: __C.UICollectionView, willDisplay: __C.UICollectionViewCell, forItemAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/FeedPage/FeedController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "101"
-                  endingLineNumber = "101">
-               </Location>
-               <Location
-                  uuid = "AF289754-23F0-4A22-80EE-FE03E268BCA2 - 6105a4c91f941d8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for closure #1 () async -&gt; () in PhotographyApp.FeedController.collectionView(_: __C.UICollectionView, willDisplay: __C.UICollectionViewCell, forItemAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/FeedPage/FeedController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "101"
-                  endingLineNumber = "101">
-               </Location>
-               <Location
-                  uuid = "AF289754-23F0-4A22-80EE-FE03E268BCA2 - 456d5659743113c6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for closure #1 () async -&gt; () in PhotographyApp.FeedController.collectionView(_: __C.UICollectionView, willDisplay: __C.UICollectionViewCell, forItemAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/FeedPage/FeedController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "101"
-                  endingLineNumber = "101">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -170,8 +126,8 @@
             filePath = "PhotographyApp/Upload/UploadController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "bindViewModel()"
             landmarkType = "7">
          </BreakpointContent>
@@ -190,36 +146,6 @@
             endingLineNumber = "250"
             landmarkName = "completeRegister()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "356E2FCD-E755-449A-98D8-FE1FA42AD152 - 8b9cc8eb46161077"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;PhotographyApp.PostForAccesKey&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in PhotographyApp.RegisterController.completeRegister() -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/Register/RegisterController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "250"
-                  endingLineNumber = "250">
-               </Location>
-               <Location
-                  uuid = "356E2FCD-E755-449A-98D8-FE1FA42AD152 - 8a0afd4b91c5a56b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.String&gt;) -&gt; () in closure #1 (Swift.Optional&lt;PhotographyApp.PostForAccesKey&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in PhotographyApp.RegisterController.completeRegister() -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/Register/RegisterController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "250"
-                  endingLineNumber = "250">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -252,36 +178,6 @@
             endingLineNumber = "251"
             landmarkName = "completeRegister()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "A7E64CF8-0E42-4076-B9BC-944195D339D3 - 8a0afd4b91c5a508"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.String&gt;) -&gt; () in closure #1 (Swift.Optional&lt;PhotographyApp.PostForAccesKey&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in PhotographyApp.RegisterController.completeRegister() -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/Register/RegisterController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "251"
-                  endingLineNumber = "251">
-               </Location>
-               <Location
-                  uuid = "A7E64CF8-0E42-4076-B9BC-944195D339D3 - 8a0afd4b91c5a508"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.String&gt;) -&gt; () in closure #1 (Swift.Optional&lt;PhotographyApp.PostForAccesKey&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in PhotographyApp.RegisterController.completeRegister() -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/Register/RegisterController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "251"
-                  endingLineNumber = "251">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -346,36 +242,6 @@
             endingLineNumber = "30"
             landmarkName = "saveUser(firstName:lastName:username:email:accessKey:completion:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "A96347BB-94D2-4A90-A0EA-D1C2D41D2451 - baff14d9b0511ac2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "PhotographyApp.FirestoreManager.saveUser(firstName: Swift.String, lastName: Swift.String, username: Swift.String, email: Swift.String, accessKey: Swift.String, completion: (Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/Firebase/FireStoreManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "30"
-                  endingLineNumber = "30">
-               </Location>
-               <Location
-                  uuid = "A96347BB-94D2-4A90-A0EA-D1C2D41D2451 - 1c7817e4cc8331bd"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;) -&gt; () in PhotographyApp.FirestoreManager.saveUser(firstName: Swift.String, lastName: Swift.String, username: Swift.String, email: Swift.String, accessKey: Swift.String, completion: (Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/Firebase/FireStoreManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "30"
-                  endingLineNumber = "30">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -424,50 +290,6 @@
             endingLineNumber = "304"
             landmarkName = "handleLike()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "995800E4-B496-4756-99D0-2FF33FC92173 - 28e3172fd1ea7b09"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in PhotographyApp.ImageController.handleLike() -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/Image/ImageController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "304"
-                  endingLineNumber = "304">
-               </Location>
-               <Location
-                  uuid = "995800E4-B496-4756-99D0-2FF33FC92173 - 347944c9f2e53115"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) await resume partial function for closure #1 () async -&gt; () in PhotographyApp.ImageController.handleLike() -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/Image/ImageController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "304"
-                  endingLineNumber = "304">
-               </Location>
-               <Location
-                  uuid = "995800E4-B496-4756-99D0-2FF33FC92173 - 861c6b488c59f30d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(5) suspend resume partial function for closure #1 () async -&gt; () in PhotographyApp.ImageController.handleLike() -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/Image/ImageController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "304"
-                  endingLineNumber = "304">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -500,36 +322,6 @@
             endingLineNumber = "129"
             landmarkName = "getPages(query:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "DDA16FC8-3F6F-44F0-8702-EF1725A0BE5B - 70b8b018f8bedec6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "PhotographyApp.SearchViewModel.getPages(query: Swift.String) async -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/SearcController/SearchViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "129"
-                  endingLineNumber = "129">
-               </Location>
-               <Location
-                  uuid = "DDA16FC8-3F6F-44F0-8702-EF1725A0BE5B - 7e1d47ac1192c7ed"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for PhotographyApp.SearchViewModel.getPages(query: Swift.String) async -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/SearcController/SearchViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "129"
-                  endingLineNumber = "129">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -558,10 +350,10 @@
             filePath = "PhotographyApp/Upload/UploadController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "UploadController"
-            landmarkType = "21">
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "picker(_:didFinishPicking:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -574,40 +366,10 @@
             filePath = "PhotographyApp/Upload/UploadController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "picker(_:didFinishPicking:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "B0E60AB4-1661-46D2-8A3E-1A9C8B089F38 - d81f5240fb142601"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "PhotographyApp.UploadController.picker(_: __C.PHPickerViewController, didFinishPicking: Swift.Array&lt;PhotosUI.PHPickerResult&gt;) -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/Upload/UploadController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117">
-               </Location>
-               <Location
-                  uuid = "B0E60AB4-1661-46D2-8A3E-1A9C8B089F38 - d81f5240fb142601"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "PhotographyApp.UploadController.picker(_: __C.PHPickerViewController, didFinishPicking: Swift.Array&lt;PhotosUI.PHPickerResult&gt;) -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/Upload/UploadController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -640,64 +402,6 @@
             endingLineNumber = "131"
             landmarkName = "getPages(query:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "E3AAE767-4688-4F98-ABB9-35B9C3FF97E2 - 7e1d47ac1192c7af"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for PhotographyApp.SearchViewModel.getPages(query: Swift.String) async -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/SearcController/SearchViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "131"
-                  endingLineNumber = "131">
-               </Location>
-               <Location
-                  uuid = "E3AAE767-4688-4F98-ABB9-35B9C3FF97E2 - a56da8fc4e4034af"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for PhotographyApp.SearchViewModel.getPages(query: Swift.String) async -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/SearcController/SearchViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "131"
-                  endingLineNumber = "131">
-               </Location>
-               <Location
-                  uuid = "E3AAE767-4688-4F98-ABB9-35B9C3FF97E2 - 5aa0adda2ffb83a9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for PhotographyApp.SearchViewModel.getPages(query: Swift.String) async -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/SearcController/SearchViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "131"
-                  endingLineNumber = "131">
-               </Location>
-               <Location
-                  uuid = "E3AAE767-4688-4F98-ABB9-35B9C3FF97E2 - c97ac03d32ef2da8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for PhotographyApp.SearchViewModel.getPages(query: Swift.String) async -&gt; ()"
-                  moduleName = "PhotographyApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/SearcController/SearchViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "131"
-                  endingLineNumber = "131">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

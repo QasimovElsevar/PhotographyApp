@@ -104,7 +104,9 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if viewModel.sections[indexPath.section] == .image {
-            present(pickerViewController, animated: true)
+            let navController = UINavigationController(rootViewController: pickerViewController)
+            navController.setNavigationBarHidden(true, animated: false)
+            present(navController, animated: true)
         }
     }
 
@@ -114,15 +116,37 @@ extension UploadController: PHPickerViewControllerDelegate {
     
     //MARK: - Picker
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        if let selectedImage = results.first?.itemProvider {
-            dismiss(animated: true) {
-                selectedImage.registeredTypeIdentifiers.forEach { print($0) }
-                let coordinator = UploadCoordinator(navigationController: self.navigationController ?? UINavigationController())
-                coordinator.showSubmitController()
+        for result in results {
+            if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
+                viewModel.group.enter()
+                result.itemProvider.loadObject(ofClass: UIImage.self) { object, error in
+                    if let image = object as? UIImage {
+                        self.viewModel.selectedImages.append(image)
+                    }
+                    self.viewModel.group.leave()
+                }
             }
-        } else {
-            dismiss(animated: true)
         }
+        viewModel.group.notify(queue: .main) {
+            let coordinator = UploadCoordinator(navigationController: self.pickerViewController.navigationController ?? UINavigationController(), image: self.viewModel.selectedImages)
+            coordinator.showSubmitController()
+        }
+//            selectedImage.registeredTypeIdentifiers.forEach { print($0) }
+//            
+//            guard let provider = results.first?.itemProvider else { return }
+//            
+//            if provider.canLoadObject(ofClass: UIImage.self) {
+//                provider.loadObject(ofClass: UIImage.self) { image, _ in
+//                    DispatchQueue.main.async {
+//                        let image = image as? UIImage
+//                        let coordinator = UploadCoordinator(navigationController: self.pickerViewController.navigationController ?? UINavigationController(), image: image ?? UIImage())
+//                        coordinator.showSubmitController()
+//                    }
+//                }
+
+//        } else {
+//            dismiss(animated: true)
+//        }
     }
     
 //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

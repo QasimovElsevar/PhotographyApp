@@ -24,7 +24,16 @@ final class PhotoSubmitController: UIViewController {
     }()
     
     //MARK: - Properties
-    let viewModel = PhotoSubmitViewModel()
+    let viewModel: PhotoSubmitViewModel
+    
+    init(viewModel: PhotoSubmitViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - Lifcycle
     
@@ -58,14 +67,20 @@ final class PhotoSubmitController: UIViewController {
 }
 
 extension PhotoSubmitController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 7
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        1
+        viewModel.numberOfitems(index: section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch viewModel.sections[indexPath.section] {
         case .selectedPhotos:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
+            cell.configure(image: viewModel.image[indexPath.row])
             return cell
             
         case .descriptionText:
@@ -103,11 +118,6 @@ extension PhotoSubmitController: UICollectionViewDelegate, UICollectionViewDataS
             return cell
         }
     }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 7
-    }
-    
 }
 
 extension PhotoSubmitController {

@@ -27,7 +27,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func createHome() -> UINavigationController {
         let searchController = FeedController()
         let searchNav = UINavigationController(rootViewController: searchController)
-        searchController.viewModel.coordinator = MainCoordinator(navigationController: searchNav)
+//        searchController.viewModel.coordinator = MainCoordinator(navigationController: searchNav)
         let tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(systemName: "photo"),
@@ -40,7 +40,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func createFeed() -> UINavigationController {
         let searchController = SearchController()
         let searchNav = UINavigationController(rootViewController: searchController)
-        searchController.viewModel.coordinator = MainCoordinator(navigationController: searchNav)
+//        searchController.viewModel.coordinator = MainCoordinator(navigationController: searchNav)
         let tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(systemName: "magnifyingglass"),
@@ -53,7 +53,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func createloadController() -> UINavigationController {
         let uploadController = UploadController()
         let uploadNav = UINavigationController(rootViewController: uploadController)
-        uploadController.viewModel.coordinator = UploadCoordinator(navigationController: uploadNav)
+//        uploadController.viewModel.coordinator = UploadCoordinator(navigationController: uploadNav, image: <#UIImage#>)
         let tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(systemName: "plus.app.fill"),
@@ -66,7 +66,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func createLogin() -> UINavigationController {
         let loginController = LoginController()
         let loginNav = UINavigationController(rootViewController: loginController)
-        loginController.viewModel.coordinator = MainCoordinator(navigationController: loginNav)
+//        loginController.viewModel.coordinator = MainCoordinator(navigationController: loginNav)
         let tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(systemName: "person"),

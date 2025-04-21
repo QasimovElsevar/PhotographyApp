@@ -22,6 +22,21 @@ final class PhotoSubmitViewModel {
     
     let sections: [PhotoSubmitSections] = [.selectedPhotos, .descriptionText, .description, .locationText, .location, .tagsText, .tags]
     
+    var image: [UIImage]
+    
+    init(image: [UIImage]) {
+        self.image = image
+    }
+    
+    func numberOfitems(index: Int) -> Int {
+        switch sections[index] {
+        case .descriptionText, .description, .locationText, .location, .tagsText, .tags:
+            1
+        case .selectedPhotos:
+            image.count
+        }
+    }
+    
     func createLayaout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { sectionNumber, environment in
             switch self.sections[sectionNumber] {
