@@ -41,8 +41,8 @@ final class ProfileController: UIViewController {
         return loadingView
     }()
     
-   //MARK: - Properties
-
+    //MARK: - Properties
+    
     let viewModel =  ProfileViewModel()
     
     //MARK: - Lifecycle
@@ -50,21 +50,21 @@ final class ProfileController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let topInset = view.safeAreaInsets.top
-
-          let statusBarView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: topInset))
-          statusBarView.backgroundColor = UIColor.profile
-          view.addSubview(statusBarView)
+        
+        let statusBarView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: topInset))
+        statusBarView.backgroundColor = UIColor.profile
+        view.addSubview(statusBarView)
         configureUI()
-//        if let navBar = navigationController?.navigationBar {
-//            view.insertSubview(additionalView, belowSubview: navBar)
-//            } else {
-//                view.addSubview(additionalView)
-//            }
-            // Make background transparent
-            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-            navigationController?.navigationBar.shadowImage = UIImage()
-//            navigationController?.navigationBar.alpha = 1
-            navigationController?.navigationBar.isTranslucent = true
+        //        if let navBar = navigationController?.navigationBar {
+        //            view.insertSubview(additionalView, belowSubview: navBar)
+        //            } else {
+        //                view.addSubview(additionalView)
+        //            }
+        // Make background transparent
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        //            navigationController?.navigationBar.alpha = 1
+        navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.backgroundColor = .profile
         edgesForExtendedLayout = [.top]
         
@@ -112,7 +112,7 @@ final class ProfileController: UIViewController {
         ])
     }
     
-     //MARK: - UI Actions
+    //MARK: - UI Actions
     
     @objc private func openMenu() {
         print("ffff")
@@ -182,10 +182,10 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     
-//  MARK: - Navigation Bar Appearance
+    //  MARK: - Navigation Bar Appearance
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        navigationController?.navigationBar.alpha = 0 + scrollView.contentOffset.y / 100
+        //        navigationController?.navigationBar.alpha = 0 + scrollView.contentOffset.y / 100
         navigationController?.navigationBar.backgroundColor = .myBackground.withAlphaComponent(0 + scrollView.contentOffset.y / 100)
     }
 }
@@ -231,6 +231,7 @@ extension ProfileController {
         let openSettings = UIAction(title: "Account Settings") { action in
             self.openSettings()
         }
+        
         let logOut = UIAction(title: "Log Out") { action in
             FireBaseManager.shared.signOut()
             self.goToProfile()
@@ -253,13 +254,12 @@ extension ProfileController {
             return button
         }()
         
-        
         navigationItem.rightBarButtonItems = [shareButton, menuButton]
     }
     
     func configureTitle() {
         navigationController?.navigationBar.titleTextAttributes = [
-                .font: UIFont.boldSystemFont(ofSize: 18)
+            .font: UIFont.boldSystemFont(ofSize: 18)
         ]
         
         navigationController?.title = "Photography"

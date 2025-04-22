@@ -95,6 +95,13 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         }
         return 40
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "")
+            coordinator.showProfileEditingController()
+        }
+    }
 }
 
 extension SettingsViewController {

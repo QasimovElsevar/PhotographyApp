@@ -39,4 +39,9 @@ class ProfileCoordinator: Coordinator {
         controller.hidesBottomBarWhenPushed = true
         navigationController.show(controller, sender: nil)
     }
+    
+    func showProfileEditingController() {
+        let controller = ProfileEditingController()
+        navigationController.show(controller, sender: nil)
+    }
 }
