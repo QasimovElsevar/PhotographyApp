@@ -21,6 +21,11 @@ enum SettingsOptions: String {
 final class SettingsViewModel {
     let section: [SettingsSections] = [.profile, .menu]
     let options: [SettingsOptions] = [.profileediting, .changePassword, .account]
+    var userDara: UserModel
+    
+    init(userDara: UserModel) {
+        self.userDara = userDara
+    }
     
     func numberOfRows(in section: Int) -> Int {
         switch self.section[section] {

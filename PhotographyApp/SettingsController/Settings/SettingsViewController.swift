@@ -24,7 +24,16 @@ final class SettingsViewController: UIViewController {
     
     //MARK: - Properties
     
-    let viewModel = SettingsViewModel()
+    let viewModel: SettingsViewModel
+    
+    init(viewModel: SettingsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - Lifecycle
     
@@ -76,7 +85,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = table.dequeueReusableCell(withIdentifier: "SettingHeadCell", for: indexPath) as! SettingHeadCell
-            cell.configure(imageName: "person.fill", text: "name")
+            cell.configure(imageName: "person.fill", text: "\(viewModel.userDara.firstName ?? "") \(viewModel.userDara.lastName ?? "")")
             return cell
         } else {
             let cell = table.dequeueReusableCell(withIdentifier: "TableTextCell", for: indexPath) as! TableTextCell
@@ -98,7 +107,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "")
+            let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", userArray: viewModel.userDara)
             coordinator.showProfileEditingController()
         }
     }
@@ -106,6 +115,8 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension SettingsViewController {
     @objc private func closeSettings() {
-        dismiss(animated: true)
+        dismiss(animated: true, completion: {
+            
+        })
     }
 }

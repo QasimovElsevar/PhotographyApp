@@ -43,7 +43,7 @@ final class FeedController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
-        viewModel.getUserData()
+//        viewModel.getUserData()
         getData()
     }
     

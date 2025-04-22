@@ -81,7 +81,7 @@ extension UserCollectionController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photos[indexPath.row].id ?? "", title: "")
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photos[indexPath.row].id ?? "", title: "", userArray: UserModel.init(firstName: "", lastName: "", username: "", email: "", accessKey: ""))
         coordinator.showImageController()
     }
 }

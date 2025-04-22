@@ -27,7 +27,7 @@ final class FirestoreManager {
         
         guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
         
-        db.collection("\(firstName):  \(collection)").document(firstName).setData(data) { error in
+        db.collection("\(collection)").document(firstName).setData(data) { error in
             if let error = error {
                 completion(error.localizedDescription)
             } else {
@@ -36,11 +36,11 @@ final class FirestoreManager {
         }
     }
     
-    func getUserData(completion: @escaping (UserModel?, String?) -> Void)  {
+    func getUserData(completion: @escaping (UserModel?, String?) -> Void) {
         
         guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
         
-        db.collection("Trying:  \(collection)").getDocuments { snapshot, error in
+        db.collection("\(collection)").getDocuments { snapshot, error in
             if let error = error {
                 completion(nil, error.localizedDescription)
             } else {
@@ -55,6 +55,26 @@ final class FirestoreManager {
                     UserDefaults.standard.set(accessKey, forKey: "Key")
                     completion(userData, nil)
                 }
+            }
+        }
+    }
+    
+    func updateUserData(firstName: String, lastName: String, username: String, email: String, accessKey: String, completion: @escaping (String?) -> Void) {
+        
+        let data: [String: Any] = [
+            "firstName" : firstName,
+            "lastName" : lastName,
+            "username" : username,
+            "email" : email,
+            "accessKey" : accessKey]
+        
+        guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
+        
+        db.collection("\(collection)").document(firstName).updateData(data) { error in
+            if let error = error {
+                completion(error.localizedDescription)
+            } else {
+                print("updated")
             }
         }
     }

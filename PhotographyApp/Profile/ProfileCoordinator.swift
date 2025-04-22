@@ -11,12 +11,14 @@ class ProfileCoordinator: Coordinator {
     
     var navigationController: UINavigationController
     var title: String
+    var userArray: UserModel
     var id: String
     
-    init(navigationController: UINavigationController, id: String, title: String) {
+    init(navigationController: UINavigationController, id: String, title: String, userArray: UserModel) {
         self.navigationController = navigationController
         self.title = title
         self.id = id
+        self.userArray = userArray
     }
     
     func start() {
@@ -24,7 +26,7 @@ class ProfileCoordinator: Coordinator {
     }
     
     func showSettingsController() {
-        let controller = SettingsViewController()
+        let controller = SettingsViewController(viewModel: .init(userDara: userArray))
         let nvConreoller = UINavigationController(rootViewController: controller)
         navigationController.present(nvConreoller, animated: true)
     }
@@ -41,7 +43,7 @@ class ProfileCoordinator: Coordinator {
     }
     
     func showProfileEditingController() {
-        let controller = ProfileEditingController()
+            let controller = ProfileEditingController(viewModel: .init(userArray: userArray))
         navigationController.show(controller, sender: nil)
     }
 }

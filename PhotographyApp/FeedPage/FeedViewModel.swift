@@ -65,15 +65,16 @@ final class FeedViewModel {
         }
     }
     
-    func getUserData() {
-        FirestoreManager.shared.getUserData { [weak self] data, error in
-            guard let self else {return}
-            if let error = error {
-                print(error)
-            } else {
-                userData = data
-                UserDefaults.standard.set(data?.accessKey, forKey: "key")
-            }
-        }
-    }
+//    func getUserData() {
+//        FirestoreManager.shared.getUserData { [weak self] data, error in
+//            guard let self else {return}
+//            if let error = error {
+//                print(error)
+//            } else {
+//                userData = data
+//                print(data?.firstName)
+//                UserDefaults.standard.set(data?.accessKey, forKey: "key")
+//            }
+//        }
+//    }
 }

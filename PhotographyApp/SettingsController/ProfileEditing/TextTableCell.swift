@@ -1,5 +1,5 @@
 //
-//  TextFieldCell.swift
+//  TextTableCell.swift
 //  PhotographyApp
 //
 //  Created by Elsever on 22.04.25.

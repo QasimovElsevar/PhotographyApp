@@ -49,6 +49,7 @@ final class ProfileController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.getUser()
         let topInset = view.safeAreaInsets.top
         
         let statusBarView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: topInset))
@@ -88,7 +89,6 @@ final class ProfileController: UIViewController {
     }
     
     private func navigationBarConfigure() {
-        navigationItem.title = "Elsever"
         navigationBarButtonsConfigure()
     }
     
@@ -172,12 +172,12 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func showImageController(indexPath: Int) {
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userPhotos[indexPath].id ?? "", title: "")
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userPhotos[indexPath].id ?? "", title: "", userArray: viewModel.userData! )
         coordinator.showImageController()
     }
     
     func showUserCollectionController(indexPath: Int) {
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userCollections[indexPath].id ?? "", title: viewModel.userCollections[indexPath].title ?? "")
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userCollections[indexPath].id ?? "", title: viewModel.userCollections[indexPath].title ?? "", userArray: viewModel.userData!)
         coordinator.showUserCollectionController()
     }
     
@@ -211,6 +211,7 @@ extension ProfileController {
                 case  .loaded:
                     loadingView.stopAnimating()
                 case .success:
+                    navigationItem.title = "\(viewModel.userData?.firstName ?? "") \(viewModel.userData?.lastName ?? "")"
                     collection.reloadData()
                 case .error(let error):
                     print(error)
@@ -268,7 +269,8 @@ extension ProfileController {
     //MARK: - Menu Actions
     
     func openSettings() {
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "")
+        guard let data = viewModel.userData else { return }
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", userArray: data)
         coordinator.showSettingsController()
     }
     

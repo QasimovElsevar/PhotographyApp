@@ -8,20 +8,91 @@
 import UIKit
 
 class ProfileEditingController: UIViewController {
-
-    private lazy var table: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .insetGrouped)
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.backgroundColor = .clear
-        tableView.register(TextTabelCell.self, forCellReuseIdentifier: "TextTabelCell")
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
+    
+    //MARK: - UI Elements
+    
+    private lazy var label: UILabel = {
+        let label = UILabel()
+        label.text = "Profile"
+        label.textColor = .gray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
+    
+    private lazy var fieldView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .selectionView
+        view.layer.cornerRadius = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var nameField: UITextField = {
+        let textField = UITextField()
+        textField.text = "nameField"
+        textField.backgroundColor = .selectionView
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private lazy var lastnameField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .selectionView
+        textField.text = "nameField"
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private lazy var usernameField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .selectionView
+        textField.text = "nameField"
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private lazy var emailField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .selectionView
+        textField.text = "nameField"
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private lazy var stack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.layer.cornerRadius = 12
+        stack.spacing = 0
+        stack.alignment = .fill
+        stack.distribution = .fillEqually
+        [
+            nameField,
+            lastnameField,
+            usernameField,
+            emailField
+        ].forEach {stack.addArrangedSubview($0)}
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
+    let viewModel: ProfileEditingViewModel
+    
+    init(viewModel: ProfileEditingViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Lyfcycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureTextFields()
     }
     
     //MARK: - UI Configuration
@@ -38,15 +109,39 @@ class ProfileEditingController: UIViewController {
     }
     
     private func addSubviews() {
-        view.addSubview(table)
+        view.addSubview(label)
+        view.addSubview(fieldView)
+        [nameField,
+         lastnameField,
+         usernameField,
+         emailField].forEach({ fieldView.addSubview($0) })
     }
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            table.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            table.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            table.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            table.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            
+            fieldView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 8),
+            fieldView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            fieldView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            fieldView.heightAnchor.constraint(equalToConstant: 150 ),
+            
+            nameField.topAnchor.constraint(equalTo: fieldView.topAnchor, constant: 12),
+            nameField.leadingAnchor.constraint(equalTo: fieldView.leadingAnchor, constant: 8),
+            nameField.trailingAnchor.constraint(equalTo: fieldView.trailingAnchor, constant: -4),
+            
+            lastnameField.topAnchor.constraint(equalTo: nameField.bottomAnchor, constant: 12),
+            lastnameField.leadingAnchor.constraint(equalTo: fieldView.leadingAnchor, constant: 8),
+            lastnameField.trailingAnchor.constraint(equalTo: fieldView.trailingAnchor, constant: -4),
+            
+            usernameField.topAnchor.constraint(equalTo: lastnameField.bottomAnchor, constant: 12),
+            usernameField.leadingAnchor.constraint(equalTo: fieldView.leadingAnchor, constant: 8),
+            usernameField.trailingAnchor.constraint(equalTo: fieldView.trailingAnchor, constant: -4),
+            
+            emailField.topAnchor.constraint(equalTo: usernameField.bottomAnchor, constant: 12),
+            emailField.leadingAnchor.constraint(equalTo: fieldView.leadingAnchor, constant: 8),
+            emailField.trailingAnchor.constraint(equalTo: fieldView.trailingAnchor, constant: -4),
         ])
     }
     
@@ -55,22 +150,29 @@ class ProfileEditingController: UIViewController {
         navigationController?.navigationBar.backgroundColor = .settings
         navigationController?.navigationBar.isTranslucent = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"),style: .plain, target: self, action: #selector(closeSettings))
-    }
-}
-
-extension ProfileEditingController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        4
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveChanges))
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = table.dequeueReusableCell(withIdentifier: "TextTabelCell", for: indexPath) as! TextTabelCell
-            return cell
+    func configureTextFields() {
+        nameField.text = viewModel.userArray.firstName
+        lastnameField.text = viewModel.userArray.lastName
+        usernameField.text = viewModel.userArray.username
+        emailField.text = viewModel.userArray.email
     }
 }
 
 extension ProfileEditingController {
     @objc private func closeSettings() {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func saveChanges() {
+        FirestoreManager.shared.updateUserData(firstName: nameField.text ?? "", lastName: lastnameField.text ?? "", username: usernameField.text ?? "", email: emailField.text ?? "", accessKey: viewModel.userArray.accessKey ?? "") { error in
+            if let error = error {
+                print(error)
+            } else {
+                self.showAllert(title: "Success", message: "Your profile updated")
+            }
+        }
     }
 }
