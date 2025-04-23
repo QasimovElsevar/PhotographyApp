@@ -16,21 +16,14 @@ final class ProfileController: UIViewController {
         collection.delegate = self
         collection.dataSource = self
         collection.backgroundColor = .clear
+        collection.contentInsetAdjustmentBehavior = .never
         collection.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
         collection.register(ProfileSelectionCell.self, forCellWithReuseIdentifier: "ProfileSelectionCell")
-        //        collection.register(ProfileCollectionCell.self, forCellWithReuseIdentifier: "ProfileCollectionCell")
         collection.register(ImageWithLabelCell.self, forCellWithReuseIdentifier: "ImageWithLabelCell")
         collection.register(MyCollectionsCell.self, forCellWithReuseIdentifier: "MyCollectionsCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
         
         return collection
-    }()
-    
-    private lazy var additionalView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .profile
-        view.autoresizingMask = [.flexibleWidth]
-        return view
     }()
     
     private lazy var loadingView: UIActivityIndicatorView = {
@@ -41,6 +34,15 @@ final class ProfileController: UIViewController {
         return loadingView
     }()
     
+    private lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .myBackground
+        view.alpha = 0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    
     //MARK: - Properties
     
     let viewModel =  ProfileViewModel()
@@ -50,29 +52,7 @@ final class ProfileController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getUser()
-        let topInset = view.safeAreaInsets.top
-        
-        let statusBarView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: topInset))
-        statusBarView.backgroundColor = UIColor.profile
-        view.addSubview(statusBarView)
         configureUI()
-        //        if let navBar = navigationController?.navigationBar {
-        //            view.insertSubview(additionalView, belowSubview: navBar)
-        //            } else {
-        //                view.addSubview(additionalView)
-        //            }
-        // Make background transparent
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        //            navigationController?.navigationBar.alpha = 1
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.backgroundColor = .profile
-        edgesForExtendedLayout = [.top]
-        
-        let backgroundView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 100))
-        backgroundView.backgroundColor = UIColor.red.withAlphaComponent(0) // or any color with alpha
-        view.addSubview(backgroundView)
-        
     }
     
     //MARK: - UI Configuration
@@ -82,25 +62,23 @@ final class ProfileController: UIViewController {
         navigationController?.navigationBar.backgroundColor = .profile
         addSubviews()
         setCostraints()
-        navigationBarConfigure()
+        navBarConfigure()
+        navigationBarButtonsConfigure()
+        navBarConfigure()
         getData()
         bindViewModel()
         configureTitle()
     }
     
-    private func navigationBarConfigure() {
-        navigationBarButtonsConfigure()
-    }
-    
     private func addSubviews() {
         view.addSubview(collection)
         view.addSubview(loadingView)
+        view.addSubview(backgroundView)
     }
-    
     
     private func setCostraints() {
         NSLayoutConstraint.activate([
-            collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collection.topAnchor.constraint(equalTo: view.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -108,7 +86,12 @@ final class ProfileController: UIViewController {
             loadingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            backgroundView.heightAnchor.constraint(equalToConstant: 100),
+            backgroundView.widthAnchor.constraint(equalToConstant: view.frame.width),
+            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -185,8 +168,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     //  MARK: - Navigation Bar Appearance
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        //        navigationController?.navigationBar.alpha = 0 + scrollView.contentOffset.y / 100
-        navigationController?.navigationBar.backgroundColor = .myBackground.withAlphaComponent(0 + scrollView.contentOffset.y / 100)
+        backgroundView.alpha = 0 + scrollView.contentOffset.y / 100
     }
 }
 
@@ -226,6 +208,14 @@ extension ProfileController {
 
 extension ProfileController {
     //MARK: - navigationController Configuration
+    
+    func navBarConfigure() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.backgroundColor = .none
+        edgesForExtendedLayout = [.top]
+    }
     
     func navigationBarButtonsConfigure() {
         

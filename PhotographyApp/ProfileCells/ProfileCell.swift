@@ -17,7 +17,7 @@ final class ProfileCell: UICollectionViewCell {
         image.image = UIImage(systemName: "person.fill")
         image.backgroundColor = .gray
         image.clipsToBounds = true
-        image.layer.cornerRadius = 40
+        image.layer.cornerRadius = 30
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -62,8 +62,8 @@ final class ProfileCell: UICollectionViewCell {
             label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24),
             label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             
-            imageView.widthAnchor.constraint(equalToConstant: 80),
-            imageView.heightAnchor.constraint(equalToConstant: 80),
+            imageView.widthAnchor.constraint(equalToConstant: 60),
+            imageView.heightAnchor.constraint(equalToConstant: 60),
             imageView.bottomAnchor.constraint(equalTo: label.topAnchor, constant: -8),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
         ])

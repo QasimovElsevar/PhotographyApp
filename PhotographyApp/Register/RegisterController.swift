@@ -101,11 +101,7 @@ final class RegisterController: UIViewController {
         configureUI()
         notify()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        FireBaseManager.shared.printCurrentUser()
-    }
-    
+
     //MARK: - UI Configuration
     
     func configureUI() {

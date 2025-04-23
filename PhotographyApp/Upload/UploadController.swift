@@ -105,8 +105,8 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if viewModel.sections[indexPath.section] == .image {
             let navController = UINavigationController(rootViewController: pickerViewController)
-            navController.setNavigationBarHidden(true, animated: false)
-            present(navController, animated: true)
+//            navController.setNavigationBarHidden(true, animated: false)
+            show(navController, sender: nil)
         }
     }
 
@@ -131,32 +131,7 @@ extension UploadController: PHPickerViewControllerDelegate {
             let coordinator = UploadCoordinator(navigationController: self.pickerViewController.navigationController ?? UINavigationController(), image: self.viewModel.selectedImages)
             coordinator.showSubmitController()
         }
-//            selectedImage.registeredTypeIdentifiers.forEach { print($0) }
-//            
-//            guard let provider = results.first?.itemProvider else { return }
-//            
-//            if provider.canLoadObject(ofClass: UIImage.self) {
-//                provider.loadObject(ofClass: UIImage.self) { image, _ in
-//                    DispatchQueue.main.async {
-//                        let image = image as? UIImage
-//                        let coordinator = UploadCoordinator(navigationController: self.pickerViewController.navigationController ?? UINavigationController(), image: image ?? UIImage())
-//                        coordinator.showSubmitController()
-//                    }
-//                }
-
-//        } else {
-//            dismiss(animated: true)
-//        }
     }
-    
-//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//        if let selectedImage = info[.originalImage] as? UIImage {
-//            dismiss(animated: true) {
-//                let coordinator = UploadCoordinator(navigationController: self.navigationController ?? UINavigationController())
-//                coordinator.showSubmitController()
-//            }
-//        }
-//    }
 }
 
 extension UploadController {
