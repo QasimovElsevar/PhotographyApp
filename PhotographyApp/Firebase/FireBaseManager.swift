@@ -50,4 +50,16 @@ final class FireBaseManager {
     
     func changePassword() {
     }
+    
+    func deleteUser(completion: @escaping (String?) -> Void) {
+        let user = Auth.auth().currentUser
+        
+        user?.delete { error in
+            if let error = error {
+                completion(error.localizedDescription)
+            } else {
+                completion(nil)
+            }
+        }
+    }
 }

@@ -107,9 +107,14 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", userArray: viewModel.userDara)
-            coordinator.showProfileEditingController()
-        }
+            if indexPath.row == 0 {
+                let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", userArray: viewModel.userDara)
+                coordinator.showProfileEditingController()
+            } else if indexPath.row == 2 {
+                let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", userArray: viewModel.userDara)
+                coordinator.showAccountCoordinator()
+            }
+        } 
     }
 }
 

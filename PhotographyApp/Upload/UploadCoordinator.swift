@@ -28,7 +28,7 @@ class UploadCoordinator: Coordinator {
     
     func showSubmitController() {
         let controller = PhotoSubmitController(viewModel: .init(image: image))
+        navigationController.setNavigationBarHidden(false, animated: true)
         navigationController.show(controller, sender: nil)
     }
-    
 }

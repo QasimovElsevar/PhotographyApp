@@ -105,7 +105,7 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if viewModel.sections[indexPath.section] == .image {
             let navController = UINavigationController(rootViewController: pickerViewController)
-//            navController.setNavigationBarHidden(true, animated: false)
+            navController.setNavigationBarHidden(true, animated: false)
             show(navController, sender: nil)
         }
     }
@@ -116,20 +116,24 @@ extension UploadController: PHPickerViewControllerDelegate {
     
     //MARK: - Picker
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        for result in results {
-            if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
-                viewModel.group.enter()
-                result.itemProvider.loadObject(ofClass: UIImage.self) { object, error in
-                    if let image = object as? UIImage {
-                        self.viewModel.selectedImages.append(image)
+        if results.isEmpty {
+            dismiss(animated: true)
+        } else {
+            for result in results {
+                if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
+                    viewModel.group.enter()
+                    result.itemProvider.loadObject(ofClass: UIImage.self) { object, error in
+                        if let image = object as? UIImage {
+                            self.viewModel.selectedImages.append(image)
+                        }
+                        self.viewModel.group.leave()
                     }
-                    self.viewModel.group.leave()
                 }
             }
-        }
-        viewModel.group.notify(queue: .main) {
-            let coordinator = UploadCoordinator(navigationController: self.pickerViewController.navigationController ?? UINavigationController(), image: self.viewModel.selectedImages)
-            coordinator.showSubmitController()
+            viewModel.group.notify(queue: .main) {
+                let coordinator = UploadCoordinator(navigationController: self.pickerViewController.navigationController ?? UINavigationController(), image: self.viewModel.selectedImages)
+                coordinator.showSubmitController()
+            }
         }
     }
 }

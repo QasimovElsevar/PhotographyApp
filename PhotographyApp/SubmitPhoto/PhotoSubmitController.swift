@@ -19,10 +19,19 @@ final class PhotoSubmitController: UIViewController {
         collection.register(TextCell.self, forCellWithReuseIdentifier: "TextCell")
         collection.register(TextFieldCell.self, forCellWithReuseIdentifier: "TextFieldCell")
         collection.register(PhotoCell.self, forCellWithReuseIdentifier: "PhotoCell")
+        collection.register(PageControlCell.self, forCellWithReuseIdentifier: "PageControlCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
     
+    private lazy var pageControl: UIPageControl = {
+      let pageControl = UIPageControl()
+        pageControl.pageIndicatorTintColor = .lightGray
+        pageControl.currentPageIndicatorTintColor = .black
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        return pageControl
+    }()
+
     //MARK: - Properties
     let viewModel: PhotoSubmitViewModel
     
@@ -45,6 +54,7 @@ final class PhotoSubmitController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .myBackground
         view.addSubview(collection)
+        view.addSubview(pageControl)
         setConstraints()
         navigationBarConfigure()
     }
@@ -69,7 +79,7 @@ final class PhotoSubmitController: UIViewController {
 extension PhotoSubmitController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 7
+        return 8
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -82,32 +92,22 @@ extension PhotoSubmitController: UICollectionViewDelegate, UICollectionViewDataS
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
             cell.configure(image: viewModel.image[indexPath.row])
             return cell
-            
         case .descriptionText:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
             cell.configure(text: "Description", textSize: 16)
-            collectionView.collectionViewLayout.invalidateLayout()
             return cell
-            
         case .locationText:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
             cell.configure(text: "Location", textSize: 16)
             return cell
-            
         case .tagsText:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
             cell.configure(text: "Tags", textSize: 16)
             return cell
-            
         case .description:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextFieldCell", for: indexPath) as! TextFieldCell
             cell.configure(placeholder: "Add Description")
-            cell.callback = {
-                self.collection.collectionViewLayout.invalidateLayout()
-                self.view.layoutIfNeeded()
-            }
             return cell
-            
         case .location:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextFieldCell", for: indexPath) as! TextFieldCell
             cell.configure(placeholder: "Add Location")
@@ -116,6 +116,18 @@ extension PhotoSubmitController: UICollectionViewDelegate, UICollectionViewDataS
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextFieldCell", for: indexPath) as! TextFieldCell
             cell.configure(placeholder: "Add Tags")
             return cell
+        case .pageControl:
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: "PageControlCell", for: indexPath) as! PageControlCell
+            cell.configure(numberOfPages: viewModel.image.count, currentPage: viewModel.pageControlCurrentPage)
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            print(indexPath.row)
+            viewModel.pageControlCurrentPage = indexPath.row
+            collection.reloadData()
         }
     }
 }
@@ -125,11 +137,14 @@ extension PhotoSubmitController {
     //MARK: - NavBar Actions
     
     @objc func handleCancel() {
+        navigationController?.setNavigationBarHidden(true, animated: true)
         navigationController?.popViewController(animated: true)
     }
     
     @objc func handleSubmit() {
-        print("submited")
+        Task {
+            await viewModel.uploadImage(index: 0)
+        }
     }
     
     func configureNavRightButton() {

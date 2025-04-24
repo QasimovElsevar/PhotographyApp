@@ -12,6 +12,7 @@ enum PhotoSubmitSections {
     case selectedPhotos
     case description
     case descriptionText
+    case pageControl
     case location
     case locationText
     case tags
@@ -20,9 +21,14 @@ enum PhotoSubmitSections {
 
 final class PhotoSubmitViewModel {
     
-    let sections: [PhotoSubmitSections] = [.selectedPhotos, .descriptionText, .description, .locationText, .location, .tagsText, .tags]
+    let sections: [PhotoSubmitSections] = [.selectedPhotos, .pageControl, .descriptionText, .description, .locationText, .location, .tagsText, .tags]
     
+    let manager = PhotoSubmitManager()
+    
+    let id = UUID().uuidString
     var image: [UIImage]
+    var pageControlCurrentPage: Int = 0
+    var pageChanged: Bool = false
     
     init(image: [UIImage]) {
         self.image = image
@@ -30,7 +36,7 @@ final class PhotoSubmitViewModel {
     
     func numberOfitems(index: Int) -> Int {
         switch sections[index] {
-        case .descriptionText, .description, .locationText, .location, .tagsText, .tags:
+        case .descriptionText, .description, .locationText, .location, .tagsText, .tags, .pageControl:
             1
         case .selectedPhotos:
             image.count
@@ -42,19 +48,22 @@ final class PhotoSubmitViewModel {
             switch self.sections[sectionNumber] {
             case .selectedPhotos:
                 return PhotoSubmitLayout.selectionCell(height: 250)
-            case .descriptionText:
+            case .descriptionText, .locationText, .tagsText, .pageControl:
                 return PhotoSubmitLayout.CreateTextSizeLayout()
             case .description:
                 return PhotoSubmitLayout.selectionCell(height: 150)
-            case .locationText:
-                return PhotoSubmitLayout.CreateTextSizeLayout()
-            case .location:
-                return PhotoSubmitLayout.selectionCell(height: 45)
-            case .tagsText:
-                return PhotoSubmitLayout.CreateTextSizeLayout()
-            case .tags:
+            case .location, .tags:
                 return PhotoSubmitLayout.selectionCell(height: 45)
             }
+        }
+    }
+    
+    func uploadImage(index: Int) async {
+        do {
+            let data = try await manager.uploadPhotos(id: id)
+            print(data)
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }

@@ -43,7 +43,12 @@ class ProfileCoordinator: Coordinator {
     }
     
     func showProfileEditingController() {
-            let controller = ProfileEditingController(viewModel: .init(userArray: userArray))
+        let controller = ProfileEditingController(viewModel: .init(userArray: userArray))
+        navigationController.show(controller, sender: nil)
+    }
+    
+    func showAccountCoordinator() {
+        let controller = AccountController()
         navigationController.show(controller, sender: nil)
     }
 }
