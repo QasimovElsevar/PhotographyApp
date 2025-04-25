@@ -76,7 +76,8 @@ extension UserCollectionController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-        cell.configure(data: viewModel.photos[indexPath.row].urls?.regular ?? "", text: viewModel.photos[indexPath.row].user?.name ?? "")
+        let list = viewModel.photos[indexPath.row]
+        cell.configure(data: list.urls?.regular ?? "", text: list.user?.name ?? "", blurHash: list.blurHash ?? "")
         return cell
     }
     

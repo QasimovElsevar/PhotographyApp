@@ -229,7 +229,8 @@ extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource 
                 return cell
             } else {
                 let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-                cell.configure(data: viewModel.photoResultArray[indexPath.row].urls?.regular ?? "" , text: viewModel.photoResultArray[indexPath.row].user?.name ?? "")
+                let photos = viewModel.photoResultArray[indexPath.row]
+                cell.configure(data: photos.urls?.regular ?? "" , text: photos.user?.name ?? "", blurHash: photos.blurHash ?? "")
                 return cell
             }
         }

@@ -105,7 +105,8 @@ extension SearchController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .discover:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-            cell.configure(data: viewModel.searchArray[indexPath.row].urls?.regular ?? "", text: viewModel.searchArray[indexPath.row].user?.name ?? "")
+            let list = viewModel.searchArray[indexPath.row]
+            cell.configure(data: list.urls?.regular ?? "", text: list.user?.name ?? "", blurHash: list.blurHash ?? "")
             return cell
         }
     }

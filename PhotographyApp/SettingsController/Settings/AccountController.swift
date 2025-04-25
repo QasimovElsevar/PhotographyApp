@@ -18,7 +18,8 @@ final class AccountController: UIViewController {
     
     private lazy var warningText: UILabel = {
         let textView = UILabel()
-        textView.text = "Are you sure you want to logout?"
+        textView.text = "Clossing your account is irreversible. It deletes all of your photos, collections, and stats."
+        textView.font = .systemFont(ofSize: 12, weight: .medium)
         textView.numberOfLines = 0
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -26,7 +27,10 @@ final class AccountController: UIViewController {
     
     private lazy var deleteButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Logout", for: .normal)
+        button.setTitle("Close Accouunt", for: .normal)
+        button.backgroundColor = .selectionView
+        button.tintColor = .red
+        button.layer.cornerRadius = 12
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -80,16 +84,10 @@ final class AccountController: UIViewController {
             warningText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             deleteButton.topAnchor.constraint(equalTo: warningText.bottomAnchor, constant: 32),
-            deleteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            passwordBackgroundView.heightAnchor.constraint(equalToConstant: 60),
-//            passwordBackgroundView.widthAnchor.constraint(equalToConstant: 200),
-//            passwordBackgroundView.topAnchor.constraint(equalTo: warningText.bottomAnchor, constant: 32),
-//            passwordBackgroundView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            
-//            passwordTextField.centerYAnchor.constraint(equalTo: passwordBackgroundView.centerYAnchor),
-//            passwordTextField.centerXAnchor.constraint(equalTo: passwordBackgroundView.centerXAnchor),
-
-        
+            deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            deleteButton.heightAnchor.constraint(equalToConstant: 44),
+            deleteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 

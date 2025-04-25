@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 final class ProfileController: UIViewController {
     
     //MARK: - UI Elements
@@ -42,6 +43,11 @@ final class ProfileController: UIViewController {
         return view
     }()
 
+    private lazy var refreshControl: UIRefreshControl = {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        return refresh
+    }()
     
     //MARK: - Properties
     
@@ -109,6 +115,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch viewModel.sections[indexPath.section] {
+            
         case .profile:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
             cell.configure(firstName: viewModel.userData?.firstName ?? "", lastName: viewModel.userData?.lastName ?? "")
@@ -123,15 +130,16 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             return cell
             
         case .collection:
-            
             switch viewModel.selections[viewModel.index] {
             case .photos:
                 let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-                cell.configure(data: viewModel.userPhotos[indexPath.row].urls?.regular ?? "", text: "")
+                let photos = viewModel.userPhotos[indexPath.row]
+                cell.configure(data: photos.urls?.regular ?? "", text: "", blurHash: photos.blurHash ?? "")
                 return cell
             case .likes:
                 let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-                cell.configure(data: viewModel.userPhotos[indexPath.row].urls?.regular ?? "", text: viewModel.userPhotos[indexPath.row].user?.name ?? "")
+                let photos = viewModel.userPhotos[indexPath.row]
+                cell.configure(data: photos.urls?.regular ?? "", text: "", blurHash: photos.blurHash ?? "")
                 return cell
             case .collections:
                 let cell = collection.dequeueReusableCell(withReuseIdentifier: "MyCollectionsCell", for: indexPath) as! MyCollectionsCell
@@ -286,9 +294,13 @@ extension ProfileController {
     
     //MARK: - BarButton Action
     
-    @objc func shareButtonTapped() {
+    @objc private func shareButtonTapped() {
         let items = [URL(string: "")!]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
         present(ac, animated: true)
+    }
+    
+    @objc private func handleRefresh() {
+        getData()
     }
 }

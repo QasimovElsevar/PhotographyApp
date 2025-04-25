@@ -128,7 +128,7 @@ final class ProfileViewModel {
     }
     
     func getUser() {
-//        state = .loading
+        state = .loading
         FirestoreManager.shared.getUserData { [weak self] data, error in
             guard let self else {return}
             
@@ -138,7 +138,7 @@ final class ProfileViewModel {
                 userData = data
                 UserDefaults.standard.set(data?.accessKey, forKey: "key")
                 state = .success
-//                state = .loaded
+                state = .loaded
             }
         }
     }

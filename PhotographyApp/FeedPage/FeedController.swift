@@ -8,14 +8,15 @@
 import UIKit
 
 final class FeedController: UIViewController {
-
+    
     //MARK: - UI Elemenets
-
+    
     private lazy var collection: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: viewModel.createLayout())
         collection.delegate = self
         collection.dataSource = self
         collection.backgroundColor = .clear
+        collection.refreshControl = refreshControl
         collection.register(ImageWithLabelCell.self, forCellWithReuseIdentifier: "ImageWithLabelCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
@@ -35,15 +36,27 @@ final class FeedController: UIViewController {
         return button
     }()
     
+    private lazy var loadingView: UIActivityIndicatorView = {
+        let loadingView = UIActivityIndicatorView()
+        loadingView.style = .medium
+        loadingView.color = .label
+        loadingView.backgroundColor = .myBackground
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        return loadingView
+    }()
+    
+    private lazy var refreshControl: UIRefreshControl = {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(handeRefresh), for: .valueChanged)
+        return refresh
+    }()
     
     let viewModel = FeedViewModel()
     var isInFourSquaresState: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
-//        viewModel.getUserData()
         getData()
     }
     
@@ -53,6 +66,7 @@ final class FeedController: UIViewController {
     
     private func configureUI() {
         view.addSubview(collection)
+        view.addSubview(loadingView)
         setConstraints()
         bindViewModel()
         configureNavButtons()
@@ -63,7 +77,12 @@ final class FeedController: UIViewController {
             collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collection.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collection.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            loadingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 }
@@ -76,17 +95,13 @@ extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if viewModel.isLayoutChanged == false {
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-            cell.configure(data: viewModel.photoList[indexPath.row].urls?.regular ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
-//            cell.callback = {
-//                self.collection.collectionViewLayout.invalidateLayout()
-//            }
+            let list =  viewModel.photoList[indexPath.row]
+            cell.configure(data: list.urls?.regular ?? "", text: list.user?.name ?? "", blurHash: list.blurHash ?? "")
             return cell
         } else {
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-            cell.configure(data: viewModel.photoList[indexPath.row].urls?.small ?? "", text: viewModel.photoList[indexPath.row].user?.name ?? "")
-//        cell.callback = {
-//            self.collection.collectionViewLayout.invalidateLayout()
-//        }
+            let list =  viewModel.photoList[indexPath.row]
+            cell.configure(data: list.urls?.small ?? "", text: list.user?.name ?? "", blurHash: list.blurHash ?? "")
             return cell
         }
     }
@@ -98,7 +113,7 @@ extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == (viewModel.photoList.count) - 1 {
             Task {
-               await viewModel.getList()
+                await viewModel.getList()
             }
         }
     }
@@ -119,20 +134,17 @@ extension FeedController {
                 guard let self else {return}
                 switch state {
                 case .loading:
-//                  loadingView.startAnimating()
-                    print("ff")
+                    loadingView.startAnimating()
                 case  .loaded:
-//                    loadingView.stopAnimating()
-                    print("ff")
+                    loadingView.stopAnimating()
                 case .success:
-                    print("success")
+                    collection.refreshControl?.endRefreshing()
                     collection.reloadData()
                 case .error(let error):
                     print(error)
                 case .idle:
                     break
                 }
-                
             }
         }
     }
@@ -181,5 +193,9 @@ extension FeedController {
     @objc private func showInfo() {
         let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
         coordinator.showInfoController()
+    }
+    
+    @objc private func handeRefresh() {
+        getData()
     }
 }

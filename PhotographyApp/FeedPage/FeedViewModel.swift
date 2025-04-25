@@ -51,11 +51,13 @@ final class FeedViewModel {
     //MARK: - Data
     
     func getList() async {
+        state = .loading
         do {
             let data =  try await manager.getList(page: page)
             Task {
                 photoList.append(contentsOf: data)
                 state = .success
+                state = .loaded
                 page += 1
             }
         } catch {
@@ -64,17 +66,4 @@ final class FeedViewModel {
             }
         }
     }
-    
-//    func getUserData() {
-//        FirestoreManager.shared.getUserData { [weak self] data, error in
-//            guard let self else {return}
-//            if let error = error {
-//                print(error)
-//            } else {
-//                userData = data
-//                print(data?.firstName)
-//                UserDefaults.standard.set(data?.accessKey, forKey: "key")
-//            }
-//        }
-//    }
 }
