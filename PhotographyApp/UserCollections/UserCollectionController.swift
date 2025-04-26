@@ -50,6 +50,7 @@ class UserCollectionController: UIViewController {
         setConstraints()
         bindViewModel()
         configureNavButtons()
+        statusBarConfigure()
     }
     
     private func setConstraints() {
@@ -59,6 +60,12 @@ class UserCollectionController: UIViewController {
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    func statusBarConfigure() {
+        view.createStatusBarCover(mainView: view)
+        view.makeNavBarTransparent(navController: navigationController ?? UINavigationController())
+        edgesForExtendedLayout = [.top]
     }
 }
 
@@ -82,7 +89,18 @@ extension UserCollectionController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photos[indexPath.row].id ?? "", title: "", userArray: UserModel.init(firstName: "", lastName: "", username: "", email: "", accessKey: ""))
+        let coordinator = ProfileCoordinator(
+            navigationController: navigationController ?? UINavigationController(),
+            id: viewModel.photos[indexPath.row].id ?? "",
+            title: "",
+            user: UserModel.init(
+                firstName: "",
+                lastName: "",
+                username: "",
+                email: "",
+                accessKey: ""
+            )
+        )
         coordinator.showImageController()
     }
 }

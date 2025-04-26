@@ -25,6 +25,7 @@ class ImageLayout {
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(200)), subitems: [item, item])
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(2)
+        group.contentInsets.bottom = 2
         
         let section = NSCollectionLayoutSection(group: group)
         return section

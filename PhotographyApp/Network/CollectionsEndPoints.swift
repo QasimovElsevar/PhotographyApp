@@ -11,6 +11,7 @@ enum CollectionsEndPoints {
     case userCollections(String)
     case searchCollection(String)
     case collectionPhotos(String)
+    case addToCollection(String, String)
     
     var path: String {
         switch self {
@@ -20,6 +21,8 @@ enum CollectionsEndPoints {
             NetworkManager.shared.configureUrl(endPoint: "search/collections?query=\(query)")
         case .collectionPhotos(let id):
             NetworkManager.shared.configureUrl(endPoint: "/collections/\(id)/photos")
+        case .addToCollection(let collectionId, let id):
+            NetworkManager.shared.configureUrl(endPoint: "/collections/\(collectionId)/add?photo_id\(id)")
         }
     }
 }

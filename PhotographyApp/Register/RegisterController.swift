@@ -109,7 +109,7 @@ final class RegisterController: UIViewController {
         addSubviews()
         setConstraints()
         navBarSetup()
-       
+        statusBarConfigure()
     }
     
     private func addSubviews() {
@@ -166,6 +166,12 @@ final class RegisterController: UIViewController {
         navigationItem.titleView?.tintColor = .label
         navigationItem.backBarButtonItem?.tintColor = .label
         tabBarController?.navigationController?.navigationItem.backBarButtonItem?.title = "Login"
+    }
+    
+    func statusBarConfigure() {
+        view.createStatusBarCover(mainView: view)
+        view.makeNavBarTransparent(navController: navigationController ?? UINavigationController())
+        edgesForExtendedLayout = [.top]
     }
     
     //MARK: - UI Actions

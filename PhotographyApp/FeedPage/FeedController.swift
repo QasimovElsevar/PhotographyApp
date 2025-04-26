@@ -67,6 +67,7 @@ final class FeedController: UIViewController {
     private func configureUI() {
         view.addSubview(collection)
         view.addSubview(loadingView)
+        statusBarConfigure()
         setConstraints()
         bindViewModel()
         configureNavButtons()
@@ -84,6 +85,12 @@ final class FeedController: UIViewController {
             loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+    }
+    
+    func statusBarConfigure() {
+        view.createStatusBarCover(mainView: view)
+        view.makeNavBarTransparent(navController: navigationController ?? UINavigationController())
+        edgesForExtendedLayout = [.top]
     }
 }
 

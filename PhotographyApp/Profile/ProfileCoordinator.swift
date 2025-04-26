@@ -7,18 +7,21 @@
 
 import UIKit
 
-class ProfileCoordinator: Coordinator {
+final class ProfileCoordinator: Coordinator {
     
     var navigationController: UINavigationController
     var title: String
-    var userArray: UserModel
+    var userArray: UserModel?
     var id: String
     
-    init(navigationController: UINavigationController, id: String, title: String, userArray: UserModel) {
+    init(navigationController: UINavigationController,
+         id: String = "",
+         title: String = "",
+         user: UserModel? = nil) {
         self.navigationController = navigationController
         self.title = title
         self.id = id
-        self.userArray = userArray
+        self.userArray = user
     }
     
     func start() {
@@ -26,6 +29,7 @@ class ProfileCoordinator: Coordinator {
     }
     
     func showSettingsController() {
+        guard let userArray else { return }
         let controller = SettingsViewController(viewModel: .init(userDara: userArray))
         let nvConreoller = UINavigationController(rootViewController: controller)
         navigationController.present(nvConreoller, animated: true)
@@ -43,6 +47,7 @@ class ProfileCoordinator: Coordinator {
     }
     
     func showProfileEditingController() {
+        guard let userArray else { return }
         let controller = ProfileEditingController(viewModel: .init(userArray: userArray))
         navigationController.show(controller, sender: nil)
     }

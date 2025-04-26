@@ -54,6 +54,7 @@ final class UploadController: UIViewController {
         addSubviews()
         setConstrains()
         bindViewModel()
+        statusBarConfigure()
     }
     
     func addSubviews() {
@@ -67,6 +68,12 @@ final class UploadController: UIViewController {
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+    
+    func statusBarConfigure() {
+        view.createStatusBarCover(mainView: view)
+        view.makeNavBarTransparent(navController: navigationController ?? UINavigationController())
+        edgesForExtendedLayout = [.top]
     }
 }
 

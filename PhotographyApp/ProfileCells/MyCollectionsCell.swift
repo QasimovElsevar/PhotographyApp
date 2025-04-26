@@ -14,7 +14,6 @@ final class MyCollectionsCell: UICollectionViewCell {
         image.contentMode = .scaleAspectFill
         image.backgroundColor = .selectionView
         image.clipsToBounds = true
-        image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -24,7 +23,6 @@ final class MyCollectionsCell: UICollectionViewCell {
         image.contentMode = .scaleAspectFill
         image.backgroundColor = .selectionView
         image.clipsToBounds = true
-        image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -34,7 +32,6 @@ final class MyCollectionsCell: UICollectionViewCell {
         image.contentMode = .scaleAspectFill
         image.backgroundColor = .selectionView
         image.clipsToBounds = true
-        image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()

@@ -61,20 +61,20 @@ struct Sponsorship: Codable {
         case sponsor
     }
 }
-
-// MARK: - TopicSubmissions
-//struct TopicSubmissions: Codable {
-//    let foodDrink: FoodDrink?
-//    let travel, wallpapers, the3DRenders, architectureInterior: The3_DRenders?
-//    let nature: FoodDrink?
-//    let film, streetPhotography: The3_DRenders?
 //
-//    enum CodingKeys: String, CodingKey {
-//        case foodDrink = "food-drink"
-//        case travel, wallpapers
-//        case the3DRenders = "3d-renders"
-//        case architectureInterior = "architecture-interior"
-//        case nature, film
-//        case streetPhotography = "street-photography"
-//    }
-//}
+//// MARK: - TopicSubmissions
+////struct TopicSubmissions: Codable {
+////    let foodDrink: FoodDrink?
+////    let travel, wallpapers, the3DRenders, architectureInterior: The3_DRenders?
+////    let nature: FoodDrink?
+////    let film, streetPhotography: The3_DRenders?
+////
+////    enum CodingKeys: String, CodingKey {
+////        case foodDrink = "food-drink"
+////        case travel, wallpapers
+////        case the3DRenders = "3d-renders"
+////        case architectureInterior = "architecture-interior"
+////        case nature, film
+////        case streetPhotography = "street-photography"
+////    }
+////}

@@ -28,7 +28,7 @@ struct PhotoDetails: Codable {
     let tags: [Tag]?
     let currentUserCollections: [CurrentUserCollection]?
     let urls: Urls?
-    let links: WelcomeLinks?
+    let links: PhotoLinks?
     let user: User?
 
     enum CodingKeys: String, CodingKey {

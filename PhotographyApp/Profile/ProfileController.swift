@@ -36,10 +36,11 @@ final class ProfileController: UIViewController {
     }()
     
     private lazy var backgroundView: UIView = {
-        let view = UIView()
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
         view.backgroundColor = .myBackground
         view.alpha = 0
         view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(view)
         return view
     }()
 
@@ -68,9 +69,9 @@ final class ProfileController: UIViewController {
         navigationController?.navigationBar.backgroundColor = .profile
         addSubviews()
         setCostraints()
+//        view.createStatusBarCover(mainView: view)
         navBarConfigure()
         navigationBarButtonsConfigure()
-        navBarConfigure()
         getData()
         bindViewModel()
         configureTitle()
@@ -79,7 +80,7 @@ final class ProfileController: UIViewController {
     private func addSubviews() {
         view.addSubview(collection)
         view.addSubview(loadingView)
-        view.addSubview(backgroundView)
+//        view.addSubview(backgroundView)
     }
     
     private func setCostraints() {
@@ -94,10 +95,10 @@ final class ProfileController: UIViewController {
             loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            backgroundView.heightAnchor.constraint(equalToConstant: 100),
-            backgroundView.widthAnchor.constraint(equalToConstant: view.frame.width),
-            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+//            backgroundView.heightAnchor.constraint(equalToConstant: 100),
+//            backgroundView.widthAnchor.constraint(equalToConstant: view.frame.width),
+//            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+//            backgroundView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -163,12 +164,12 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func showImageController(indexPath: Int) {
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userPhotos[indexPath].id ?? "", title: "", userArray: viewModel.userData! )
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userPhotos[indexPath].id ?? "", title: "", user: viewModel.userData! )
         coordinator.showImageController()
     }
     
     func showUserCollectionController(indexPath: Int) {
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userCollections[indexPath].id ?? "", title: viewModel.userCollections[indexPath].title ?? "", userArray: viewModel.userData!)
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userCollections[indexPath].id ?? "", title: viewModel.userCollections[indexPath].title ?? "", user: viewModel.userData!)
         coordinator.showUserCollectionController()
     }
     
@@ -268,7 +269,7 @@ extension ProfileController {
     
     func openSettings() {
         guard let data = viewModel.userData else { return }
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", userArray: data)
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", user: data)
         coordinator.showSettingsController()
     }
     

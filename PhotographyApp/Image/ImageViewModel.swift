@@ -140,6 +140,12 @@ class ImageViewModel {
         }
     }
     
+//    func addPhotoToCollection() async {
+//        do {
+//            try await manager.addPhotoToCollection(id: photoId, collectionId: <#T##String#>)
+//        }
+//    }
+//    
 //    func saveToLibrary(_ image: UIImage) {
 //        UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)
 //    }

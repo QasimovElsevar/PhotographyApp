@@ -15,4 +15,8 @@ protocol ImageUserCase {
     func likePhoto(id: String) async throws -> Photos
     
     func unlikePhoto(id: String) async throws -> Photos
+    
+    func addPhotoToCollection(id: String, collectionId: String) async throws -> CollectionsPhoto
+    
+//    func removePhotoFromCollection(id: String, collectionId: String) async throws -> Photos
 }

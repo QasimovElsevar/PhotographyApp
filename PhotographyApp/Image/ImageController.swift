@@ -134,6 +134,7 @@ class ImageController: UIViewController {
         view.backgroundColor = .myBackground
         addSubviews()
         setConstraints()
+        statusBarConfigure()
         bindViewModel()
         configureNavBar()
     }
@@ -205,6 +206,12 @@ class ImageController: UIViewController {
         } else {
             likeImage.tintColor = .white
         }
+    }
+    
+    func statusBarConfigure() {
+        view.createStatusBarCover(mainView: view)
+        view.makeNavBarTransparent(navController: navigationController ?? UINavigationController())
+        edgesForExtendedLayout = [.top]
     }
 }
 
@@ -313,7 +320,8 @@ extension ImageController {
     }
     
     @objc private func handleAddingToCollection() {
-        
+        let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photoId)
+        coordinator.showAddToCollectionController()
     }
     
     @objc private func handleInfo() {

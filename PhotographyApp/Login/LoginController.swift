@@ -112,6 +112,7 @@ final class LoginController: UIViewController {
         navBarConfigure()
         addSubviews()
         setConstraints()
+        statusBarConfigure()
     }
     
     private func navBarConfigure() {
@@ -158,6 +159,12 @@ final class LoginController: UIViewController {
             stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
             stack.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+    }
+    
+    func statusBarConfigure() {
+        view.createStatusBarCover(mainView: view)
+        view.makeNavBarTransparent(navController: navigationController ?? UINavigationController())
+        edgesForExtendedLayout = [.top]
     }
     
     //MARK: - UI Actions

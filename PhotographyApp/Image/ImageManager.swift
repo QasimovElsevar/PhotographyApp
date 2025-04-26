@@ -9,6 +9,17 @@ import Foundation
 
 class ImageManager: ImageUserCase {
     
+    func addPhotoToCollection(id: String, collectionId: String) async throws -> CollectionsPhoto {
+        let path = CollectionsEndPoints.addToCollection(collectionId, id).path
+        return try await NetworkManager.shared.request(endPoint: path, model: CollectionsPhoto.self, method: .post)
+    }
+    
+    
+//    func removePhotoFromCollection(id: String, collectionId: String) async throws -> Photos {
+//        print("hjk")
+//    }
+    
+    
     func unlikePhoto(id: String) async throws -> Photos {
         let path = PhotoActionsEndPoints.like(id).path
         return try await NetworkManager.shared.request(endPoint: path, model: Photos.self, method: .delete)

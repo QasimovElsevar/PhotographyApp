@@ -13,7 +13,25 @@ extension UIImageView {
     func loadImage(url: String) {
 //        let urlPrefix = "\(NetworkManager().imageUrl)\(url)"
         let url = URL(string: url)
-        self.kf.setImage(with: url)
+//        self.kf.setImage(with: url)
+        
+        let processor = BlurImageProcessor(blurRadius: 4)
+        kf.setImage(with: url, placeholder: nil, options: [.processor(processor)], progressBlock: nil) { _ in
+            self.kf.setImage(with: url)
+        }
+    }
+    
+    func loadImage(with url: String, and blurHash: String, and completion: @escaping(() -> Void)) {
+        let url = URL(string: url)
+        image = UIImage(blurHash: blurHash, size: CGSize(width: 32, height: 32), punch: 1)
+        kf.setImage(with: url) { result in
+            switch result {
+            case .success(_):
+                completion()
+            case .failure(_):
+                print("image load error")
+            }
+        }
     }
     
     func loadImage(data: String) {
@@ -38,4 +56,24 @@ extension UIViewController {
 
 extension Notification.Name {
     static let webViewDismissed = Notification.Name("webViewDismissed")
+}
+
+extension UIView {
+    func createStatusBarCover(mainView: UIView) {
+        var _: UIView = {
+            let view = UIView(frame: CGRect(x: 0, y: 0, width: mainView.frame.width, height: 100))
+            view.backgroundColor = .myBackground
+            view.alpha = 1
+            view.translatesAutoresizingMaskIntoConstraints = false
+            mainView.addSubview(view)
+            return view
+        }()
+    }
+    
+    func makeNavBarTransparent(navController: UINavigationController) {
+        navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navController.navigationBar.shadowImage = UIImage()
+        navController.navigationBar.isTranslucent = true
+        navController.navigationBar.backgroundColor = .none
+    }
 }

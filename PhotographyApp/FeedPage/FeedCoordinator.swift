@@ -25,4 +25,10 @@ class FeedCoordinator: Coordinator {
         controller.hidesBottomBarWhenPushed = true
         navigationController.show(controller, sender: nil)
     }
+    
+    func showAddToCollectionController() {
+        let controller = AddToCollectionController(viewModel: .init(photoId: id))
+        let navController = UINavigationController(rootViewController: controller)
+        navigationController.present(navController, animated: true)
+    }
 }

@@ -56,6 +56,7 @@ final class SearchController: UIViewController {
         setConstraints()
         configureNavBar()
         bindViewModel()
+        statusBarConfigure()
         handeSelectedSuggestion()
     }
     
@@ -75,6 +76,12 @@ final class SearchController: UIViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController?.isActive = true
         navigationItem.searchController?.searchBar.becomeFirstResponder()
+    }
+    
+    func statusBarConfigure() {
+        view.createStatusBarCover(mainView: view)
+        view.makeNavBarTransparent(navController: navigationController ?? UINavigationController())
+        edgesForExtendedLayout = [.top]
     }
 }
 
