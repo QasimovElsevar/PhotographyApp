@@ -94,7 +94,7 @@ final class FeedController: UIViewController {
     }
 }
 
-extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.photoList.count
     }
@@ -129,6 +129,10 @@ extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource {
         let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photoList[indexPath.row].id ?? "")
         coordinator.showImageController()
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return 100
+//    }
 }
 
 extension FeedController {

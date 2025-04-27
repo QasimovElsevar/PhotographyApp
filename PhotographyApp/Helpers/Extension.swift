@@ -10,37 +10,34 @@ import UIKit
 import Kingfisher
 
 extension UIImageView {
-    func loadImage(url: String) {
-//        let urlPrefix = "\(NetworkManager().imageUrl)\(url)"
-        let url = URL(string: url)
-//        self.kf.setImage(with: url)
-        
-        let processor = BlurImageProcessor(blurRadius: 4)
-        kf.setImage(with: url, placeholder: nil, options: [.processor(processor)], progressBlock: nil) { _ in
-            self.kf.setImage(with: url)
-        }
-    }
+//    func loadImage(url: String) {
+////        let urlPrefix = "\(NetworkManager().imageUrl)\(url)"
+//        let url = URL(string: url)
+////        self.kf.setImage(with: url)
+//        
+//        let processor = BlurImageProcessor(blurRadius: 10)
+//        kf.setImage(with: url, placeholder: nil, options: [.processor(processor)], progressBlock: nil) { _ in
+////            self.kf.setImage(with: url)
+//        }
+//    }
     
-    func loadImage(with url: String, and blurHash: String, and completion: @escaping(() -> Void)) {
-        let url = URL(string: url)
-        image = UIImage(blurHash: blurHash, size: CGSize(width: 32, height: 32), punch: 1)
-        kf.setImage(with: url) { result in
-            switch result {
-            case .success(_):
-                completion()
-            case .failure(_):
-                print("image load error")
-            }
-        }
-    }
-    
-    func loadImage(data: String) {
+    func loadImage(with data: String, and blurHash: String) {
+        let url = URL(string: data)
+        let bluredImage = UIImage(blurHash: blurHash, size: CGSize(width: 32, height: 32), punch: 1)
         if let image = UIImage(named: data) {
             self.image = image
         } else {
-            self.kf.setImage(with: URL(string: data))
+            kf.setImage(with: url, placeholder: bluredImage)
         }
     }
+    
+//    func loadImage(data: String) {
+//        if let image = UIImage(named: data) {
+//            self.image = image
+//        } else {
+//            self.kf.setImage(with: URL(string: data))
+//        }
+//    }
 }
 
 extension UIViewController {

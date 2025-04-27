@@ -29,16 +29,21 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plus.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ihS-qG-q1o">
-                                <rect key="frame" x="99" y="381" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ihS-qG-q1o">
+                                <rect key="frame" x="20" y="79.666666666666686" width="353" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="129.33000000000001" id="cr5-td-ssB"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
+                            <constraint firstItem="ihS-qG-q1o" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="77k-ly-xU9"/>
+                            <constraint firstItem="ihS-qG-q1o" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="Cx2-hn-78f"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Jbo-vy-glE" secondAttribute="trailing" constant="12" id="S6o-oh-Ucq"/>
                             <constraint firstItem="Jbo-vy-glE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="12" id="TMj-7N-mJ2"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ihS-qG-q1o" secondAttribute="trailing" constant="20" id="dgE-SY-LIU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Jbo-vy-glE" secondAttribute="bottom" constant="12" id="klr-5Y-F6e"/>
                         </constraints>
                     </view>

@@ -139,8 +139,8 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
                 return cell
             case .likes:
                 let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-                let photos = viewModel.userPhotos[indexPath.row]
-                cell.configure(data: photos.urls?.regular ?? "", text: "", blurHash: photos.blurHash ?? "")
+                let photos = viewModel.userLiked[indexPath.row]
+                cell.configure(data: photos.url ?? "", text: photos.author ?? "", blurHash: "")
                 return cell
             case .collections:
                 let cell = collection.dequeueReusableCell(withReuseIdentifier: "MyCollectionsCell", for: indexPath) as! MyCollectionsCell
@@ -164,7 +164,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func showImageController(indexPath: Int) {
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userPhotos[indexPath].id ?? "", title: "", user: viewModel.userData! )
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userLiked[indexPath].id ?? "", title: "", user: viewModel.userData! )
         coordinator.showImageController()
     }
     
@@ -188,6 +188,7 @@ extension ProfileController {
     private func getData() {
         Task {
             await viewModel.getUserData()
+            viewModel.getUsersLikedPhotos()
         }
     }
     

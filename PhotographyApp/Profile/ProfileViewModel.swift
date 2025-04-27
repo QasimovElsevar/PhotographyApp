@@ -27,7 +27,7 @@ final class ProfileViewModel {
     let manager = ProfileManager()
     var index = 0
     var userPhotos: [Photos] = []
-//    var userLiked: [Photos] = []
+    var userLiked: [LikedPhotos] = []
     var userCollections: [Collections] = []
     var userData: UserModel?
     
@@ -84,7 +84,7 @@ final class ProfileViewModel {
             case .photos:
                 userPhotos.count
             case .likes:
-                userPhotos.count
+                userLiked.count
             case .collections:
                 userCollections.count
             }
@@ -105,8 +105,8 @@ final class ProfileViewModel {
             case .likes:
                 let data = try await manager.getLikes()
                 Task {
-                    userPhotos = data
-                    state = .success
+//                    userPhotos = data
+//                    state = .success
                 }
             case .collections:
                 let data = try await manager.getCollections()
@@ -125,6 +125,17 @@ final class ProfileViewModel {
     
     func makeRequest() async {
      
+    }
+    
+    func getUsersLikedPhotos() {
+        FirestoreManager.shared.getUsersLikedPhotos { photos, error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.userLiked = photos ?? []
+                self.state = .success
+            }
+        }
     }
     
     func getUser() {

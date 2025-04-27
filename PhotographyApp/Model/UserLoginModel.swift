@@ -14,3 +14,7 @@ struct UserModel {
 struct SenBack: Codable {
     let code: String?
 }
+
+struct LikedPhotos {
+    let id, url, author, blurHash: String?
+}

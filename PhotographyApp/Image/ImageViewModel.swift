@@ -34,6 +34,8 @@ class ImageViewModel {
     //MARK: - State
     
     enum ViewState {
+        case saved
+        case couldNotSave
         case liked
         case unliked
         case success
@@ -140,6 +142,25 @@ class ImageViewModel {
         }
     }
     
+    func saveLikedPhoto() {
+        FirestoreManager.shared.saveUsersLikedPhotos(photoUrl: photo?.urls?.regular ?? "", authorsName: photo?.user?.name ?? "", photoId: photo?.id ?? "", blurHash: photo?.blurHash ?? "") { error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .couldNotSave
+            }
+        }
+    }
+    
+    func deleteUnlikedPhoto() {
+        FirestoreManager.shared.deleteUsersUnlikedPhoto(photoId: photoId) { error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .couldNotSave
+            }
+        }
+    }
 //    func addPhotoToCollection() async {
 //        do {
 //            try await manager.addPhotoToCollection(id: photoId, collectionId: <#T##String#>)

@@ -97,7 +97,7 @@ class AddToCollectionControllereCell: UITableViewCell {
     }
     
     func configure(photo: [PreviewPhoto], title: String, photoNum: Int) {
-        image.loadImage(data: photo[0].urls?.small ?? "")
+        image.loadImage(with: photo[0].urls?.small ?? "", and: photo[0].urls?.small ?? "")
         titleLabel.text = title
         subtitleLabel.text = "\(photoNum) photo"
     }

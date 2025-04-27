@@ -30,6 +30,7 @@ final class ImageWithLabelCell: UICollectionViewCell {
     }()
     
     var callback: (() -> Void)?
+    var height: CGFloat = 20
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,13 +61,8 @@ final class ImageWithLabelCell: UICollectionViewCell {
     }
     
     func configure(data: String, text: String, blurHash: String) {
-//        imageView.image = UIImage(blurHash: blurHash, size: CGSize(width: 32, height: 32), punch: 1)
-        imageView.loadImage(url: data)
+        imageView.loadImage(with: data, and: blurHash)
         label.text = text
         callback?()
-    }
-    
-    func configureBlur(blurHash: String) {
-       
     }
 }

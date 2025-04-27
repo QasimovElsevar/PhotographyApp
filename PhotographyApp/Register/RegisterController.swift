@@ -24,6 +24,7 @@ final class RegisterController: UIViewController {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "First name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         textField.textColor = .white
+        textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -32,6 +33,7 @@ final class RegisterController: UIViewController {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Last name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         textField.textColor = .white
+        textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -40,6 +42,7 @@ final class RegisterController: UIViewController {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         textField.textColor = .white
+        textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -48,6 +51,7 @@ final class RegisterController: UIViewController {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         textField.textColor = .white
+        textField.autocapitalizationType = .none
         textField.addTarget(self, action: #selector(emailChanged), for: .editingChanged)
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -57,6 +61,8 @@ final class RegisterController: UIViewController {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         textField.textColor = .white
+        textField.autocapitalizationType = .none
+        textField.isSecureTextEntry = true
         textField.addTarget(self, action: #selector(passwordChanged), for: .editingChanged)
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField

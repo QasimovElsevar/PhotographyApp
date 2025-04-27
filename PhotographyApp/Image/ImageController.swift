@@ -25,7 +25,7 @@ class ImageController: UIViewController {
     
     private lazy var imageView : UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFill
+        image.contentMode = .scaleAspectFit
         image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -276,6 +276,10 @@ extension ImageController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else {return}
                 switch state {
+                case .saved:
+                    print("saved")
+                case .couldNotSave:
+                    print("not saved")
                 case .liked:
                     likeImage.tintColor = .red
                 case  .unliked:
@@ -284,7 +288,7 @@ extension ImageController {
                     print("success")
                     collection.reloadData()
                     imageConfigure()
-                    imageView.loadImage(url: viewModel.photo?.urls?.regular ?? "")
+                    imageView.loadImage(with: viewModel.photo?.urls?.regular ?? "", and: viewModel.photo?.blurHash ?? "")
                     navigationItem.title = viewModel.photo?.user?.name ?? ""
                 case .error(let error):
                     print(error)
@@ -307,9 +311,11 @@ extension ImageController {
         Task {
             if viewModel.isLiked {
                 await viewModel.unlikePhoto()
+                viewModel.deleteUnlikedPhoto()
                 viewModel.isLiked = false
             } else {
                 await viewModel.likePhoto()
+                viewModel.saveLikedPhoto()
                 viewModel.isLiked = true
             }
         }

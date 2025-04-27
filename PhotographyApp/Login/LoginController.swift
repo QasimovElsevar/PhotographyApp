@@ -34,6 +34,7 @@ final class LoginController: UIViewController {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
         textField.textColor = .white
+        textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -41,6 +42,8 @@ final class LoginController: UIViewController {
     private lazy var passwordTextField : UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        textField.isSecureTextEntry = true
+        textField.autocapitalizationType = .none
         textField.textColor = .white
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -80,7 +83,8 @@ final class LoginController: UIViewController {
         let stack = UIStackView()
         stack.spacing = 2
         stack.axis = .horizontal
-        stack.alignment = .center
+//        stack.alignment = .center
+        stack.distribution = .equalCentering
         stack.addArrangedSubview(accountLabel)
         stack.addArrangedSubview(joinButton)
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -155,9 +159,9 @@ final class LoginController: UIViewController {
             forgotPasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
             
             stack.topAnchor.constraint(equalTo: forgotPasswordButton.bottomAnchor, constant: 20),
-            stack.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: 12),
-            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            stack.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+//            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+//            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            stack.centerXAnchor.constraint(equalTo: super.view.centerXAnchor)
         ])
     }
     
