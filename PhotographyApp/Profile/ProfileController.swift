@@ -145,7 +145,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             case .collections:
                 let cell = collection.dequeueReusableCell(withReuseIdentifier: "MyCollectionsCell", for: indexPath) as! MyCollectionsCell
                 let collection = viewModel.userCollections[indexPath.row]
-                cell.configure(photos: collection.previewPhotos ?? [], itemCount: collection.totalPhotos ?? 0, name: collection.title ?? "")
+                cell.configure(photos: collection.photos ?? [], itemCount: 5, name: collection.collectionName ?? "")
                 return cell
             }
         }
@@ -169,8 +169,8 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func showUserCollectionController(indexPath: Int) {
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userCollections[indexPath].id ?? "", title: viewModel.userCollections[indexPath].title ?? "", user: viewModel.userData!)
-        coordinator.showUserCollectionController()
+//        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userCollections[indexPath].id ?? "", title: viewModel.userCollections[indexPath].title ?? "", user: viewModel.userData!)
+//        coordinator.showUserCollectionController()
     }
     
     
@@ -186,10 +186,9 @@ extension ProfileController {
     //MARK: - Data
     
     private func getData() {
-        Task {
-            await viewModel.getUserData()
+//            await viewModel.getUserData()
             viewModel.getUsersLikedPhotos()
-        }
+            viewModel.getCollections()
     }
     
     private func bindViewModel() {

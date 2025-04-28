@@ -10,12 +10,13 @@ import Foundation
 class AddToCollectionViewModel {
      
     let manager = AddToCollectionManager()
+    var userCollection: UsersCollections?
     var collections: [Collections] = []
     var photoId: String
-//    var usersCollections
     
-    init(photoId: String) {
+    init(photoId: String, userCollection: UsersCollections? = nil) {
         self.photoId = photoId
+        self.userCollection = userCollection
     }
     
     //MARK: - States
@@ -71,6 +72,16 @@ class AddToCollectionViewModel {
             }
         } catch {
             state = .error(error.localizedDescription)
+        }
+    }
+    
+    func createCollection() {
+        FirestoreManager.shared.createCollection(collectionName: "mysecondCollection", photoUrl: userCollection?.photos[0].url ?? "", authorName: userCollection?.photos[0].author ?? "") { error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .success
+            }
         }
     }
 }

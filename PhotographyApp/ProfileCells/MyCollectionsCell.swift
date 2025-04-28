@@ -106,14 +106,14 @@ final class MyCollectionsCell: UICollectionViewCell {
         ])
     }
     
-    func configure(photos: [PreviewPhoto], itemCount: Int, name: String) {
+    func configure(photos: [LikedPhotos], itemCount: Int, name: String) {
         for item in 0..<photos.count {
             if item == 0 {
-                firstPreviewImage.loadImage(with: photos[item].urls?.thumb ?? "", and: photos[item].blurHash ?? "")
+                firstPreviewImage.loadImage(with: photos[item].url ?? "", and: "")
             } else if item == 1 {
-                secondPreviewImage.loadImage(with: photos[item].urls?.thumb ?? "", and: photos[item].blurHash ?? "")
+                secondPreviewImage.loadImage(with: photos[item].url ?? "", and: "")
             } else if item == 2 {
-                thirdPreviewImage.loadImage(with: photos[item].urls?.thumb ?? "", and: photos[item].blurHash ?? "")
+                thirdPreviewImage.loadImage(with: photos[item].url ?? "", and:  "")
             }
         }
         titleLabel.text = "name"

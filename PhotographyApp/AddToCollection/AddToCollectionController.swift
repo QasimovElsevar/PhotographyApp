@@ -112,6 +112,6 @@ extension AddToCollectionController {
     }
     
     @objc func handleNew() {
-        print("new")
+        viewModel.createCollection()
     }
 }

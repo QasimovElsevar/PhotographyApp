@@ -16,5 +16,13 @@ struct SenBack: Codable {
 }
 
 struct LikedPhotos {
-    let id, url, author, blurHash: String?
+    let id: String?
+    let url: String?
+    let blurHash: String?
+    let author: String?
+}
+
+struct UsersCollections {
+    let collectionName: String?
+    let photos: [LikedPhotos]
 }

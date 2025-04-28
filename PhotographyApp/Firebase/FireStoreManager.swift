@@ -168,8 +168,8 @@ final class FirestoreManager {
                     let photoUrl = data["photoUrl"] as? String ?? ""
                     let authorsName = data["authorsName"] as? String ?? ""
                     let photoId = data["photoId"] as? String ?? ""
-                    let blurHash = data["blurHash"] as! String
-                    let likedPhotos =  LikedPhotos(id: photoId, url: photoUrl, author: authorsName, blurHash: blurHash)
+                    let blurHash = data["blurHash"] as? String ?? ""
+                    let likedPhotos =  LikedPhotos(id: photoId, url: photoUrl, blurHash: blurHash, author: authorsName)
                     photoArray.append(likedPhotos)
                     completion(photoArray, nil)
                 }
@@ -177,5 +177,91 @@ final class FirestoreManager {
         }
     }
     
+    func createCollection(collectionName: String, photoUrl: String, authorName: String, completion: @escaping (String?) -> Void) {
+        
+        let photos = ["photoUrl": photoUrl,
+                      "authorName": authorName]
+        
+        let data: [String: Any] = [
+            "collectionName": collectionName,
+            "photos": FieldValue.arrayUnion([photos])
+        ]
+        
+        guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
+
+        db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)").document((collectionName)).setData(data) { error in
+            
+            if let error = error {
+                completion(error.localizedDescription)
+            } else {
+                completion(nil)
+            }
+        }
+    }
     
+    func addPhotoToCollection(collectionName: String, photoUrl: String, authorName: String, completion: @escaping (String?) -> Void) {
+        
+        let photos = ["photoUrl": photoUrl,
+                      "authorName": authorName]
+        
+        guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
+        
+        db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)").document((collectionName)).updateData(["photos": FieldValue.arrayUnion([photos])]) { error in
+            if let error = error {
+                completion(error.localizedDescription)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func deleteCollection(collectionName: String, photo: String, completion: @escaping (String?) -> Void) {
+        
+        guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
+        
+        db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)").document((collectionName)).delete() { error in
+            if let error = error {
+                completion(error.localizedDescription)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func deletePhotoFromCollection(collectionName: String, photoUrl: String, authorName: String, completion: @escaping (String?) -> Void) {
+        
+        let photos = ["photoUrl": photoUrl,
+                      "authorName": authorName]
+        
+        guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
+        
+        db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)").document((collectionName)).updateData(["photoUrl": FieldValue.arrayRemove([photos])]) { error in
+            if let error = error {
+                completion(error.localizedDescription)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func getCollection(completion: @escaping ([UsersCollections]?, String?) -> Void) {
+        var collectionArray: [UsersCollections] = []
+        
+        guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
+        
+        db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)").getDocuments(source: .default) { snapshot, error in
+            if let error = error {
+                completion(nil, error.localizedDescription)
+            } else {
+                for docs in snapshot?.documents ?? [] {
+                    let data = docs.data()
+                    let collectionName = data["collectionName"] as? String ?? ""
+                    let photos = data["photos"] as? [LikedPhotos] ?? []
+                    let collection = UsersCollections(collectionName: collectionName, photos: photos)
+                    collectionArray.append(collection)
+                    completion(collectionArray, nil)
+                }
+            }
+        }
+    }
 }
