@@ -64,13 +64,12 @@ final class ProfileViewModel {
             case .collection:
                 switch self.selections[self.index] {
                 case .photos:
-                    ProfileCellLayout.createHorizontalDoubleCell()
+                        ProfileCellLayout.createHorizontalDoubleCell()
                 case .likes:
-                    ProfileCellLayout.likedPhotos()
+                        ProfileCellLayout.likedPhotos()
                 case .collections:
-                    ProfileCellLayout.profileCollection()
+                        ProfileCellLayout.profileCollection()
                 }
-                
             }
         }
     }
@@ -101,6 +100,7 @@ final class ProfileViewModel {
                 Task {
                     userPhotos = data
                     state = .success
+                    state = .loaded
                 }
             case .likes:
                 let data = try await manager.getLikes()

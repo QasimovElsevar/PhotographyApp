@@ -22,8 +22,8 @@ final class RegisterController: UIViewController {
     
     private lazy var firstNameTextField : UITextField = {
         let textField = UITextField()
-        textField.attributedPlaceholder = NSAttributedString(string: "First name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-        textField.textColor = .white
+        textField.placeholder = "First name"
+        textField.textColor = .label
         textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -31,8 +31,8 @@ final class RegisterController: UIViewController {
     
     private lazy var lastNameTextField : UITextField = {
         let textField = UITextField()
-        textField.attributedPlaceholder = NSAttributedString(string: "Last name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-        textField.textColor = .white
+        textField.placeholder = "Last name"
+        textField.textColor = .label
         textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -40,8 +40,8 @@ final class RegisterController: UIViewController {
     
     private lazy var usernameTextField : UITextField = {
         let textField = UITextField()
-        textField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-        textField.textColor = .white
+        textField.placeholder = "Username"
+        textField.textColor = .label
         textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -49,8 +49,8 @@ final class RegisterController: UIViewController {
     
     private lazy var emailTextField : UITextField = {
         let textField = UITextField()
-        textField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-        textField.textColor = .white
+        textField.placeholder = "Email"
+        textField.textColor = .label
         textField.autocapitalizationType = .none
         textField.addTarget(self, action: #selector(emailChanged), for: .editingChanged)
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -59,8 +59,8 @@ final class RegisterController: UIViewController {
     
     private lazy var passwordTextField : UITextField = {
         let textField = UITextField()
-        textField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-        textField.textColor = .white
+        textField.placeholder = "Password"
+        textField.textColor = .label
         textField.autocapitalizationType = .none
         textField.isSecureTextEntry = true
         textField.addTarget(self, action: #selector(passwordChanged), for: .editingChanged)
@@ -70,7 +70,7 @@ final class RegisterController: UIViewController {
     
     private lazy var signUpButton : UIButton = {
         let button = UIButton()
-        button.setTitle("Log In", for: .normal)
+        button.setTitle("Register", for: .normal)
         button.setTitleColor(.darkLight, for: .normal)
         button.backgroundColor = .label
         button.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)

@@ -28,7 +28,6 @@ final class UploadController: UIViewController {
         var config = PHPickerConfiguration()
         config.selectionLimit = 9
         let picker = PHPickerViewController(configuration: config)
-        //        picker.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
         picker.delegate = self
         picker.modalPresentationStyle = .fullScreen
         return picker
@@ -155,8 +154,8 @@ extension UploadController {
                 case .success:
                     print("success")
                     collection.reloadData()
-                case .error:
-                    print("error")
+                case .error(let error):
+                    print(error)
                 case .idle:
                     break
                 }

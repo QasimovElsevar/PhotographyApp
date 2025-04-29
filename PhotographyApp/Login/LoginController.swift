@@ -32,8 +32,8 @@ final class LoginController: UIViewController {
     
     private lazy var emailTextField : UITextField = {
         let textField = UITextField()
-        textField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
-        textField.textColor = .white
+        textField.placeholder = "Email"
+        textField.textColor = .label
         textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -41,10 +41,10 @@ final class LoginController: UIViewController {
     
     private lazy var passwordTextField : UITextField = {
         let textField = UITextField()
-        textField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4])
+        textField.placeholder = "Password"
         textField.isSecureTextEntry = true
         textField.autocapitalizationType = .none
-        textField.textColor = .white
+        textField.textColor = .label
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -62,7 +62,7 @@ final class LoginController: UIViewController {
     private lazy var forgotPasswordButton : UIButton = {
         let button = UIButton()
         button.setTitle("Forgot your password?", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.label, for: .normal)
         button.backgroundColor = .none
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

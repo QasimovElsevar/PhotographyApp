@@ -63,6 +63,7 @@ final class FeedViewModel {
         } catch {
             Task {
                 state = .error(error.localizedDescription)
+                state = .loaded
             }
         }
     }

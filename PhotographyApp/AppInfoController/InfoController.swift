@@ -87,6 +87,14 @@ extension InfoController: UITableViewDelegate, UITableViewDataSource {
         }
         return 40
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            let items = [URL(string: "https://unsplash.com")!]
+            let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
+            present(ac, animated: true)
+        }
+    }
 }
 
 extension InfoController {

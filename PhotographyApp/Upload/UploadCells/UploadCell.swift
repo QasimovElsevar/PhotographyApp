@@ -18,7 +18,6 @@ final class UploadCell: UICollectionViewCell {
         image.image = UIImage(systemName: "photo")
         image.backgroundColor = .gray
         image.clipsToBounds = true
-        image.image = UIImage(named: "uploadImage")
         image.isUserInteractionEnabled = true
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -28,7 +27,7 @@ final class UploadCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .gray
         label.text = "Upload your photo to the largest library of open photography"
-        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.font = .systemFont(ofSize: 14, weight: .bold)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -51,24 +50,26 @@ final class UploadCell: UICollectionViewCell {
     private func configureUI() {
         addSubviews()
         setgConstraints()
-//        setLines()
+        setLines()
     }
     
     private func addSubviews() {
-        addSubview(imageView)
-//        addSubview(title)
+//        addSubview(imageView)
+        addSubview(title)
     }
     
     private func setgConstraints() {
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+//            imageView.topAnchor.constraint(equalTo: topAnchor),
+//            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+//            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+//            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-//            title.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
-//            title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-//            title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32)
+//            title.topAnchor.constraint(equalTo: topAnchor, constant: 40),
+            title.centerXAnchor.constraint(equalTo: centerXAnchor),
+            title.centerYAnchor.constraint(equalTo: centerYAnchor),
+            title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32)
         ])
     }
     
@@ -77,7 +78,7 @@ final class UploadCell: UICollectionViewCell {
     
     func setLines() {
         drawLine()
-        drawLine(xValue: 0, yValue: Int(frame.maxY) - 40)
+        drawLine(xValue: 0, yValue: Int(frame.maxY) - 55)
     }
     
     func drawLine(xValue: Int = 0, yValue: Int = 0) {

@@ -163,7 +163,7 @@ extension SearchController {
                 switch state {
                 case .success:
                     print("success")
-                    collection.reloadData()
+                    collection.reloadSections(IndexSet(integer: 3))
                 case .error(let error):
                     print(error)
                 case .idle:

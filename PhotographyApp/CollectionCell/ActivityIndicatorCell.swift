@@ -13,6 +13,7 @@ class ActivityIndicatorCell: UICollectionViewCell {
         let loadingView = UIActivityIndicatorView()
         loadingView.style = .medium
         loadingView.color = .label
+        loadingView.startAnimating()
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         return loadingView
     }()

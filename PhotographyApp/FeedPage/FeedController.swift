@@ -65,6 +65,7 @@ final class FeedController: UIViewController {
     }
     
     private func configureUI() {
+        view.backgroundColor = .myBackground
         view.addSubview(collection)
         view.addSubview(loadingView)
         statusBarConfigure()

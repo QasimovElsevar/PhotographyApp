@@ -10,16 +10,6 @@ import UIKit
 import Kingfisher
 
 extension UIImageView {
-//    func loadImage(url: String) {
-////        let urlPrefix = "\(NetworkManager().imageUrl)\(url)"
-//        let url = URL(string: url)
-////        self.kf.setImage(with: url)
-//        
-//        let processor = BlurImageProcessor(blurRadius: 10)
-//        kf.setImage(with: url, placeholder: nil, options: [.processor(processor)], progressBlock: nil) { _ in
-////            self.kf.setImage(with: url)
-//        }
-//    }
     
     func loadImage(with data: String, and blurHash: String) {
         let url = URL(string: data)
@@ -30,14 +20,6 @@ extension UIImageView {
             kf.setImage(with: url, placeholder: bluredImage)
         }
     }
-    
-//    func loadImage(data: String) {
-//        if let image = UIImage(named: data) {
-//            self.image = image
-//        } else {
-//            self.kf.setImage(with: URL(string: data))
-//        }
-//    }
 }
 
 extension UIViewController {
@@ -46,8 +28,8 @@ extension UIViewController {
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: completion)
         alertController.addAction(okAction)
         DispatchQueue.main.async {
-                   self.present(alertController, animated: true, completion: nil)
-               }
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
 }
 

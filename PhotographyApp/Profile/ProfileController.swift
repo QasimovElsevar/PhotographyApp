@@ -18,6 +18,7 @@ final class ProfileController: UIViewController {
         collection.dataSource = self
         collection.backgroundColor = .clear
         collection.contentInsetAdjustmentBehavior = .never
+        collection.register(ActivityIndicatorCell.self, forCellWithReuseIdentifier: "ActivityIndicatorCell")
         collection.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
         collection.register(ProfileSelectionCell.self, forCellWithReuseIdentifier: "ProfileSelectionCell")
         collection.register(ImageWithLabelCell.self, forCellWithReuseIdentifier: "ImageWithLabelCell")
@@ -43,7 +44,7 @@ final class ProfileController: UIViewController {
         self.view.addSubview(view)
         return view
     }()
-
+    
     private lazy var refreshControl: UIRefreshControl = {
         let refresh = UIRefreshControl()
         refresh.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
@@ -69,7 +70,6 @@ final class ProfileController: UIViewController {
         navigationController?.navigationBar.backgroundColor = .profile
         addSubviews()
         setCostraints()
-//        view.createStatusBarCover(mainView: view)
         navBarConfigure()
         navigationBarButtonsConfigure()
         getData()
@@ -80,7 +80,6 @@ final class ProfileController: UIViewController {
     private func addSubviews() {
         view.addSubview(collection)
         view.addSubview(loadingView)
-//        view.addSubview(backgroundView)
     }
     
     private func setCostraints() {
@@ -95,10 +94,6 @@ final class ProfileController: UIViewController {
             loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-//            backgroundView.heightAnchor.constraint(equalToConstant: 100),
-//            backgroundView.widthAnchor.constraint(equalToConstant: view.frame.width),
-//            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
-//            backgroundView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -121,11 +116,12 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
             cell.configure(firstName: viewModel.userData?.firstName ?? "", lastName: viewModel.userData?.lastName ?? "")
             return cell
-            
         case .selection:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileSelectionCell", for: indexPath) as! ProfileSelectionCell
             cell.callback = { tag in
                 self.viewModel.index = tag
+//                self.collection.reloadData()
+                self.collection.reloadSections(IndexSet(integer: 2))
                 self.getData()
             }
             return cell
@@ -145,7 +141,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             case .collections:
                 let cell = collection.dequeueReusableCell(withReuseIdentifier: "MyCollectionsCell", for: indexPath) as! MyCollectionsCell
                 let collection = viewModel.userCollections[indexPath.row]
-                cell.configure(photos: collection.photos ?? [], itemCount: 5, name: collection.collectionName ?? "")
+                cell.configure(photos: collection.photos, itemCount: 5, name: collection.collectionName ?? "")
                 return cell
             }
         }
@@ -169,8 +165,8 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func showUserCollectionController(indexPath: Int) {
-//        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userCollections[indexPath].id ?? "", title: viewModel.userCollections[indexPath].title ?? "", user: viewModel.userData!)
-//        coordinator.showUserCollectionController()
+        //        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userCollections[indexPath].id ?? "", title: viewModel.userCollections[indexPath].title ?? "", user: viewModel.userData!)
+        //        coordinator.showUserCollectionController()
     }
     
     
@@ -186,9 +182,9 @@ extension ProfileController {
     //MARK: - Data
     
     private func getData() {
-//            await viewModel.getUserData()
-            viewModel.getUsersLikedPhotos()
-            viewModel.getCollections()
+        //            await viewModel.getUserData()
+        viewModel.getUsersLikedPhotos()
+        viewModel.getCollections()
     }
     
     private func bindViewModel() {
@@ -209,7 +205,6 @@ extension ProfileController {
                 case .idle:
                     break
                 }
-                
             }
         }
     }
@@ -296,7 +291,7 @@ extension ProfileController {
     //MARK: - BarButton Action
     
     @objc private func shareButtonTapped() {
-        let items = [URL(string: "")!]
+        let items = [URL(string: viewModel.userData?.username ?? "")!]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
         present(ac, animated: true)
     }
