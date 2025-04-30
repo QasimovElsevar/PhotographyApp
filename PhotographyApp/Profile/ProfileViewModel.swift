@@ -127,27 +127,26 @@ final class ProfileViewModel {
      
     }
     
-    func getUsersLikedPhotos() {
-        FirestoreManager.shared.getUsersLikedPhotos { photos, error in
+    func getUsersLikedPhotos2() {
+        FirestoreManager.shared.getData(collectionType: .likedPhotoCollection, model: LikedPhotos.self) { data, error in
             if let error = error {
                 self.state = .error(error)
             } else {
-                self.userLiked = photos ?? []
+                self.userLiked = data ?? []
                 self.state = .success
             }
         }
     }
     
     func getCollections() {
-        FirestoreManager.shared.getCollection(completion: { collections, error in
-                if let error = error {
-                    self.state = .error(error)
-                } else {
-                    self.userCollections = collections ?? []
-                    self.state = .success
-                }
-        })
-        
+        FirestoreManager.shared.getData(collectionType: .likedPhotoCollection, model: LikedPhotos.self) { data, error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.userLiked = data ?? []
+                self.state = .success
+            }
+        }
     }
     
     func getUser() {

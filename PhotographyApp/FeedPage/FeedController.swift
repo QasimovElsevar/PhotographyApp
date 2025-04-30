@@ -151,7 +151,7 @@ extension FeedController {
                     loadingView.stopAnimating()
                 case .success:
                     collection.refreshControl?.endRefreshing()
-                    collection.reloadData()
+                    collection.reloadSections(IndexSet(integer: 0))
                 case .error(let error):
                     print(error)
                 case .idle:

@@ -16,6 +16,13 @@ class ImageViewModel {
     
     //MARK: Properties
     
+    struct LikedPhotos: Codable {
+        let id: String?
+        let url: String?
+        let blurHash: String?
+        let author: String?
+    }
+    
     let manager = ImageManager()
     
     let sections: [PhotoSections] = [.mainPhoto, .relatedPhotos]
@@ -148,6 +155,25 @@ class ImageViewModel {
                 self.state = .error(error)
             } else {
                 self.state = .couldNotSave
+            }
+        }
+    }
+    
+    func saveLikedPhoto2() {
+        
+        let parameter: [String: Any] = [
+            "url": photo?.urls?.regular ?? "",
+            "author": photo?.user?.name ?? "",
+            "id": photoId,
+            "blurHash": photo?.blurHash ?? "",
+            "createdAt": Date()
+        ]
+        
+        FirestoreManager.shared.saveData(collectionType: .likedPhotoCollection, docName: photoId, parameters: parameter) { error in
+            if let error = error {
+                self.state = .couldNotSave
+            } else {
+                self.state = .saved
             }
         }
     }

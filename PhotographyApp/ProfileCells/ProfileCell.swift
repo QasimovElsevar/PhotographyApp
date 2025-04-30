@@ -70,7 +70,7 @@ final class ProfileCell: UICollectionViewCell {
     }
     
     //MARK: - Cell Data
-    func configure(firstName: String, lastName: String) {
-        label.text = "\(firstName) \(lastName)"
+    func configure(username: String) {
+        label.text = "\(username)"
     }
 }

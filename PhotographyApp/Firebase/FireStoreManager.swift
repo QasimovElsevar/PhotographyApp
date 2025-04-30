@@ -124,9 +124,9 @@ final class FirestoreManager {
     func saveUsersLikedPhotos(photoUrl: String, authorsName: String, photoId: String, blurHash: String, completion: @escaping (String?) -> Void) {
         
         let data: [String: Any] = [
-            "photoUrl": photoUrl,
-            "authorsName": authorsName,
-            "photoId": [photoId],
+            "url": photoUrl,
+            "author": authorsName,
+            "id": photoId,
             "blurHash": blurHash
         ]
         
@@ -137,6 +137,49 @@ final class FirestoreManager {
                 completion(error.localizedDescription)
             } else {
                 completion(nil)
+            }
+        }
+    }
+    
+    func saveData(collectionType: UserDataCollections, docName: String, parameters: [String: Any], completion: @escaping (String?) -> Void) {
+        
+//        let data: [String: Any] = [
+//            "url": photoUrl,
+//            "author": authorsName,
+//            "id": [photoId],
+//            "blurHash": blurHash
+//        ]
+        
+        guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
+        
+        db.collection("\(collection) \(collectionType.rawValue)").document(docName).setData(parameters) { error in
+            if let error = error {
+                completion(error.localizedDescription)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func getData<T: Codable>(collectionType: UserDataCollections, model: T.Type, completion: @escaping ([T]?, String?) -> Void) {
+        
+        var array: [T] = []
+        
+        guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
+        
+        db.collection("\(collection) \(collectionType.rawValue)").order(by: "createdAt", descending: true).getDocuments(source: .default) { document, error in
+            if let error = error {
+                completion(nil, error.localizedDescription)
+            } else if let document = document {
+                do {
+                        for docs in document.documents {
+                            let data = try docs.data(as: T.self)
+                            array.append(data)
+                    }
+                    completion(array, nil)
+                } catch {
+                    print(error.localizedDescription)
+                }
             }
         }
     }
@@ -164,13 +207,18 @@ final class FirestoreManager {
                 completion(nil, error.localizedDescription)
             } else {
                 for docs in snapshot?.documents ?? [] {
-                    let data = docs.data()
-                    let photoUrl = data["photoUrl"] as? String ?? ""
-                    let authorsName = data["authorsName"] as? String ?? ""
-                    let photoId = data["photoId"] as? String ?? ""
-                    let blurHash = data["blurHash"] as? String ?? ""
-                    let likedPhotos =  LikedPhotos(id: photoId, url: photoUrl, blurHash: blurHash, author: authorsName)
-                    photoArray.append(likedPhotos)
+                    do {
+                        let data = try docs.data(as: LikedPhotos.self)
+                        photoArray.append(data)
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+//                    let photoUrl = data["url"] as? String ?? ""
+//                    let authorsName = data["author"] as? String ?? ""
+//                    let photoId = data["id"] as? String ?? ""
+//                    let blurHash = data["blurHash"] as? String ?? ""
+//                    let likedPhotos =  LikedPhotos(id: photoId, url: photoUrl, blurHash: blurHash, author: authorsName)
+                    
                     completion(photoArray, nil)
                 }
             }
