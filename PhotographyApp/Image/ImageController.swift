@@ -315,8 +315,7 @@ extension ImageController {
                 viewModel.isLiked = false
             } else {
                 await viewModel.likePhoto()
-//                viewModel.saveLikedPhoto()
-                viewModel.saveLikedPhoto2()
+                viewModel.saveLikedPhoto()
                 viewModel.isLiked = true
             }
         }
@@ -327,7 +326,7 @@ extension ImageController {
     }
     
     @objc private func handleAddingToCollection() {
-        let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photoId, usersCollection: UsersCollections(collectionName: "", photos: [LikedPhotos(id: "",url: viewModel.photo?.urls?.regular ?? "", blurHash: "", author: viewModel.photo?.user?.name ?? "", createdAt: Date())]))
+        let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photoId /*usersCollection: UsersCollections(collectionName: "", photos: [LikedPhotos(id: "",url: viewModel.photo?.urls?.regular ?? "", blurHash: "", author: viewModel.photo?.user?.name ?? "", createdAt: viewModel.)]*/)
         coordinator.showAddToCollectionController()
     }
     

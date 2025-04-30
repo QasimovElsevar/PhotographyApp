@@ -93,41 +93,30 @@ final class ProfileViewModel {
     //MARK: - Data
     
     func getUserData() async {
-        do {
-            switch selections[self.index] {
-            case .photos:
+        switch selections[self.index] {
+        case .photos:
+            do {
                 let data = try await manager.getPhotos()
                 Task {
                     userPhotos = data
                     state = .success
                     state = .loaded
                 }
-            case .likes:
-                let data = try await manager.getLikes()
-                Task {
-//                    userPhotos = data
-//                    state = .success
-                }
-            case .collections:
-                let data = try await manager.getCollections()
-                Task {
-//                    userCollections = data
-//                    state = .success
-                }
-            }
-        } catch {
-            Task {
+            } catch {
                 state = .error(error.localizedDescription)
             }
+        case .likes:
+            getUsersLikedPhotos()
+        case .collections:
+            getCollections()
         }
-        
     }
     
     func makeRequest() async {
      
     }
     
-    func getUsersLikedPhotos2() {
+    func getUsersLikedPhotos() {
         FirestoreManager.shared.getData(collectionType: .likedPhotoCollection, model: LikedPhotos.self) { data, error in
             if let error = error {
                 self.state = .error(error)
@@ -151,17 +140,17 @@ final class ProfileViewModel {
     
     func getUser() {
         state = .loading
-        FirestoreManager.shared.getUserData { [weak self] data, error in
+        FirestoreManager.shared.getData(collectionType: .userDataCollection, model: UserModel.self, completion: { [weak self] data, error in
             guard let self else {return}
             
             if let error = error {
                 state = .error(error)
             } else {
-                userData = data
-                UserDefaults.standard.set(data?.accessKey, forKey: "key")
+                userData = data?.first
+                UserDefaults.standard.set(userData?.accessKey, forKey: "key")
                 state = .success
                 state = .loaded
             }
-        }
+        })
     }
 }

@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct UserModel {
+struct UserModel: Codable {
     let firstName, lastName, username, email, accessKey: String?
+    let createdAt: Data?
 }
 
 struct SenBack: Codable {
@@ -25,5 +26,6 @@ struct LikedPhotos: Codable {
 
 struct UsersCollections {
     let collectionName: String?
+    let createdAt: Date?
     let photos: [LikedPhotos]
 }

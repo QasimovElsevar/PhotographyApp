@@ -182,11 +182,9 @@ extension ProfileController {
     //MARK: - Data
     
     private func getData() {
-        //            await viewModel.getUserData()
-//        viewModel.getUsersLikedPhotos()
-        viewModel.getUsersLikedPhotos2()
-//        viewModel.getUsersLikedPhotos3()
-        viewModel.getCollections()
+        Task {
+            await viewModel.getUserData()
+        }
     }
     
     private func bindViewModel() {

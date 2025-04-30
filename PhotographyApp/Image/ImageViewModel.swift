@@ -42,7 +42,7 @@ class ImageViewModel {
     
     enum ViewState {
         case saved
-        case couldNotSave
+        case couldNotSave(String)
         case liked
         case unliked
         case success
@@ -149,17 +149,17 @@ class ImageViewModel {
         }
     }
     
-    func saveLikedPhoto() {
-        FirestoreManager.shared.saveUsersLikedPhotos(photoUrl: photo?.urls?.regular ?? "", authorsName: photo?.user?.name ?? "", photoId: photo?.id ?? "", blurHash: photo?.blurHash ?? "") { error in
-            if let error = error {
-                self.state = .error(error)
-            } else {
-                self.state = .couldNotSave
-            }
-        }
-    }
+//    func saveLikedPhoto() {
+//        FirestoreManager.shared.saveUsersLikedPhotos(photoUrl: photo?.urls?.regular ?? "", authorsName: photo?.user?.name ?? "", photoId: photo?.id ?? "", blurHash: photo?.blurHash ?? "") { error in
+//            if let error = error {
+//                self.state = .error(error)
+//            } else {
+//                self.state = .couldNotSave
+//            }
+//        }
+//    }
     
-    func saveLikedPhoto2() {
+    func saveLikedPhoto() {
         
         let parameter: [String: Any] = [
             "url": photo?.urls?.regular ?? "",
@@ -171,7 +171,7 @@ class ImageViewModel {
         
         FirestoreManager.shared.saveData(collectionType: .likedPhotoCollection, docName: photoId, parameters: parameter) { error in
             if let error = error {
-                self.state = .couldNotSave
+                self.state = .couldNotSave(error)
             } else {
                 self.state = .saved
             }
@@ -181,9 +181,9 @@ class ImageViewModel {
     func deleteUnlikedPhoto() {
         FirestoreManager.shared.deleteUsersUnlikedPhoto(photoId: photoId) { error in
             if let error = error {
-                self.state = .error(error)
+                self.state = .couldNotSave(error)
             } else {
-                self.state = .couldNotSave
+                self.state = .saved
             }
         }
     }

@@ -39,7 +39,8 @@ final class UserBuilder {
                 "lastname": lastname ?? "",
                 "username": username ?? "",
                 "email": email ?? "",
-                "authToken": authToken ?? ""]
+                "authToken": authToken ?? "",
+                "createdAt": Date()]
     }
 }
 

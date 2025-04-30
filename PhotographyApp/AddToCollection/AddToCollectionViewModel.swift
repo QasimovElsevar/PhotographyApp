@@ -75,13 +75,13 @@ class AddToCollectionViewModel {
         }
     }
     
-    func createCollection() {
-        FirestoreManager.shared.createCollection(collectionName: "mysecondCollection", photoUrl: userCollection?.photos[0].url ?? "", authorName: userCollection?.photos[0].author ?? "") { error in
-            if let error = error {
-                self.state = .error(error)
-            } else {
-                self.state = .success
-            }
-        }
-    }
+//    func createCollection() {
+//        FirestoreManager.shared.createCollection(collectionName: "mysecondCollection", photoUrl: userCollection?.photos[0].url ?? "", authorName: userCollection?.photos[0].author ?? "") { error in
+//            if let error = error {
+//                self.state = .error(error)
+//            } else {
+//                self.state = .success
+//            }
+//        }
+//    }
 }

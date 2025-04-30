@@ -167,12 +167,12 @@ extension ProfileEditingController {
     }
     
     @objc private func saveChanges() {
-        FirestoreManager.shared.updateUserData(firstName: nameField.text ?? "", lastName: lastnameField.text ?? "", username: usernameField.text ?? "", email: emailField.text ?? "", accessKey: viewModel.userArray.accessKey ?? "") { error in
-            if let error = error {
-                print(error)
-            } else {
-                self.showAllert(title: "Success", message: "Your profile updated")
-            }
-        }
+//        FirestoreManager.shared.updateUserData(firstName: nameField.text ?? "", lastName: lastnameField.text ?? "", username: usernameField.text ?? "", email: emailField.text ?? "", accessKey: viewModel.userArray.accessKey ?? "") { error in
+//            if let error = error {
+//                print(error)
+//            } else {
+//                self.showAllert(title: "Success", message: "Your profile updated")
+//            }
+//        }
     }
 }

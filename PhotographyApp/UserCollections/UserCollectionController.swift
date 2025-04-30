@@ -92,14 +92,7 @@ extension UserCollectionController: UICollectionViewDelegate, UICollectionViewDa
         let coordinator = ProfileCoordinator(
             navigationController: navigationController ?? UINavigationController(),
             id: viewModel.photos[indexPath.row].id ?? "",
-            title: "",
-            user: UserModel.init(
-                firstName: "",
-                lastName: "",
-                username: "",
-                email: "",
-                accessKey: ""
-            )
+            title: ""
         )
         coordinator.showImageController()
     }

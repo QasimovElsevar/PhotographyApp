@@ -72,11 +72,12 @@ final class RegisterViewModel {
     func saveData(completion: @escaping (String?) -> Void) {
         let data = builder.build()
         let firstname = data["firstname"] as! String
-        let lastname = data["lastname"] as! String
-        let username = data["username"] as! String
-        let email = data["email"] as! String
-        let authToken = data["authToken"] as! String
+//        let lastname = data["lastname"] as! String
+//        let username = data["username"] as! String
+//        let email = data["email"] as! String
+//        let authToken = data["authToken"] as! String
         
-        FirestoreManager.shared.saveUser(firstName: firstname, lastName: lastname, username: username, email: email, accessKey: authToken, completion: completion)
+//        FirestoreManager.shared.saveUser(firstName: firstname, lastName: lastname, username: username, email: email, accessKey: authToken, completion: completion)
+        FirestoreManager.shared.saveData(collectionType: .userDataCollection, docName: firstname, parameters: data, completion: completion)
     }
 }
