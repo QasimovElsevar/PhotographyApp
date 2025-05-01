@@ -9,12 +9,12 @@ import UIKit
 
 class FeedCoordinator: Coordinator {
     var navigationController: UINavigationController
-    var usersCollection: UsersCollections?
+    var photos: UsersPhotos?
     var id: String
     
-    init(navigationController: UINavigationController, id: String, usersCollection: UsersCollections? = nil) {
+    init(navigationController: UINavigationController, id: String, photos: UsersPhotos? = nil) {
         self.navigationController = navigationController
-        self.usersCollection = usersCollection
+        self.photos = photos
         self.id = id
     }
     
@@ -29,7 +29,7 @@ class FeedCoordinator: Coordinator {
     }
     
     func showAddToCollectionController() {
-        let controller = AddToCollectionController(viewModel: .init(photoId: id, userCollection: usersCollection ?? nil))
+        let controller = AddToCollectionController(viewModel: .init(photoId: id, photo: photos ?? nil))
         let navController = UINavigationController(rootViewController: controller)
         navigationController.present(navController, animated: true)
     }

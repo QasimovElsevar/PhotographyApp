@@ -154,8 +154,8 @@ class ProfileEditingController: UIViewController {
     }
     
     func configureTextFields() {
-        nameField.text = viewModel.userArray.firstName
-        lastnameField.text = viewModel.userArray.lastName
+        nameField.text = viewModel.userArray.firstname
+        lastnameField.text = viewModel.userArray.lastname
         usernameField.text = viewModel.userArray.username
         emailField.text = viewModel.userArray.email
     }

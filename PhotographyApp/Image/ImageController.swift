@@ -326,7 +326,7 @@ extension ImageController {
     }
     
     @objc private func handleAddingToCollection() {
-        let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photoId /*usersCollection: UsersCollections(collectionName: "", photos: [LikedPhotos(id: "",url: viewModel.photo?.urls?.regular ?? "", blurHash: "", author: viewModel.photo?.user?.name ?? "", createdAt: viewModel.)]*/)
+        let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photoId, photos: UsersPhotos(id: viewModel.photoId, url: viewModel.photo?.urls?.regular ?? "", blurHash: viewModel.photo?.blurHash ?? "", author: viewModel.photo?.user?.name ?? "", createdAt: Date()))
         coordinator.showAddToCollectionController()
     }
     

@@ -252,8 +252,7 @@ extension RegisterController {
             if let error = error {
                 print(error)
             } else {
-                self?.viewModel.builder.set(authToken: response?.accessToken ?? "")
-                print(response?.accessToken ?? "")
+                self?.viewModel.builder.set(accessKey: response?.accessToken ?? "")
                 
                 self?.viewModel.saveData { [weak self] error in
                     if let error = error {

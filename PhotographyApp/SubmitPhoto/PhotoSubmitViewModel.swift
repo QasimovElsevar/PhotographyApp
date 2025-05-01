@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseStorage
 
 enum PhotoSubmitSections {
     case selectedPhotos
@@ -34,6 +35,24 @@ final class PhotoSubmitViewModel {
         self.image = image
     }
     
+    //MARK: - States
+    
+    enum ViewState {
+        case loading
+        case loaded
+        case success
+        case error(String)
+        case idle
+    }
+
+    var stateUpdate: ((ViewState) -> Void)?
+    
+    var state: ViewState = .idle {
+        didSet {
+            stateUpdate?(state)
+        }
+    }
+    
     func numberOfitems(index: Int) -> Int {
         switch sections[index] {
         case .descriptionText, .description, .locationText, .location, .tagsText, .tags, .pageControl:
@@ -58,12 +77,13 @@ final class PhotoSubmitViewModel {
         }
     }
     
-    func uploadImage(index: Int) async {
-        do {
-            let data = try await manager.uploadPhotos(id: id)
-            print(data)
-        } catch {
-            print(error.localizedDescription)
+    func uploadImage() {
+        FirestoreManager.shared.saveImage(images: image) { data, error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .success
+            }
         }
     }
 }

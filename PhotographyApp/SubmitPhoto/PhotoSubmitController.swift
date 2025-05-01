@@ -142,9 +142,7 @@ extension PhotoSubmitController {
     }
     
     @objc func handleSubmit() {
-        Task {
-            await viewModel.uploadImage(index: 0)
-        }
+        viewModel.uploadImage()
     }
     
     func configureNavRightButton() {
@@ -157,5 +155,28 @@ extension PhotoSubmitController {
         rightButton.setTitleTextAttributes(attributes, for: .normal)
 
         navigationItem.rightBarButtonItem = rightButton
+    }
+    
+    private func bindViewModel() {
+        viewModel.stateUpdate = { [weak self] state in
+            
+            DispatchQueue.main.async { [weak self] in
+                guard let self else {return}
+                switch state {
+                case .loading:
+//                    loadingView.startAnimating()
+                    print("ppp")
+                case  .loaded:
+//                    loadingView.stopAnimating()
+                    print("ppp")
+                case .success:
+                    collection.reloadData()
+                case .error(let error):
+                    print(error)
+                case .idle:
+                    break
+                }
+            }
+        }
     }
 }

@@ -106,7 +106,7 @@ final class MyCollectionsCell: UICollectionViewCell {
         ])
     }
     
-    func configure(photos: [LikedPhotos], itemCount: Int, name: String) {
+    func configure(photos: [UsersPhotos], itemCount: Int, name: String) {
         for item in 0..<photos.count {
             if item == 0 {
                 firstPreviewImage.loadImage(with: photos[item].url ?? "", and: "")

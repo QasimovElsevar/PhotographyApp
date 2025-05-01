@@ -85,7 +85,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = table.dequeueReusableCell(withIdentifier: "SettingHeadCell", for: indexPath) as! SettingHeadCell
-            cell.configure(imageName: "person.fill", text: "\(viewModel.userDara.firstName ?? "") \(viewModel.userDara.lastName ?? "")")
+            cell.configure(imageName: "person.fill", text: "\(viewModel.userDara.firstname ?? "") \(viewModel.userDara.lastname ?? "")")
             return cell
         } else {
             let cell = table.dequeueReusableCell(withIdentifier: "TableTextCell", for: indexPath) as! TableTextCell

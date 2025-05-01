@@ -34,7 +34,6 @@ final class AddToCollectionController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        getCollections()
         bindViewModel()
         navigationController?.navigationItem.title = "Add to Collection"
         navigationItem.leftBarButtonItem = .init(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
@@ -101,16 +100,11 @@ extension AddToCollectionController {
         }
     }
     
-    func getCollections() {
-        Task {
-            await viewModel.getCollections()
-        }
-    }
-    
     @objc func handleCancel() {
         dismiss(animated: true)
     }
     
     @objc func handleNew() {
+        viewModel.createCollection()
     }
 }

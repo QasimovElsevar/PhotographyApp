@@ -12,7 +12,7 @@ final class UserBuilder {
     private var lastname: String?
     private var username: String?
     private var email: String?
-    private var authToken: String?
+    private var accessKey: String?
     
     func set(firstname: String) {
         self.firstname = firstname
@@ -30,8 +30,8 @@ final class UserBuilder {
         self.email = email
     }
     
-    func set(authToken: String) {
-        self.authToken = authToken
+    func set(accessKey: String) {
+        self.accessKey = accessKey
     }
     
     func build() -> [String: Any] {
@@ -39,7 +39,7 @@ final class UserBuilder {
                 "lastname": lastname ?? "",
                 "username": username ?? "",
                 "email": email ?? "",
-                "authToken": authToken ?? "",
+                "accessKey": accessKey ?? "",
                 "createdAt": Date()]
     }
 }

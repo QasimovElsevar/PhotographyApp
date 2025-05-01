@@ -26,8 +26,8 @@ final class ProfileViewModel {
     var coordinator: MainCoordinator?
     let manager = ProfileManager()
     var index = 0
-    var userPhotos: [Photos] = []
-    var userLiked: [LikedPhotos] = []
+    var userPhotos: [UIImage] = []
+    var userLiked: [UsersPhotos] = []
     var userCollections: [UsersCollections] = []
     var userData: UserModel?
     
@@ -95,16 +95,8 @@ final class ProfileViewModel {
     func getUserData() async {
         switch selections[self.index] {
         case .photos:
-            do {
-                let data = try await manager.getPhotos()
-                Task {
-                    userPhotos = data
-                    state = .success
-                    state = .loaded
-                }
-            } catch {
-                state = .error(error.localizedDescription)
-            }
+//            print("udnfhvuidx")
+            getUserPhotos()
         case .likes:
             getUsersLikedPhotos()
         case .collections:
@@ -112,12 +104,8 @@ final class ProfileViewModel {
         }
     }
     
-    func makeRequest() async {
-     
-    }
-    
     func getUsersLikedPhotos() {
-        FirestoreManager.shared.getData(collectionType: .likedPhotoCollection, model: LikedPhotos.self) { data, error in
+        FirestoreManager.shared.getData(collectionType: .likedPhotoCollection, model: UsersPhotos.self) { data, error in
             if let error = error {
                 self.state = .error(error)
             } else {
@@ -128,11 +116,11 @@ final class ProfileViewModel {
     }
     
     func getCollections() {
-        FirestoreManager.shared.getData(collectionType: .likedPhotoCollection, model: LikedPhotos.self) { data, error in
+        FirestoreManager.shared.getData(collectionType: .collectionOfPhotosCollection, model: UsersCollections.self) { data, error in
             if let error = error {
                 self.state = .error(error)
             } else {
-                self.userLiked = data ?? []
+                self.userCollections = data ?? []
                 self.state = .success
             }
         }
@@ -150,6 +138,17 @@ final class ProfileViewModel {
                 UserDefaults.standard.set(userData?.accessKey, forKey: "key")
                 state = .success
                 state = .loaded
+            }
+        })
+    }
+    
+    func getUserPhotos() {
+        StorageManager.shared.downloadImage(completion: { photos, error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.userPhotos = photos ?? []
+                self.state = .success
             }
         })
     }

@@ -131,7 +131,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             case .photos:
                 let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
                 let photos = viewModel.userPhotos[indexPath.row]
-                cell.configure(data: photos.urls?.regular ?? "", text: "", blurHash: photos.blurHash ?? "")
+//                cell.configure(data: photos.urls?.regular ?? "", text: "", blurHash: photos.blurHash ?? "")
                 return cell
             case .likes:
                 let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
@@ -198,7 +198,7 @@ extension ProfileController {
                 case  .loaded:
                     loadingView.stopAnimating()
                 case .success:
-                    navigationItem.title = "\(viewModel.userData?.firstName ?? "") \(viewModel.userData?.lastName ?? "")"
+                    navigationItem.title = "\(viewModel.userData?.firstname ?? "") \(viewModel.userData?.lastname ?? "")"
                     collection.reloadData()
                 case .error(let error):
                     print(error)

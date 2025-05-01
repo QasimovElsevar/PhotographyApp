@@ -8,15 +8,15 @@
 import Foundation
 
 struct UserModel: Codable {
-    let firstName, lastName, username, email, accessKey: String?
-    let createdAt: Data?
+    let firstname, lastname, username, email, accessKey: String?
+    let createdAt: Date?
 }
 
 struct SenBack: Codable {
     let code: String?
 }
 
-struct LikedPhotos: Codable {
+struct UsersPhotos: Codable {
     let id: String?
     let url: String?
     let blurHash: String?
@@ -24,8 +24,8 @@ struct LikedPhotos: Codable {
     let createdAt: Date
 }
 
-struct UsersCollections {
+struct UsersCollections: Codable {
     let collectionName: String?
     let createdAt: Date?
-    let photos: [LikedPhotos]
+    let photos: [UsersPhotos]
 }
