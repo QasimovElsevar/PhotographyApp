@@ -1,32 +1,30 @@
 //
-//  SettingHeadCell.swift
+//  HeaderCell.swift
 //  PhotographyApp
 //
-//  Created by Elsever on 02.04.25.
+//  Created by Elsever on 03.05.25.
 //
 
 import UIKit
 
-final class SettingHeadCell: UITableViewCell {
+class HeaderCell: UITableViewCell {
 
     private lazy var image: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .center
-        image.image = UIImage(systemName: "person.fill")
+        image.contentMode = .scaleAspectFit
+        image.image = UIImage(named: "logo")
         image.backgroundColor = .selectionView
         image.tintColor = .white
         image.clipsToBounds = true
-        image.layer.cornerRadius = 40
-        image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
     private lazy var label : UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .light)
-        label.textColor = .systemGray3
-        label.text = "fsdacdsa"
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.textColor = .placeholder
+        label.text = "Photography App"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -63,12 +61,8 @@ final class SettingHeadCell: UITableViewCell {
             image.widthAnchor.constraint(equalToConstant: 80),
             image.heightAnchor.constraint(equalToConstant: 80),
             
-            label.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 8),
+            label.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 4),
             label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
-    }
-    
-    func configure(text: String) {
-        label.text = text
     }
 }

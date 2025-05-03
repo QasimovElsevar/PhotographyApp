@@ -115,6 +115,10 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
         case .profile:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
             cell.configure(username: viewModel.userData?.username ?? "")
+            cell.callback = {
+                let coordinator = ProfileCoordinator(navigationController: self.navigationController!, user: self.viewModel.userData)
+                coordinator.showProfileEditingController()
+            }
             return cell
         case .selection:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileSelectionCell", for: indexPath) as! ProfileSelectionCell

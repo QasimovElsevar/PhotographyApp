@@ -83,7 +83,6 @@ final class LoginController: UIViewController {
         let stack = UIStackView()
         stack.spacing = 2
         stack.axis = .horizontal
-//        stack.alignment = .center
         stack.distribution = .equalCentering
         stack.addArrangedSubview(accountLabel)
         stack.addArrangedSubview(joinButton)
@@ -159,8 +158,6 @@ final class LoginController: UIViewController {
             forgotPasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
             
             stack.topAnchor.constraint(equalTo: forgotPasswordButton.bottomAnchor, constant: 20),
-//            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-//            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
             stack.centerXAnchor.constraint(equalTo: super.view.centerXAnchor)
         ])
     }

@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,45 +17,52 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="photography" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQF-gY-0T3">
-                                <rect key="frame" x="169" y="-5490" width="100" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Impact" family="Impact" pointSize="19"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jbo-vy-glE">
-                                <rect key="frame" x="12" y="785" width="369" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ihS-qG-q1o">
-                                <rect key="frame" x="20" y="79.666666666666686" width="353" height="128"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="bqT-JS-Kki">
+                                <rect key="frame" x="78" y="286" width="237" height="180"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="129.33000000000001" id="cr5-td-ssB"/>
+                                    <constraint firstAttribute="width" constant="237" id="LTQ-lx-5Z0"/>
+                                    <constraint firstAttribute="height" constant="180" id="P0u-Qm-q9U"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bui-PN-EAA">
+                                <rect key="frame" x="12" y="474" width="369" height="32.333333333333314"/>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="  Photography App">
+                                        <attributes>
+                                            <color key="NSColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <font key="NSFont" size="29" name=".SFNS-Regular"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" systemColor="systemPinkColor"/>
                         <constraints>
-                            <constraint firstItem="ihS-qG-q1o" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="77k-ly-xU9"/>
-                            <constraint firstItem="ihS-qG-q1o" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="Cx2-hn-78f"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Jbo-vy-glE" secondAttribute="trailing" constant="12" id="S6o-oh-Ucq"/>
-                            <constraint firstItem="Jbo-vy-glE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="12" id="TMj-7N-mJ2"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ihS-qG-q1o" secondAttribute="trailing" constant="20" id="dgE-SY-LIU"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Jbo-vy-glE" secondAttribute="bottom" constant="12" id="klr-5Y-F6e"/>
+                            <constraint firstItem="bqT-JS-Kki" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-50" id="CaS-nM-cmu"/>
+                            <constraint firstItem="bqT-JS-Kki" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Rdn-9s-VmC"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Bui-PN-EAA" secondAttribute="trailing" constant="12" id="XQQ-9d-UvO"/>
+                            <constraint firstItem="Bui-PN-EAA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="12" id="odH-k5-G8l"/>
+                            <constraint firstItem="Bui-PN-EAA" firstAttribute="top" secondItem="bqT-JS-Kki" secondAttribute="bottom" constant="8" id="uJW-PY-wOu"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="0eT-gT-KPM"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="979.38931297709917" y="374.64788732394368"/>
+            <point key="canvasLocation" x="11" y="285"/>
         </scene>
     </scenes>
     <resources>
-        <image name="plus.circle" catalog="system" width="128" height="123"/>
+        <image name="logo" width="247.5" height="235.5"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

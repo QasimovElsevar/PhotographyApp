@@ -16,7 +16,7 @@ final class InfoController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .clear
-        tableView.register(SettingHeadCell.self, forCellReuseIdentifier: "SettingHeadCell")
+        tableView.register(HeaderCell.self, forCellReuseIdentifier: "HeaderCell")
         tableView.register(TableTextCell.self, forCellReuseIdentifier: "TableTextCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -67,8 +67,7 @@ extension InfoController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = table.dequeueReusableCell(withIdentifier: "SettingHeadCell", for: indexPath) as! SettingHeadCell
-            cell.configure(imageName: "camera", text: "")
+            let cell = table.dequeueReusableCell(withIdentifier: "HeaderCell", for: indexPath) as! HeaderCell
             return cell
         } else {
             let cell = table.dequeueReusableCell(withIdentifier: "TableTextCell", for: indexPath) as! TableTextCell

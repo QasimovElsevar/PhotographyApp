@@ -95,8 +95,8 @@ final class ProfileViewModel {
     func getUserData() async {
         switch selections[self.index] {
         case .photos:
-//            print("udnfhvuidx")
-            getUserPhotos()
+            print("udnfhvuidx")
+//            getUserPhotos()
         case .likes:
             getUsersLikedPhotos()
         case .collections:
@@ -142,14 +142,14 @@ final class ProfileViewModel {
         })
     }
     
-    func getUserPhotos() {
-        StorageManager.shared.downloadImage(completion: { photos, error in
-            if let error = error {
-                self.state = .error(error)
-            } else {
-                self.userPhotos = photos ?? []
-                self.state = .success
-            }
-        })
-    }
+//    func getUserPhotos() {
+//        StorageManager.shared.downloadImage(completion: { photos, error in
+//            if let error = error {
+//                self.state = .error(error)
+//            } else {
+//                self.userPhotos = photos ?? []
+//                self.state = .success
+//            }
+//        })
+//    }
 }

@@ -27,10 +27,34 @@ final class ProfileCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 26, weight: .bold)
         label.textColor = .label
-        label.text = "fsdacdsa"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    private lazy var editProfileButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("Edit profile", for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .medium)
+        button.backgroundColor = .none
+        button.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var stack : UIStackView = {
+        let stack = UIStackView()
+        stack.spacing = 2
+        stack.axis = .horizontal
+        stack.distribution = .equalCentering
+        stack.alignment = .leading
+        stack.addArrangedSubview(label)
+        stack.addArrangedSubview(editProfileButton)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
+    var callback: (() -> Void)?
     
     //MARK: - Lifcycle
     
@@ -52,19 +76,19 @@ final class ProfileCell: UICollectionViewCell {
     }
     
     private func addSubviews() {
-        [label,
-        imageView
+        [imageView,
+         stack
         ].forEach( {addSubview($0)} )
     }
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
+            stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24),
+            stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             
             imageView.widthAnchor.constraint(equalToConstant: 60),
             imageView.heightAnchor.constraint(equalToConstant: 60),
-            imageView.bottomAnchor.constraint(equalTo: label.topAnchor, constant: -8),
+            imageView.bottomAnchor.constraint(equalTo: stack.topAnchor, constant: -8),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
         ])
     }
@@ -72,5 +96,9 @@ final class ProfileCell: UICollectionViewCell {
     //MARK: - Cell Data
     func configure(username: String) {
         label.text = "\(username)"
+    }
+    
+    @objc private func handleEditProfile() {
+        callback?()
     }
 }
