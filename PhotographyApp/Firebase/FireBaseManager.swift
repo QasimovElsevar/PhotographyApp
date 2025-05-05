@@ -16,6 +16,10 @@ final class FireBaseManager {
     
     private init() {}
     
+    var isUserSignedIn: Bool {
+           return Auth.auth().currentUser != nil
+       }
+    
     func registerUser(email: String, password: String, completion: @escaping (String?) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
@@ -46,9 +50,6 @@ final class FireBaseManager {
         } catch {
             print(error.localizedDescription)
         }
-    }
-    
-    func changePassword() {
     }
     
     func deleteUser(completion: @escaping (String?) -> Void) {

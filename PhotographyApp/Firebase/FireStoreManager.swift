@@ -115,6 +115,29 @@ final class FirestoreManager {
         }
     }
     
+    func getAPhoto<T: Codable>(collectionType: UserDataCollections, photoId: String, model: T.Type, completion: @escaping ([T]?, String?) -> Void) {
+        
+        var array: [T] = []
+        
+        guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
+        
+        db.collection("\(collection) \(collectionType.rawValue)").whereField("id", isEqualTo: photoId).getDocuments(source: .default) { document, error in
+            if let error = error {
+                completion(nil, error.localizedDescription)
+            } else if let document = document {
+                do {
+                        for docs in document.documents {
+                            let data = try docs.data(as: T.self)
+                            array.append(data)
+                    }
+                    completion(array, nil)
+                } catch {
+                    completion(nil, error.localizedDescription)
+                }
+            }
+        }
+    }
+    
     func deleteUsersUnlikedPhoto(photoId: String, completion: @escaping (String?) -> Void) {
         
         guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }

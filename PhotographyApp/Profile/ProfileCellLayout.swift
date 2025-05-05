@@ -63,4 +63,15 @@ final class ProfileCellLayout {
         let section = NSCollectionLayoutSection(group: group)
         return section
     }
+    
+    static func wholeScreen() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+        
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)), subitems: [item])
+        group.contentInsets = .init(top: 2, leading: 0, bottom: 0, trailing: 0)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        return section
+    }
 }

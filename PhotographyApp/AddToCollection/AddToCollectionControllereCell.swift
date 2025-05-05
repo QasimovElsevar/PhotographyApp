@@ -104,7 +104,6 @@ class AddToCollectionControllereCell: UITableViewCell {
     
     @objc private  func handleAdd() {
         callback?()
-        print("add")
     }
 
 }

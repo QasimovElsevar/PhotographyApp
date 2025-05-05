@@ -18,11 +18,12 @@ final class ProfileController: UIViewController {
         collection.dataSource = self
         collection.backgroundColor = .clear
         collection.contentInsetAdjustmentBehavior = .never
-        collection.register(ActivityIndicatorCell.self, forCellWithReuseIdentifier: "ActivityIndicatorCell")
+        collection.refreshControl = refreshControl
         collection.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
         collection.register(ProfileSelectionCell.self, forCellWithReuseIdentifier: "ProfileSelectionCell")
         collection.register(ImageWithLabelCell.self, forCellWithReuseIdentifier: "ImageWithLabelCell")
         collection.register(MyCollectionsCell.self, forCellWithReuseIdentifier: "MyCollectionsCell")
+        collection.register(TransparentViewCell.self, forCellWithReuseIdentifier: "TransparentViewCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
         
         return collection
@@ -96,12 +97,6 @@ final class ProfileController: UIViewController {
             
         ])
     }
-    
-    //MARK: - UI Actions
-    
-    @objc private func openMenu() {
-        print("ffff")
-    }
 }
 
 extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -124,7 +119,6 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileSelectionCell", for: indexPath) as! ProfileSelectionCell
             cell.callback = { tag in
                 self.viewModel.index = tag
-//                self.collection.reloadData()
                 self.collection.reloadSections(IndexSet(integer: 2))
                 self.getData()
             }
@@ -133,20 +127,38 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
         case .collection:
             switch viewModel.selections[viewModel.index] {
             case .photos:
-                let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-                let photos = viewModel.userPhotos[indexPath.row]
-//                cell.configure(data: photos.urls?.regular ?? "", text: "", blurHash: photos.blurHash ?? "")
-                return cell
+                if viewModel.userPhotos.isEmpty {
+                    let cell = collection.dequeueReusableCell(withReuseIdentifier: "TransparentViewCell", for: indexPath) as! TransparentViewCell
+                    cell.configure(text: "No photos")
+                    return cell
+                } else {
+                    let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
+                    let photos = viewModel.userPhotos[indexPath.row]
+                    cell.configure(data: photos.url ?? "", text: "", blurHash: photos.blurHash ?? "")
+                    return cell
+                }
             case .likes:
-                let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-                let photos = viewModel.userLiked[indexPath.row]
-                cell.configure(data: photos.url ?? "" , text: photos.author ?? "", blurHash: "")
-                return cell
+                if viewModel.userLiked.isEmpty {
+                    let cell = collection.dequeueReusableCell(withReuseIdentifier: "TransparentViewCell", for: indexPath) as! TransparentViewCell
+                    cell.configure(text: "No liked photos")
+                    return cell
+                } else {
+                    let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
+                    let photos = viewModel.userLiked[indexPath.row]
+                    cell.configure(data: photos.url ?? "" , text: photos.author ?? "", blurHash: "")
+                    return cell
+                }
             case .collections:
-                let cell = collection.dequeueReusableCell(withReuseIdentifier: "MyCollectionsCell", for: indexPath) as! MyCollectionsCell
-                let collection = viewModel.userCollections[indexPath.row]
-                cell.configure(photos: collection.photos, itemCount: 5, name: collection.collectionName ?? "")
-                return cell
+                if viewModel.userCollections.isEmpty {
+                    let cell = collection.dequeueReusableCell(withReuseIdentifier: "TransparentViewCell", for: indexPath) as! TransparentViewCell
+                    cell.configure(text: "No collections")
+                    return cell
+                } else {
+                    let cell = collection.dequeueReusableCell(withReuseIdentifier: "MyCollectionsCell", for: indexPath) as! MyCollectionsCell
+                    let collection = viewModel.userCollections[indexPath.row]
+                    cell.configure(photos: collection.photos, itemCount: 5, name: collection.collectionName ?? "")
+                    return cell
+                }
             }
         }
     }
@@ -156,15 +168,19 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if (viewModel.index == 0 || viewModel.index == 1) && indexPath.section == 2 {
-            showImageController(indexPath: indexPath.row)
+        if (viewModel.index == 1) && indexPath.section == 2 {
+            let id = viewModel.userLiked[indexPath.row].id ?? ""
+            showImageController(photoId: id)
+        } else if viewModel.index == 0 && indexPath.section == 2 {
+            let id = viewModel.userPhotos[indexPath.row].id ?? ""
+            showImageController(photoId: id )
         } else if viewModel.index == 2 && indexPath.section == 2 {
             showUserCollectionController(indexPath: indexPath.row)
         }
     }
     
-    func showImageController(indexPath: Int) {
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userLiked[indexPath].id ?? "", title: "", user: viewModel.userData! )
+    func showImageController(photoId: String) {
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: photoId, user: viewModel.userData!  )
         coordinator.showImageController()
     }
     
@@ -203,6 +219,7 @@ extension ProfileController {
                     loadingView.stopAnimating()
                 case .success:
                     navigationItem.title = "\(viewModel.userData?.firstname ?? "") \(viewModel.userData?.lastname ?? "")"
+                    collection.refreshControl?.endRefreshing()
                     collection.reloadData()
                 case .error(let error):
                     print(error)

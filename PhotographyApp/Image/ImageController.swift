@@ -48,9 +48,7 @@ class ImageController: UIViewController {
         let tapGesture = UITapGestureRecognizer(
             target: self,
             action: #selector(
-                handleAddingToCollection
-            )
-        )
+                handleAddingToCollection))
         view.addGestureRecognizer(tapGesture)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -201,7 +199,7 @@ class ImageController: UIViewController {
     }
     
     private func imageConfigure() {
-        if viewModel.photo?.likedByUser ?? false {
+        if viewModel.isLiked {
             likeImage.tintColor = .red
         } else {
             likeImage.tintColor = .white
@@ -276,19 +274,14 @@ extension ImageController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else {return}
                 switch state {
-                case .saved:
-                    print("saved")
-                case .couldNotSave:
-                    print("not saved")
                 case .liked:
                     likeImage.tintColor = .red
                 case  .unliked:
                     likeImage.tintColor = .white
                 case .success:
-                    print("success")
                     collection.reloadData()
                     imageConfigure()
-                    imageView.loadImage(with: viewModel.photo?.urls?.regular ?? "", and: viewModel.photo?.blurHash ?? "")
+                    imageView.loadImage(with: viewModel.urlToCall, and: viewModel.photo?.blurHash ?? "")
                     navigationItem.title = viewModel.photo?.user?.name ?? ""
                 case .error(let error):
                     print(error)
@@ -302,22 +295,26 @@ extension ImageController {
     func getData() {
         Task {
             await viewModel.getPhoto()
+            viewModel.getAPhoto()
+            viewModel.getUsersLikedPhotos()
         }
     }
     
     //MARK: - Button Actions
     
     @objc private func handleLike() {
-        Task {
-            if viewModel.isLiked {
-                await viewModel.unlikePhoto()
-                viewModel.deleteUnlikedPhoto()
-                viewModel.isLiked = false
-            } else {
-                await viewModel.likePhoto()
-                viewModel.saveLikedPhoto()
-                viewModel.isLiked = true
+        if FireBaseManager.shared.isUserSignedIn {
+            Task {
+                if viewModel.isLiked {
+                    viewModel.deleteUnlikedPhoto()
+                    viewModel.isLiked = false
+                } else {
+                    viewModel.saveLikedPhoto()
+                    viewModel.isLiked = true
+                }
             }
+        } else {
+            showAllert(title: "failed", message: "Please Log in")
         }
     }
     
@@ -349,6 +346,7 @@ extension ImageController {
         saver.success = {
             UIView.transition(with: self.downloadImage, duration: 0.2, options: .transitionCrossDissolve, animations: {
                 self.downloadImage.image = UIImage(systemName: "checkmark")
+                self.showAllert(title: "Success", message: "Saved")
             })
         }
         

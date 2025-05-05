@@ -16,6 +16,7 @@ class StorageManager {
 
     private let storage = Storage.storage()
     
+    
     func saveImage(images: [UIImage], completion: @escaping (StorageMetadata?, String?) -> Void) {
         let storageRef = storage.reference()
         
@@ -53,6 +54,8 @@ class StorageManager {
         fileRef.getData(maxSize: 5 * 1024 * 1024) { photos, error in
             if let error = error {
                 completion(nil, error.localizedDescription)
+            } else {
+                completion(UIImage(data: photos!), nil)
             }
         }
     }

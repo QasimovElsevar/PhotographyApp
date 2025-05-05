@@ -16,23 +16,17 @@ class ImageViewModel {
     
     //MARK: Properties
     
-    struct LikedPhotos: Codable {
-        let id: String?
-        let url: String?
-        let blurHash: String?
-        let author: String?
-    }
-    
     let manager = ImageManager()
     
     let sections: [PhotoSections] = [.mainPhoto, .relatedPhotos]
-    var searchPhoto: Search?
+    var userLiked: [UsersPhotos] = []
     var photoResultArray = [Result]()
     var photo: PhotoDetails?
+    var isLiked = false
+    var urlToCall = ""
     var count = 0
     
     var photoId: String
-    var isLiked = false
     
     init(photoId: String) {
         self.photoId = photoId
@@ -41,8 +35,6 @@ class ImageViewModel {
     //MARK: - State
     
     enum ViewState {
-        case saved
-        case couldNotSave(String)
         case liked
         case unliked
         case success
@@ -91,19 +83,32 @@ class ImageViewModel {
     //MARK: Data
     
     func getPhoto() async  {
-        do {
-            let photo =  try await manager.getPhoto(id: photoId)
-            Task {
-                self.photo = photo
-                isLiked = photo.likedByUser ?? false
-                state = .success
-                if !(photo.tags?.isEmpty ?? true) {
-                    await getRelatedPhotos()
+            do {
+                let photo =  try await manager.getPhoto(id: photoId)
+                Task {
+                    self.photo = photo
+                    urlToCall = photo.urls?.regular ?? ""
+                    state = .success
+                    if !(photo.tags?.isEmpty ?? true) {
+                        await getRelatedPhotos()
+                    }
+                }
+            } catch {
+                Task {
+                    state = .error(error.localizedDescription)
                 }
             }
-        } catch {
-            Task {
-                state = .error(error.localizedDescription)
+    }
+    
+    func getAPhoto() {
+        FirestoreManager.shared.getAPhoto(collectionType: .userPhotos, photoId: photoId, model: UsersPhotos.self) { photo, error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                if !(photo?.isEmpty ?? true) {
+                    self.urlToCall = photo?[0].url ?? ""
+                    self.state = .success
+                }
             }
         }
     }
@@ -123,31 +128,31 @@ class ImageViewModel {
         }
     }
     
-    func likePhoto() async {
-        do {
-            let _ = try await manager.likePhoto(id: photoId)
-            Task {
-                state = .liked
-            }
-        } catch {
-            Task {
-                state = .error(error.localizedDescription)
-            }
-        }
-    }
-    
-    func unlikePhoto() async {
-        do {
-            let _ = try await manager.unlikePhoto(id: photoId)
-            Task {
-                state = .unliked
-            }
-        } catch {
-            Task {
-                state = .error(error.localizedDescription)
-            }
-        }
-    }
+//    func likePhoto() async {
+//        do {
+//            let _ = try await manager.likePhoto(id: photoId)
+//            Task {
+//                state = .liked
+//            }
+//        } catch {
+//            Task {
+//                state = .error(error.localizedDescription)
+//            }
+//        }
+//    }
+//    
+//    func unlikePhoto() async {
+//        do {
+//            let _ = try await manager.unlikePhoto(id: photoId)
+//            Task {
+//                state = .unliked
+//            }
+//        } catch {
+//            Task {
+//                state = .error(error.localizedDescription)
+//            }
+//        }
+//    }
     
 //    func saveLikedPhoto() {
 //        FirestoreManager.shared.saveUsersLikedPhotos(photoUrl: photo?.urls?.regular ?? "", authorsName: photo?.user?.name ?? "", photoId: photo?.id ?? "", blurHash: photo?.blurHash ?? "") { error in
@@ -171,9 +176,9 @@ class ImageViewModel {
         
         FirestoreManager.shared.saveData(collectionType: .likedPhotoCollection, docName: photoId, parameters: parameter) { error in
             if let error = error {
-                self.state = .couldNotSave(error)
+                self.state = .error(error)
             } else {
-                self.state = .saved
+                self.state = .liked
             }
         }
     }
@@ -181,12 +186,33 @@ class ImageViewModel {
     func deleteUnlikedPhoto() {
         FirestoreManager.shared.deleteUsersUnlikedPhoto(photoId: photoId) { error in
             if let error = error {
-                self.state = .couldNotSave(error)
+                self.state = .error(error)
             } else {
-                self.state = .saved
+                self.state = .unliked
             }
         }
     }
+    
+    func getUsersLikedPhotos() {
+        FirestoreManager.shared.getData(collectionType: .likedPhotoCollection, model: UsersPhotos.self) { data, error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.userLiked = data ?? []
+                self.imageConfigure()
+                self.state = .success
+            }
+        }
+    }
+    
+    private func imageConfigure() {
+        if userLiked.contains(where: { $0.id == photoId }) {
+            isLiked = true
+        } else {
+            isLiked = false
+        }
+    }
+    
 //    func addPhotoToCollection() async {
 //        do {
 //            try await manager.addPhotoToCollection(id: photoId, collectionId: <#T##String#>)

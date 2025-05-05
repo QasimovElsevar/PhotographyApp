@@ -99,7 +99,7 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         case .topicText:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as! TextCell
-            cell.configure(text: "Submit to topics", textSize: 16)
+            cell.configure(text: "Topics", textSize: 16)
             return cell
         case .topics:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TopicsCell", for: indexPath) as! TopicsCell
@@ -110,9 +110,13 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if viewModel.sections[indexPath.section] == .image {
-            let navController = UINavigationController(rootViewController: pickerViewController)
-            navController.setNavigationBarHidden(true, animated: false)
-            show(navController, sender: nil)
+            if FireBaseManager.shared.isUserSignedIn {
+                let navController = UINavigationController(rootViewController: pickerViewController)
+                navController.setNavigationBarHidden(true, animated: false)
+                show(navController, sender: nil)
+            } else {
+                showAllert(title:"Failed", message: "Please Log in")
+            }
         }
     }
 

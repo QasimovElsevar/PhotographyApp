@@ -64,7 +64,6 @@ extension AddToCollectionController: UITableViewDelegate, UITableViewDataSource 
         let collection = viewModel.collections[indexPath.row]
         cell.configure(photo: collection.previewPhotos ?? [], title: collection.title ?? "", photoNum: collection.totalPhotos ?? 0)
         cell.callback = {
-            print("pushed")
         }
         return cell
     }

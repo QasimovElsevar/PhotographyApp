@@ -143,6 +143,7 @@ extension PhotoSubmitController {
     
     @objc func handleSubmit() {
         viewModel.uploadImage()
+        dismiss(animated: true)
     }
     
     func configureNavRightButton() {

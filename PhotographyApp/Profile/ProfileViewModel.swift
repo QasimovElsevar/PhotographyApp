@@ -26,7 +26,7 @@ final class ProfileViewModel {
     var coordinator: MainCoordinator?
     let manager = ProfileManager()
     var index = 0
-    var userPhotos: [UIImage] = []
+    var userPhotos: [UsersPhotos] = []
     var userLiked: [UsersPhotos] = []
     var userCollections: [UsersCollections] = []
     var userData: UserModel?
@@ -64,11 +64,23 @@ final class ProfileViewModel {
             case .collection:
                 switch self.selections[self.index] {
                 case .photos:
+                    if self.userPhotos.isEmpty {
+                        ProfileCellLayout.wholeScreen()
+                    } else {
                         ProfileCellLayout.createHorizontalDoubleCell()
+                    }
                 case .likes:
+                    if self.userLiked.isEmpty {
+                        ProfileCellLayout.wholeScreen()
+                    } else {
                         ProfileCellLayout.likedPhotos()
+                    }
                 case .collections:
+                    if self.userCollections.isEmpty {
+                        ProfileCellLayout.wholeScreen()
+                    } else {
                         ProfileCellLayout.profileCollection()
+                    }
                 }
             }
         }
@@ -81,11 +93,23 @@ final class ProfileViewModel {
         case .collection:
             switch self.selections[self.index] {
             case .photos:
-                userPhotos.count
+                if self.userPhotos.isEmpty {
+                    1
+                } else {
+                    userPhotos.count
+                }
             case .likes:
-                userLiked.count
+                if self.userLiked.isEmpty {
+                    1
+                } else {
+                    userLiked.count
+                }
             case .collections:
-                userCollections.count
+                if self.userCollections.isEmpty {
+                    1
+                } else {
+                    userCollections.count
+                }
             }
         }
     }
@@ -95,8 +119,7 @@ final class ProfileViewModel {
     func getUserData() async {
         switch selections[self.index] {
         case .photos:
-            print("udnfhvuidx")
-//            getUserPhotos()
+            getUserPhotos()
         case .likes:
             getUsersLikedPhotos()
         case .collections:
@@ -126,6 +149,17 @@ final class ProfileViewModel {
         }
     }
     
+    func getUserPhotos() {
+        FirestoreManager.shared.getData(collectionType: .userPhotos, model: UsersPhotos.self) { data, error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .success
+                self.userPhotos = data ?? []
+            }
+        }
+    }
+    
     func getUser() {
         state = .loading
         FirestoreManager.shared.getData(collectionType: .userDataCollection, model: UserModel.self, completion: { [weak self] data, error in
@@ -141,15 +175,4 @@ final class ProfileViewModel {
             }
         })
     }
-    
-//    func getUserPhotos() {
-//        StorageManager.shared.downloadImage(completion: { photos, error in
-//            if let error = error {
-//                self.state = .error(error)
-//            } else {
-//                self.userPhotos = photos ?? []
-//                self.state = .success
-//            }
-//        })
-//    }
 }
