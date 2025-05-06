@@ -51,6 +51,7 @@ final class FeedViewModel {
     //MARK: - Data
     
     func getList() async {
+        state = .loading
         do {
             let data =  try await manager.getList(page: page)
             Task {
@@ -62,6 +63,7 @@ final class FeedViewModel {
         } catch {
             Task {
                 state = .error(error.localizedDescription)
+                state = .loaded
             }
         }
     }

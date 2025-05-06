@@ -35,7 +35,7 @@ final class ProfileCell: UICollectionViewCell {
         let button = UIButton()
         button.setTitle("Edit profile", for: .normal)
         button.setTitleColor(.label, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .medium)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 11, weight: .medium)
         button.backgroundColor = .none
         button.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

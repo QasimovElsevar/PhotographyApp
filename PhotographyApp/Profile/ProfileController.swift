@@ -17,8 +17,8 @@ final class ProfileController: UIViewController {
         collection.delegate = self
         collection.dataSource = self
         collection.backgroundColor = .clear
-        collection.contentInsetAdjustmentBehavior = .never
         collection.refreshControl = refreshControl
+        collection.contentInsetAdjustmentBehavior = .never
         collection.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
         collection.register(ProfileSelectionCell.self, forCellWithReuseIdentifier: "ProfileSelectionCell")
         collection.register(ImageWithLabelCell.self, forCellWithReuseIdentifier: "ImageWithLabelCell")
@@ -33,14 +33,16 @@ final class ProfileController: UIViewController {
         let loadingView = UIActivityIndicatorView()
         loadingView.style = .medium
         loadingView.color = .label
+        loadingView.startAnimating()
+        loadingView.backgroundColor = .myBackground
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         return loadingView
     }()
     
     private lazy var backgroundView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
-        view.backgroundColor = .myBackground
         view.alpha = 0
+        view.backgroundColor = .myBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(view)
         return view
@@ -89,12 +91,11 @@ final class ProfileController: UIViewController {
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
+        
             loadingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 }

@@ -40,7 +40,7 @@ final class ProfileViewModel {
         case error(String)
         case idle
     }
-
+    
     var stateUpdate: ((ViewState) -> Void)?
     
     var state: ViewState = .idle {
@@ -161,12 +161,12 @@ final class ProfileViewModel {
     }
     
     func getUser() {
-        state = .loading
         FirestoreManager.shared.getData(collectionType: .userDataCollection, model: UserModel.self, completion: { [weak self] data, error in
             guard let self else {return}
             
             if let error = error {
                 state = .error(error)
+                state = .loaded
             } else {
                 userData = data?.first
                 UserDefaults.standard.set(userData?.accessKey, forKey: "key")
