@@ -151,14 +151,11 @@ final class FirestoreManager {
         }
     }
     
-    func addPhotoToCollection(collectionName: String, photoUrl: String, authorName: String, completion: @escaping (String?) -> Void) {
-        
-        let photos = ["photoUrl": photoUrl,
-                      "authorName": authorName]
+    func addPhotoToCollection(docName: String, updatedField: String, parameters: [String: Any], completion: @escaping (String?) -> Void) {
         
         guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
         
-        db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)").document((collectionName)).updateData(["photos": FieldValue.arrayUnion([photos])]) { error in
+        db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)").document((docName)).updateData([updatedField: FieldValue.arrayUnion([parameters])]) { error in
             if let error = error {
                 completion(error.localizedDescription)
             } else {
@@ -180,21 +177,21 @@ final class FirestoreManager {
 //        }
 //    }
 //    
-//    func deletePhotoFromCollection(collectionName: String, photoUrl: String, authorName: String, completion: @escaping (String?) -> Void) {
-//        
-//        let photos = ["photoUrl": photoUrl,
-//                      "authorName": authorName]
-//        
-//        guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
-//        
-//        db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)").document((collectionName)).updateData(["photoUrl": FieldValue.arrayRemove([photos])]) { error in
-//            if let error = error {
-//                completion(error.localizedDescription)
-//            } else {
-//                completion(nil)
-//            }
-//        }
-//    }
+    func deletePhotoFromCollection(collectionName: String, photoUrl: String, authorName: String, completion: @escaping (String?) -> Void) {
+        
+        let photos = ["photoUrl": photoUrl,
+                      "authorName": authorName]
+        
+        guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
+        
+        db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)").document((collectionName)).updateData(["photoUrl": FieldValue.arrayRemove([photos])]) { error in
+            if let error = error {
+                completion(error.localizedDescription)
+            } else {
+                completion(nil)
+            }
+        }
+    }
 //    
 //    func getCollection(completion: @escaping ([UsersCollections]?, String?) -> Void) {
 //        var collectionArray: [UsersCollections] = []

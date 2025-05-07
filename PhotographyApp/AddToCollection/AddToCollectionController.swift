@@ -13,8 +13,9 @@ final class AddToCollectionController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
-        tableView.register(AddToCollectionControllereCell.self, forCellReuseIdentifier: "AddToCollectionControllereCell")
+        tableView.register(CollectionsCell.self, forCellReuseIdentifier: "CollectionsCell")
         tableView.register(TableTextCell.self, forCellReuseIdentifier: "TableTextCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -33,15 +34,13 @@ final class AddToCollectionController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.getCollections()
         configureUI()
         bindViewModel()
-        navigationController?.navigationItem.title = "Add to Collection"
-        navigationItem.leftBarButtonItem = .init(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "new", style: .plain, target: self, action: #selector(handleNew))
-
     }
     
     private func configureUI() {
+        configureNavBar()
         view.addSubview(table)
         view.backgroundColor = .settings
         NSLayoutConstraint.activate([
@@ -55,23 +54,27 @@ final class AddToCollectionController: UIViewController {
 }
 
 extension AddToCollectionController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.collections.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = table.dequeueReusableCell(withIdentifier: "AddToCollectionControllereCell", for: indexPath) as! AddToCollectionControllereCell
+        let cell = table.dequeueReusableCell(withIdentifier: "CollectionsCell", for: indexPath) as! CollectionsCell
         let collection = viewModel.collections[indexPath.row]
-        cell.configure(photo: collection.previewPhotos ?? [], title: collection.title ?? "", photoNum: collection.totalPhotos ?? 0)
+        cell.configure(photo: collection.photos, title: collection.collectionName ?? "", photoNum: collection.numberOfPhotos)
         cell.callback = {
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        70
+        80
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.addPhotoToCollection(collectionName: "aaaa")
+    }
 }
 
 extension AddToCollectionController {
@@ -104,6 +107,14 @@ extension AddToCollectionController {
     }
     
     @objc func handleNew() {
-        viewModel.createCollection()
+        let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController())
+        coordinator.showNewCollectionController()
+        
+    }
+    
+    private func configureNavBar() {
+        navigationController?.navigationItem.title = "Add to Collection"
+        navigationItem.leftBarButtonItem = .init(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "new", style: .plain, target: self, action: #selector(handleNew))
     }
 }

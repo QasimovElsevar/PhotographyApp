@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddToCollectionControllereCell: UITableViewCell {
+class CollectionsCell: UITableViewCell {
 
     private lazy var image: UIImageView = {
        let image = UIImageView()
@@ -20,7 +20,7 @@ class AddToCollectionControllereCell: UITableViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = .systemFont(ofSize: 18, weight: .bold)
         label.textColor = .label
         label.textAlignment = .left
         label.numberOfLines = 0
@@ -30,7 +30,7 @@ class AddToCollectionControllereCell: UITableViewCell {
     
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textColor = .secondaryLabel
         label.textAlignment = .left
         label.numberOfLines = 0
@@ -80,26 +80,26 @@ class AddToCollectionControllereCell: UITableViewCell {
         NSLayoutConstraint.activate([
             image.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             image.centerYAnchor.constraint(equalTo: centerYAnchor),
-            image.heightAnchor.constraint(equalToConstant: 50),
-            image.widthAnchor.constraint(equalToConstant: 50),
+            image.heightAnchor.constraint(equalToConstant: 60),
+            image.widthAnchor.constraint(equalToConstant: 60),
             
-            titleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 16),
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            titleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
             
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
-            subtitleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 4),
+            subtitleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 8),
             
             addButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             addButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            addButton.heightAnchor.constraint(equalToConstant: 20),
-            addButton.widthAnchor.constraint(equalToConstant: 20),
+            addButton.heightAnchor.constraint(equalToConstant: 30),
+            addButton.widthAnchor.constraint(equalToConstant: 30),
         ])
     }
     
-    func configure(photo: [PreviewPhoto], title: String, photoNum: Int) {
-        image.loadImage(with: photo[0].urls?.small ?? "", and: photo[0].urls?.small ?? "")
-        titleLabel.text = title
-        subtitleLabel.text = "\(photoNum) photo"
+    func configure(photo: [UsersPhotos], title: String, photoNum: Int) {
+            image.loadImage(with: photo[0].url ?? "", and: photo[0].blurHash ?? "")
+            titleLabel.text = title
+            subtitleLabel.text = "\(photoNum) photo"
     }
     
     @objc private  func handleAdd() {

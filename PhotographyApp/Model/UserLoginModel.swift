@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 struct UserModel: Codable {
     let firstname, lastname, username, email, accessKey: String?
@@ -21,11 +22,12 @@ struct UsersPhotos: Codable {
     let url: String?
     let blurHash: String?
     let author: String?
-    let createdAt: Date
+    let createdAt: Date?
 }
 
 struct UsersCollections: Codable {
     let collectionName: String?
     let createdAt: Date?
     let photos: [UsersPhotos]
+    let numberOfPhotos: Int
 }

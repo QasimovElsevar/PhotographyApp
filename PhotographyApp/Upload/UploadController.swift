@@ -125,6 +125,7 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
 extension UploadController: PHPickerViewControllerDelegate {
     
     //MARK: - Picker
+    
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         if results.isEmpty {
             dismiss(animated: true)

@@ -59,23 +59,6 @@ class ProfileEditingController: UIViewController {
         return textField
     }()
     
-    private lazy var stack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.layer.cornerRadius = 12
-        stack.spacing = 0
-        stack.alignment = .fill
-        stack.distribution = .fillEqually
-        [
-            nameField,
-            lastnameField,
-            usernameField,
-            emailField
-        ].forEach {stack.addArrangedSubview($0)}
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
     let viewModel: ProfileEditingViewModel
     
     init(viewModel: ProfileEditingViewModel) {

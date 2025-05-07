@@ -66,6 +66,10 @@ final class ProfileController: UIViewController {
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navBarConfigure()
+    }
+    
     //MARK: - UI Configuration
     
     func configureUI() {
@@ -73,7 +77,6 @@ final class ProfileController: UIViewController {
         navigationController?.navigationBar.backgroundColor = .profile
         addSubviews()
         setCostraints()
-        navBarConfigure()
         navigationBarButtonsConfigure()
         getData()
         bindViewModel()
