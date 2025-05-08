@@ -189,8 +189,8 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func showUserCollectionController(indexPath: Int) {
-        //        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userCollections[indexPath].id ?? "", title: viewModel.userCollections[indexPath].title ?? "", user: viewModel.userData!)
-        //        coordinator.showUserCollectionController()
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), title: viewModel.userCollections[indexPath].collectionName ?? "", user: viewModel.userData!, photos: viewModel.userCollections[indexPath].photos)
+                coordinator.showUserCollectionController()
     }
     
     

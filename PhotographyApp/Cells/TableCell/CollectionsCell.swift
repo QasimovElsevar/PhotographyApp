@@ -97,7 +97,9 @@ class CollectionsCell: UITableViewCell {
     }
     
     func configure(photo: [UsersPhotos], title: String, photoNum: Int) {
+        if !photo.isEmpty {
             image.loadImage(with: photo[0].url ?? "", and: photo[0].blurHash ?? "")
+        } 
             titleLabel.text = title
             subtitleLabel.text = "\(photoNum) photo"
     }
@@ -105,5 +107,4 @@ class CollectionsCell: UITableViewCell {
     @objc private  func handleAdd() {
         callback?()
     }
-
 }

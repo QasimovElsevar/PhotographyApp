@@ -28,13 +28,12 @@ final class UserCollectionViewModel {
     
     let manager = UserCollectionManager()
     
-    var photos: [Photos] = []
+    var photos: [UsersPhotos]?
     var title: String
-    var id: String
     
-    init(id: String, title: String) {
+    init(title: String, photos: [UsersPhotos]? = nil) {
         self.title = title
-        self.id = id
+        self.photos = photos
     }
     
     //MARK: - Collection Layout
@@ -45,15 +44,15 @@ final class UserCollectionViewModel {
         }
     }
     
-    func getCollection() async {
-        do {
-            let data = try await manager.fetchUserCollection(id: id)
-            Task {
-                photos = data
-                state = .success
-            }
-        } catch { 
-            state = .error(error.localizedDescription)
-        }
-    }
+//    func getCollection() async {
+//        do {
+//            let data = try await manager.fetchUserCollection(id: id)
+//            Task {
+//                photos = data
+//                state = .success
+//            }
+//        } catch { 
+//            state = .error(error.localizedDescription)
+//        }
+//    }
 }

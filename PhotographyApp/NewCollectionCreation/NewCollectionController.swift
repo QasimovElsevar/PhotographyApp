@@ -33,7 +33,17 @@ class NewCollectionController: UIViewController {
         return textField
     }()
     
-    let viewModel = NewCollectionControllerViewModel()
+    let viewModel: NewCollectionControllerViewModel
+    
+    init(viewModel: NewCollectionControllerViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     //MARK: - Lyfcycle
     

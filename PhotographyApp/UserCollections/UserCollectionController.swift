@@ -39,7 +39,7 @@ class UserCollectionController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        getData()
+//        getData()
     }
     
     //MARK: - Configure UI
@@ -78,20 +78,20 @@ extension UserCollectionController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.photos.count
+        viewModel.photos?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-        let list = viewModel.photos[indexPath.row]
-        cell.configure(data: list.urls?.regular ?? "", text: list.user?.name ?? "", blurHash: list.blurHash ?? "")
+        let list = viewModel.photos?[indexPath.row]
+        cell.configure(data: list?.url ?? "", text: list?.author ?? "", blurHash: list?.blurHash ?? "")
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let coordinator = ProfileCoordinator(
             navigationController: navigationController ?? UINavigationController(),
-            id: viewModel.photos[indexPath.row].id ?? "",
+            id: viewModel.photos?[indexPath.row].id ?? "",
             title: ""
         )
         coordinator.showImageController()
@@ -125,11 +125,11 @@ extension UserCollectionController {
         }
     }
     
-    func getData() {
-        Task {
-            await viewModel.getCollection()
-        }
-    }
+//    func getData() {
+//        Task {
+//            await viewModel.getCollection()
+//        }
+//    }
     
     func configureNavButtons() {
         let openSettings = UIAction(title: "Account Settings") { action in

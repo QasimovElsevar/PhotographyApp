@@ -9,6 +9,12 @@ import Foundation
 
 class NewCollectionControllerViewModel {
     
+    var photo: UsersPhotos?
+    
+    init(photo: UsersPhotos? = nil) {
+        self.photo = photo
+    }
+    
     //MARK: - States
     
     enum ViewState {
@@ -28,11 +34,15 @@ class NewCollectionControllerViewModel {
     
     func createCollection(collectionName: String) {
         
+        let photos = ["url": photo?.url ?? "",
+                      "author": photo?.author ?? "",
+                      "blurHash" : photo?.blurHash ?? ""]
+        
         let data: [String: Any] = [
             "collectionName": collectionName,
             "createdAt": Date(),
-            "photos": [],
-            "numberOfPhotos": 0
+            "photos": photos,
+            "numberOfPhotos": 1
         ]
         
         FirestoreManager.shared.saveData(collectionType: .collectionOfPhotosCollection, docName: collectionName, parameters: data) { error in

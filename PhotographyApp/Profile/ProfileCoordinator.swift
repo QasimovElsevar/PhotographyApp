@@ -12,16 +12,19 @@ final class ProfileCoordinator: Coordinator {
     var navigationController: UINavigationController
     var title: String
     var userArray: UserModel?
+    var photos: [UsersPhotos]?
     var id: String
     
     init(navigationController: UINavigationController,
          id: String = "",
          title: String = "",
-         user: UserModel? = nil) {
+         user: UserModel? = nil,
+         photos: [UsersPhotos]? = nil) {
         self.navigationController = navigationController
         self.title = title
         self.id = id
         self.userArray = user
+        self.photos = photos
     }
     
     func start() {
@@ -36,7 +39,7 @@ final class ProfileCoordinator: Coordinator {
     }
     
     func showUserCollectionController() {
-        let controller = UserCollectionController(viewModel: .init(id: id, title: title))
+        let controller = UserCollectionController(viewModel: .init(title: title, photos: photos ?? nil))
         navigationController.show(controller, sender: nil)
     }
     

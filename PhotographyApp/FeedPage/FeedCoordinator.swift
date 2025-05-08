@@ -35,7 +35,7 @@ class FeedCoordinator: Coordinator {
     }
     
     func showNewCollectionController() {
-        let controller = NewCollectionController()
+        let controller = NewCollectionController(viewModel: .init(photo: photos ?? nil))
         let navController = UINavigationController(rootViewController: controller)
         navigationController.present(navController, animated: true)
     }
