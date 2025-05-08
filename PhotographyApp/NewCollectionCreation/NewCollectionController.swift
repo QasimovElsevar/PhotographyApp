@@ -19,7 +19,7 @@ class NewCollectionController: UIViewController {
     
     private lazy var collectionNameField: UITextField = {
         let textField = UITextField()
-        textField.text = "nameField"
+        textField.placeholder = "Collection title"
         textField.backgroundColor = .selectionView
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -28,7 +28,7 @@ class NewCollectionController: UIViewController {
     private lazy var descroptionField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .selectionView
-        textField.text = "nameField"
+        textField.placeholder = "Description"
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -118,7 +118,9 @@ class NewCollectionController: UIViewController {
                 switch state {
                 case .success:
                     showAllert(title: "Succees", message: "CollectionCreated") { _ in
-                        self.dismiss(animated: true)
+                        self.dismiss(animated: true) {
+                            self.viewModel.callBack?()
+                        }
                     }
                 case .error(let error):
                     showAllert(title: "Falied", message: error)

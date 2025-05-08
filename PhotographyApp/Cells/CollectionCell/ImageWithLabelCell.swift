@@ -61,9 +61,6 @@ final class ImageWithLabelCell: UICollectionViewCell {
     }
     
     func configure(data: String, text: String, blurHash: String) {
-//        StorageManager.shared.downloadImage(url: data) { <#UIImage?#>, <#String?#> in
-//            <#code#>
-//        }
         imageView.loadImage(with: data, and: blurHash)
         label.text = text
         callback?()

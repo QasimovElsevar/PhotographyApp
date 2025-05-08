@@ -10,6 +10,7 @@ import UIKit
 class FeedCoordinator: Coordinator {
     var navigationController: UINavigationController
     var photos: UsersPhotos?
+    var callback: (() -> Void)?
     var id: String?
     
     init(navigationController: UINavigationController, id: String? = "" , photos: UsersPhotos? = nil) {
@@ -37,6 +38,9 @@ class FeedCoordinator: Coordinator {
     func showNewCollectionController() {
         let controller = NewCollectionController(viewModel: .init(photo: photos ?? nil))
         let navController = UINavigationController(rootViewController: controller)
+        controller.viewModel.callBack = {
+            self.callback?()
+        }
         navigationController.present(navController, animated: true)
     }
 }

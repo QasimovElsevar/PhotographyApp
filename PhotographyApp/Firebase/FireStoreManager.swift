@@ -153,9 +153,17 @@ final class FirestoreManager {
     
     func addPhotoToCollection(docName: String, updatedField: String, parameters: [String: Any], completion: @escaping (String?) -> Void) {
         
+        var updatedNewField: [String: Any] = [:]
+        
         guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
         
-        db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)").document((docName)).updateData([updatedField: FieldValue.arrayUnion([parameters])]) { error in
+            if updatedField == "photos" {
+                updatedNewField[updatedField] = FieldValue.arrayUnion([(parameters)])
+            } else {
+                updatedNewField = parameters
+            }
+        
+        db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)").document((docName)).updateData(updatedNewField) { error in
             if let error = error {
                 completion(error.localizedDescription)
             } else {

@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import Firebase
 
 class NewCollectionControllerViewModel {
     
     var photo: UsersPhotos?
+    var callBack: (() -> Void)?
     
     init(photo: UsersPhotos? = nil) {
         self.photo = photo
@@ -31,17 +33,17 @@ class NewCollectionControllerViewModel {
         }
     }
     
-    
     func createCollection(collectionName: String) {
         
         let photos = ["url": photo?.url ?? "",
                       "author": photo?.author ?? "",
-                      "blurHash" : photo?.blurHash ?? ""]
+                      "blurHash" : photo?.blurHash ?? "",
+                      "id": photo?.id ?? ""]
         
         let data: [String: Any] = [
             "collectionName": collectionName,
             "createdAt": Date(),
-            "photos": photos,
+            "photos": FieldValue.arrayUnion([photos]),
             "numberOfPhotos": 1
         ]
         

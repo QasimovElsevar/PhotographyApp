@@ -11,10 +11,11 @@ import Firebase
 class AddToCollectionViewModel {
      
     let manager = AddToCollectionManager()
-//    var userCollection: UsersCollections
     var photo: UsersPhotos?
+    var isAdded: Bool = false
     var collections: [UsersCollections] = []
     var photoId: String
+    var indexOfCollection: Int = 0
     
     init(photoId: String, photo: UsersPhotos? = nil) {
         self.photoId = photoId
@@ -24,8 +25,8 @@ class AddToCollectionViewModel {
     //MARK: - States
     
     enum ViewState {
-        case loading
-        case loaded
+        case added
+        case deleted
         case success
         case error(String)
         case idle
@@ -38,30 +39,7 @@ class AddToCollectionViewModel {
             stateUpdate?(state)
         }
     }
-    
-    
-    func createCollection() {
-        
-        let photos = ["url": photo?.url ?? "",
-                      "author": photo?.author ?? "",
-                      "blurHash" : photo?.blurHash ?? ""]
-        
-        let data: [String: Any] = [
-            "collectionName": "aaaa",
-            "createdAt": photo?.createdAt ?? Date(),
-            "photos": FieldValue.arrayUnion([photos]),
-            "numberOfPhotos": 0
-        ]
-        
-        FirestoreManager.shared.saveData(collectionType: .collectionOfPhotosCollection, docName: "aaaa", parameters: data) { error in
-            if let error = error {
-                self.state = .error(error)
-            } else {
-                self.state = .success
-            }
-        }
-    }
-    
+
     func getCollections() {
         FirestoreManager.shared.getData(collectionType: .collectionOfPhotosCollection, model: UsersCollections.self) { data, error in
             if let error = error {
@@ -75,15 +53,35 @@ class AddToCollectionViewModel {
     
     func addPhotoToCollection(collectionName: String) {
         
-        let photos: [String : Any] = ["photoUrl": photo?.url ?? "",
-                                      "authorName": photo?.author ?? ""]
+        let photos: [String : Any] = ["url": photo?.url ?? "",
+                                      "blurHash": photo?.blurHash ?? "",
+                                      "author": photo?.author ?? "",
+                                      "id": photoId]
         
         FirestoreManager.shared.addPhotoToCollection(docName: collectionName, updatedField: "photos", parameters: photos, completion: { error in
             if let error = error {
-                print("Error adding photo to collection: \(error)")
+                self.state = .error(error)
             } else {
-                print("Photo added to collection successfully!")
+                self.state = .added
             }
         })
     }
+    
+    func updateNumberOfPhotos(collectionName: String, number: Int) {
+        
+        let numberOfPhotos: [String : Any] = ["numberOfPhotos": number]
+        
+        FirestoreManager.shared.addPhotoToCollection(docName: collectionName, updatedField: "numberOfPhotos", parameters: numberOfPhotos, completion: { error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .success
+            }
+        })
+    }
+    
+    func deleteFromCollwction(collectionName: String) {
+        state = .deleted
+    }
+    
 }

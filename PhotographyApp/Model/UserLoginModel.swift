@@ -29,5 +29,5 @@ struct UsersCollections: Codable {
     let collectionName: String?
     let createdAt: Date?
     let photos: [UsersPhotos]
-    let numberOfPhotos: Int
+    let numberOfPhotos: Int?
 }

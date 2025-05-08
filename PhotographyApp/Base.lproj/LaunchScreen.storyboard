@@ -25,13 +25,13 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bui-PN-EAA">
-                                <rect key="frame" x="12" y="474" width="369" height="32.333333333333314"/>
+                                <rect key="frame" x="12" y="474" width="369" height="34.666666666666686"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <attributedString key="attributedText">
                                     <fragment content="  Photography App">
                                         <attributes>
                                             <color key="NSColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <font key="NSFont" size="29" name=".SFNS-Regular"/>
+                                            <font key="NSFont" metaFont="system" size="29"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -62,7 +62,7 @@
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemPinkColor">
-            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

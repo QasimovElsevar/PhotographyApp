@@ -46,8 +46,6 @@ class CollectionsCell: UITableViewCell {
         image.clipsToBounds = true
         image.image = UIImage(systemName: "plus.circle")
         image.tintColor = .gray
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleAdd))
-        image.addGestureRecognizer(tapGesture)
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -96,15 +94,19 @@ class CollectionsCell: UITableViewCell {
         ])
     }
     
-    func configure(photo: [UsersPhotos], title: String, photoNum: Int) {
+    func configure(photo: [UsersPhotos], title: String, photoNum: Int, added: Bool) {
         if !photo.isEmpty {
             image.loadImage(with: photo[0].url ?? "", and: photo[0].blurHash ?? "")
         } 
             titleLabel.text = title
             subtitleLabel.text = "\(photoNum) photo"
-    }
-    
-    @objc private  func handleAdd() {
-        callback?()
+        
+        if added {
+            addButton.image = UIImage(systemName: "checkmark.circle.fill")
+            addButton.tintColor = .systemGreen
+        } else {
+            addButton.image = UIImage(systemName: "plus.circle")
+            addButton.tintColor = .gray
+        }
     }
 }
