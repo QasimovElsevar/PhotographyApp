@@ -20,8 +20,10 @@ class ImageViewModel {
     
     let sections: [PhotoSections] = [.mainPhoto, .relatedPhotos]
     var userLiked: [UsersPhotos] = []
+    var userPhoto: [UsersPhotos]?
     var photoResultArray = [Result]()
     var photo: PhotoDetails?
+    var userPhotos = false
     var isLiked = false
     var urlToCall = ""
     var count = 0
@@ -36,6 +38,7 @@ class ImageViewModel {
     
     enum ViewState {
         case liked
+        case deleted
         case unliked
         case success
         case error(String)
@@ -106,6 +109,7 @@ class ImageViewModel {
                 self.state = .error(error)
             } else {
                 if !(photo?.isEmpty ?? true) {
+                    self.userPhoto = photo
                     self.urlToCall = photo?[0].url ?? ""
                     self.state = .success
                 }
@@ -184,7 +188,7 @@ class ImageViewModel {
     }
     
     func deleteUnlikedPhoto() {
-        FirestoreManager.shared.deleteUsersUnlikedPhoto(photoId: photoId) { error in
+        FirestoreManager.shared.deleteDocument(collectionType: .likedPhotoCollection, docName: photoId) { error in
             if let error = error {
                 self.state = .error(error)
             } else {
@@ -213,7 +217,17 @@ class ImageViewModel {
         }
     }
     
-//    func addPhotoToCollection() async {
+    func deletePhoto() {
+        FirestoreManager.shared.deleteDocument(collectionType: .userPhotos, docName: "\(userPhoto?[0].id ?? "") images") { error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .deleted
+            }
+        }
+    }
+    
+//    func updateData() async {
 //        do {
 //            try await manager.addPhotoToCollection(id: photoId, collectionId: <#T##String#>)
 //        }

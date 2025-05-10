@@ -27,7 +27,7 @@ class StorageManager {
             let url = "image/\(id).jpg"
             let fileRef = storageRef.child(url)
             
-            let uploadTask = fileRef.putData(imageData, metadata: nil) { data, error in
+            let _ = fileRef.putData(imageData, metadata: nil) { data, error in
                 
                 if let error = error {
                     completion(nil, error.localizedDescription)

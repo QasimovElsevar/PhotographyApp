@@ -68,6 +68,7 @@ final class ProfileController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navBarConfigure()
+        getData()
     }
     
     //MARK: - UI Configuration
@@ -78,7 +79,6 @@ final class ProfileController: UIViewController {
         addSubviews()
         setCostraints()
         navigationBarButtonsConfigure()
-        getData()
         bindViewModel()
         configureTitle()
     }
@@ -160,7 +160,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
                 } else {
                     let cell = collection.dequeueReusableCell(withReuseIdentifier: "MyCollectionsCell", for: indexPath) as! MyCollectionsCell
                     let collection = viewModel.userCollections[indexPath.row]
-                    cell.configure(photos: collection.photos, itemCount: 5, name: collection.collectionName ?? "")
+                    cell.configure(photos: collection.photos, itemCount: collection.numberOfPhotos ?? 0, name: collection.collectionName ?? "")
                     return cell
                 }
             }
@@ -190,7 +190,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func showUserCollectionController(indexPath: Int) {
         let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), title: viewModel.userCollections[indexPath].collectionName ?? "", user: viewModel.userData!, photos: viewModel.userCollections[indexPath].photos)
-                coordinator.showUserCollectionController()
+        coordinator.showUserCollectionController()
     }
     
     
@@ -217,6 +217,8 @@ extension ProfileController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else {return}
                 switch state {
+                case .signedOut:
+                    goToProfile()
                 case .loading:
                     loadingView.startAnimating()
                 case  .loaded:
@@ -224,7 +226,7 @@ extension ProfileController {
                 case .success:
                     navigationItem.title = "\(viewModel.userData?.firstname ?? "") \(viewModel.userData?.lastname ?? "")"
                     collection.refreshControl?.endRefreshing()
-                    collection.reloadData()
+                    collection.reloadSections(IndexSet(integer: 2))
                 case .error(let error):
                     print(error)
                 case .idle:
@@ -253,8 +255,7 @@ extension ProfileController {
         }
         
         let logOut = UIAction(title: "Log Out") { action in
-            FireBaseManager.shared.signOut()
-            self.goToProfile()
+            self.viewModel.signOut()
         }
         
         let menu = UIMenu(children: [openSettings, logOut])

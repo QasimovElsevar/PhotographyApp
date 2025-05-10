@@ -44,15 +44,13 @@ final class UserCollectionViewModel {
         }
     }
     
-//    func getCollection() async {
-//        do {
-//            let data = try await manager.fetchUserCollection(id: id)
-//            Task {
-//                photos = data
-//                state = .success
-//            }
-//        } catch { 
-//            state = .error(error.localizedDescription)
-//        }
-//    }
+    func deleteCollection() {
+        FirestoreManager.shared.deleteDocument(collectionType: .collectionOfPhotosCollection, docName: title) { error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .success
+            }
+        }
+    }
 }

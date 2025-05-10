@@ -78,7 +78,7 @@ final class PhotoSubmitViewModel {
     }
     
     func uploadImage() {
-        FirestoreManager.shared.saveImage(images: image) { data, error in
+        StorageManager.shared.saveImage(images: image) { data, error in
             if let error = error {
                 self.state = .error(error)
             } else {

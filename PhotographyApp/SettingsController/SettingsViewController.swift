@@ -45,10 +45,7 @@ final class SettingsViewController: UIViewController {
     //MARK: - UI Configuration
     
     private func configureUI() {
-        configureConstraints()
-    }
-    
-    private func configureConstraints() {
+        bindViewModel()
         view.backgroundColor = .settings
         addSubviews()
         setConstraints()
@@ -110,18 +107,38 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 0 {
                 let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", user: viewModel.userDara)
                 coordinator.showProfileEditingController()
+            } else if indexPath.row == 1 {
+                viewModel.changePasword()
             } else if indexPath.row == 2 {
                 let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", user: viewModel.userDara)
                 coordinator.showAccountCoordinator()
             }
-        } 
+        }
     }
 }
 
 extension SettingsViewController {
+    
+    private func bindViewModel() {
+        viewModel.stateUpdate = { [weak self] state in
+            
+            DispatchQueue.main.async { [weak self] in
+                guard let self else {return}
+                switch state {
+                case .success:
+                    print("success")
+                    showAllert(title: "Success", message: "Resset password link sent to you email")
+                case .error(let error):
+                    print(error)
+                case .idle:
+                    break
+                }
+            }
+        }
+    }
+    
     @objc private func closeSettings() {
         dismiss(animated: true, completion: {
-            
         })
     }
 }

@@ -131,15 +131,15 @@ extension UserCollectionController {
 //    }
     
     func configureNavButtons() {
-        let openSettings = UIAction(title: "Account Settings") { action in
+        let openSettings = UIAction(title: "Edit") { action in
             //            self.openSettings()
         }
-        let logOut = UIAction(title: "Log Out") { action in
-            FireBaseManager.shared.signOut()
-            //            self.goToProfile()
+        let delete = UIAction(title: "Delete") { action in
+            self.viewModel.deleteCollection()
+            self.navigationController?.popViewController(animated: true)
         }
         
-        let menu = UIMenu(children: [openSettings, logOut])
+        let menu = UIMenu(children: [openSettings, delete])
         
         let menuButton: UIBarButtonItem = {
             let button = UIBarButtonItem()
@@ -165,7 +165,7 @@ extension UserCollectionController {
     //MARK: - NavButtons Actions
     
     @objc func shareButtonTapped() {
-        let items = [URL(string: "")!]
+        let items = [URL(string: viewModel.title)!]
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
         present(ac, animated: true)
     }

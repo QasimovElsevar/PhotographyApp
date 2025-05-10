@@ -36,6 +36,7 @@ final class ProfileViewModel {
     enum ViewState {
         case loading
         case loaded
+        case signedOut
         case success
         case error(String)
         case idle
@@ -174,5 +175,15 @@ final class ProfileViewModel {
                 state = .loaded
             }
         })
+    }
+    
+    func signOut() {
+        FireBaseManager.shared.signOut { error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .signedOut
+            }
+        }
     }
 }

@@ -62,6 +62,7 @@ extension AddToCollectionController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "CollectionsCell", for: indexPath) as! CollectionsCell
         let collection = viewModel.collections[indexPath.row]
+        viewModel.checkCollections(index: indexPath.row)
         cell.configure(photo: collection.photos, title: collection.collectionName ?? "", photoNum: collection.numberOfPhotos ?? 0 , added: viewModel.isAdded)
         return cell
     }
@@ -71,11 +72,13 @@ extension AddToCollectionController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.checkCollections(index: indexPath.row)
         if !viewModel.isAdded {
             viewModel.addPhotoToCollection(collectionName: viewModel.collections[indexPath.row].collectionName ?? "")
             viewModel.indexOfCollection = indexPath.row
         } else {
-            viewModel.deleteFromCollwction(collectionName: viewModel.collections[indexPath.row].collectionName ?? "")
+            viewModel.deleteFromCollection(collectionName: viewModel.collections[indexPath.row].collectionName ?? "")
+            viewModel.indexOfCollection = indexPath.row
         }
     }
 }
@@ -92,8 +95,11 @@ extension AddToCollectionController {
                     viewModel.isAdded = true
                     viewModel.getCollections()
                 case .deleted:
+                    viewModel.updateNumberOfPhotos(collectionName: viewModel.collections[viewModel.indexOfCollection].collectionName ?? "", number: (viewModel.collections[viewModel.indexOfCollection].numberOfPhotos ?? 0) - 1)
                     viewModel.isAdded = false
                     viewModel.getCollections()
+                case .impossibleToAdd:
+                    print("impossibleToAdd")
                 case .success:
                     table.reloadData()
                 case .error(let error):

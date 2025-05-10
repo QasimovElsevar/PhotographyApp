@@ -27,6 +27,7 @@ class AddToCollectionViewModel {
     enum ViewState {
         case added
         case deleted
+        case impossibleToAdd
         case success
         case error(String)
         case idle
@@ -51,14 +52,21 @@ class AddToCollectionViewModel {
         }
     }
     
+    func checkCollections(index: Int) {
+        if !collections[index].photos.contains(where: {$0.id == self.photoId}) {
+            self.isAdded = false
+        } else {
+            self.isAdded = true
+        }
+    }
+    
     func addPhotoToCollection(collectionName: String) {
         
         let photos: [String : Any] = ["url": photo?.url ?? "",
                                       "blurHash": photo?.blurHash ?? "",
                                       "author": photo?.author ?? "",
                                       "id": photoId]
-        
-        FirestoreManager.shared.addPhotoToCollection(docName: collectionName, updatedField: "photos", parameters: photos, completion: { error in
+        FirestoreManager.shared.updateData(docName: collectionName, updatedField: "photos", parameters: photos, completion: { error in
             if let error = error {
                 self.state = .error(error)
             } else {
@@ -71,7 +79,7 @@ class AddToCollectionViewModel {
         
         let numberOfPhotos: [String : Any] = ["numberOfPhotos": number]
         
-        FirestoreManager.shared.addPhotoToCollection(docName: collectionName, updatedField: "numberOfPhotos", parameters: numberOfPhotos, completion: { error in
+        FirestoreManager.shared.updateData(docName: collectionName, updatedField: "numberOfPhotos", parameters: numberOfPhotos, completion: { error in
             if let error = error {
                 self.state = .error(error)
             } else {
@@ -80,8 +88,19 @@ class AddToCollectionViewModel {
         })
     }
     
-    func deleteFromCollwction(collectionName: String) {
-        state = .deleted
+    func deleteFromCollection(collectionName: String) {
+        let photos: [String : Any] = ["url": photo?.url ?? "",
+                                      "blurHash": photo?.blurHash ?? "",
+                                      "author": photo?.author ?? "",
+                                      "id": photoId]
+        
+        FirestoreManager.shared.updateData(docName: collectionName, updatedField: "photos", parameters: photos, deleteField: true, completion: { error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .deleted
+            }
+        })
     }
     
 }

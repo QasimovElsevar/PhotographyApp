@@ -119,8 +119,8 @@ class ImageController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
         getData()
+        configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -246,7 +246,7 @@ extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 2 {
+        if indexPath.section == 1 {
             let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photoResultArray[indexPath.row].id ?? "")
             coordinator.showImageController()
         }
@@ -274,6 +274,8 @@ extension ImageController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else {return}
                 switch state {
+                case .deleted:
+                    navigationController?.popViewController(animated: true)
                 case .liked:
                     likeImage.tintColor = .red
                 case  .unliked:
@@ -283,6 +285,8 @@ extension ImageController {
                     imageConfigure()
                     imageView.loadImage(with: viewModel.urlToCall, and: viewModel.photo?.blurHash ?? "")
                     navigationItem.title = viewModel.photo?.user?.name ?? ""
+                    checkUser()
+                    configureNavBar()
                 case .error(let error):
                     print(error)
                 case .idle:
@@ -297,6 +301,12 @@ extension ImageController {
             await viewModel.getPhoto()
             viewModel.getAPhoto()
             viewModel.getUsersLikedPhotos()
+        }
+    }
+    
+    func checkUser() {
+        if viewModel.photo?.user?.name == nil {
+            viewModel.userPhotos = true
         }
     }
     
@@ -358,8 +368,35 @@ extension ImageController {
     //MARK: - NavigationBa Configure
     
     private func configureNavBar() {
+        
+        let edit = UIAction(title: "Delete") { action in
+            self.viewModel.deletePhoto()
+        }
+        
+        let menu = UIMenu(children: [edit])
+        
+        let menuButton: UIBarButtonItem = {
+            let button = UIBarButtonItem()
+            button.image = UIImage(systemName: "ellipsis")
+            button.menu = menu
+            return button
+        }()
+        
+        let shareButton: UIBarButtonItem = {
+            let button = UIBarButtonItem()
+            button.image = UIImage(systemName: "square.and.arrow.up")
+            button.target = self
+            button.action = #selector(handleShare)
+            return button
+        }()
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"),style: .plain, target: self, action: #selector(handleDismiss))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(handleShare))
+        
+        if viewModel.userPhotos {
+            navigationItem.rightBarButtonItems = [shareButton, menuButton]
+        } else {
+            navigationItem.rightBarButtonItems = [shareButton]
+        }
     }
     
     private func navBarTitleConfigure() {

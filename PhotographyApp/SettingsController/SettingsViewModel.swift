@@ -27,12 +27,38 @@ final class SettingsViewModel {
         self.userDara = userDara
     }
     
+    //MARK: - States
+    
+    enum ViewState {
+        case success
+        case error(String)
+        case idle
+    }
+    
+    var stateUpdate: ((ViewState) -> Void)?
+    
+    var state: ViewState = .idle {
+        didSet {
+            stateUpdate?(state)
+        }
+    }
+    
     func numberOfRows(in section: Int) -> Int {
         switch self.section[section] {
         case .profile:
             return 1
         case .menu:
             return 3
+        }
+    }
+    
+    func changePasword() {
+        FireBaseManager.shared.changePassword { error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .success
+            }
         }
     }
 }

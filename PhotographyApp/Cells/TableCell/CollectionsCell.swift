@@ -96,8 +96,8 @@ class CollectionsCell: UITableViewCell {
     
     func configure(photo: [UsersPhotos], title: String, photoNum: Int, added: Bool) {
         if !photo.isEmpty {
-            image.loadImage(with: photo[0].url ?? "", and: photo[0].blurHash ?? "")
-        } 
+            image.loadImage(with: photo[photo.endIndex - 1].url ?? "", and: photo[0].blurHash ?? "")
+        }
             titleLabel.text = title
             subtitleLabel.text = "\(photoNum) photo"
         

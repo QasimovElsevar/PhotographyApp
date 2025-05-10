@@ -43,12 +43,13 @@ final class FireBaseManager {
         }
     }
     
-    func signOut() {
+    func signOut(completion: @escaping (String?) -> Void) {
         do {
             try Auth.auth().signOut()
             UserDefaults.standard.removeObject(forKey: "userID")
+            completion(nil)
         } catch {
-            print(error.localizedDescription)
+            completion(error.localizedDescription)
         }
     }
     
@@ -56,6 +57,16 @@ final class FireBaseManager {
         let user = Auth.auth().currentUser
         
         user?.delete { error in
+            if let error = error {
+                completion(error.localizedDescription)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func changePassword(completion: @escaping (String?) -> Void) {
+        Auth.auth().sendPasswordReset(withEmail: Auth.auth().currentUser!.email ?? "") { error in
             if let error = error {
                 completion(error.localizedDescription)
             } else {
