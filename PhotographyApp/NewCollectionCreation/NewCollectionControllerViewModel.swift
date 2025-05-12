@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-class NewCollectionControllerViewModel {
+final class NewCollectionControllerViewModel {
     
     var photo: UsersPhotos?
     var callBack: (() -> Void)?
@@ -41,6 +41,7 @@ class NewCollectionControllerViewModel {
                       "id": photo?.id ?? ""]
         
         let data: [String: Any] = [
+            "id": String(UUID().uuidString),
             "collectionName": collectionName,
             "createdAt": Date(),
             "photos": FieldValue.arrayUnion([photos]),

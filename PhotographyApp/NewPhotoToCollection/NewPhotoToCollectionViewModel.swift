@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import Firebase
 
-class AddToCollectionViewModel {
+final class NewPhotoToCollectionViewModel {
      
-    let manager = AddToCollectionManager()
+    let manager = NewPhotoToCollectionManager()
     var photo: UsersPhotos?
     var isAdded: Bool = false
     var collections: [UsersCollections] = []

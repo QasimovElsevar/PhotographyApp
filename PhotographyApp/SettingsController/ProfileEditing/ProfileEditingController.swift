@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileEditingController: UIViewController {
+final class ProfileEditingController: UIViewController {
     
     //MARK: - UI Elements
     

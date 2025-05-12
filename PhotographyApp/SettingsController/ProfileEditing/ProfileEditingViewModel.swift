@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ProfileEditingViewModel {
+final class ProfileEditingViewModel {
     
     var userArray: UserModel
     

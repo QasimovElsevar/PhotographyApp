@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HeaderCell: UITableViewCell {
+final class HeaderCell: UITableViewCell {
 
     private lazy var image: UIImageView = {
         let image = UIImageView()

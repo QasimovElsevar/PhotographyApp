@@ -12,7 +12,7 @@ enum PhotoSections {
     case relatedPhotos
 }
 
-class ImageViewModel {
+final class ImageViewModel {
     
     //MARK: Properties
     
@@ -104,7 +104,7 @@ class ImageViewModel {
     }
     
     func getAPhoto() {
-        FirestoreManager.shared.getAPhoto(collectionType: .userPhotos, photoId: photoId, model: UsersPhotos.self) { photo, error in
+        FirestoreManager.shared.getADocument(collectionType: .userPhotos, id: photoId, model: UsersPhotos.self) { photo, error in
             if let error = error {
                 self.state = .error(error)
             } else {

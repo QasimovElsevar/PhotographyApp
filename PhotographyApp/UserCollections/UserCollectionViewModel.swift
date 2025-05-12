@@ -28,12 +28,12 @@ final class UserCollectionViewModel {
     
     let manager = UserCollectionManager()
     
-    var photos: [UsersPhotos]?
-    var title: String
+    var collectoinsId: String
+    var data: [UsersCollections]?
+    var userCollections: UsersCollections?
     
-    init(title: String, photos: [UsersPhotos]? = nil) {
-        self.title = title
-        self.photos = photos
+    init(collectoinsId: String) {
+        self.collectoinsId = collectoinsId
     }
     
     //MARK: - Collection Layout
@@ -45,12 +45,27 @@ final class UserCollectionViewModel {
     }
     
     func deleteCollection() {
-        FirestoreManager.shared.deleteDocument(collectionType: .collectionOfPhotosCollection, docName: title) { error in
+        FirestoreManager.shared.deleteDocument(collectionType: .collectionOfPhotosCollection, docName: userCollections?.collectionName ?? "") { error in
             if let error = error {
                 self.state = .error(error)
             } else {
                 self.state = .success
             }
         }
+    }
+    
+    func getCollection() {
+        state = .loading
+        FirestoreManager.shared.getADocument(collectionType: .collectionOfPhotosCollection, id: collectoinsId, model: UsersCollections.self, completion: { data, error in
+            if let error = error {
+                self.state = .error(error)
+                self.state = .loaded
+            } else {
+                self.data = data ?? []
+                self.userCollections = self.data?.first
+                self.state = .success
+                self.state = .loaded
+            }
+        })
     }
 }

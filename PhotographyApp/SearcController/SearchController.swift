@@ -17,6 +17,7 @@ final class SearchController: UIViewController {
         collection.dataSource = self
         collection.allowsSelection = true
         collection.backgroundColor = .clear
+        collection.refreshControl = refreshControl
         collection.showsVerticalScrollIndicator = false
         collection.register(TextCell.self, forCellWithReuseIdentifier: "TextCell")
         collection.register(TopicsCell.self, forCellWithReuseIdentifier: "TopicsCell")
@@ -34,6 +35,12 @@ final class SearchController: UIViewController {
         search.hidesNavigationBarDuringPresentation = false
         search.obscuresBackgroundDuringPresentation = false
         return search
+    }()
+    
+    private lazy var refreshControl: UIRefreshControl = {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(handeRefresh), for: .valueChanged)
+        return refresh
     }()
     
     //MARK: - Properties
@@ -163,6 +170,7 @@ extension SearchController {
                 switch state {
                 case .success:
                     print("success")
+                    collection.refreshControl?.endRefreshing()
                     collection.reloadSections(IndexSet(integer: 3))
                 case .error(let error):
                     print(error)
@@ -190,6 +198,14 @@ extension SearchController {
     func getData(query: String) {
         Task {
             await viewModel.getList(query: query)
+        }
+    }
+    
+    @objc private func handeRefresh() {
+        if viewModel.query != "" {
+            getData(query: viewModel.query)
+        } else {
+            collection.refreshControl?.endRefreshing()
         }
     }
 }

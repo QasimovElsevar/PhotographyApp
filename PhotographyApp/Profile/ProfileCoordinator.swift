@@ -39,12 +39,12 @@ final class ProfileCoordinator: Coordinator {
     }
     
     func showUserCollectionController() {
-        let controller = UserCollectionController(viewModel: .init(title: title, photos: photos ?? nil))
+        let controller = UserCollectionController(viewModel: .init(collectoinsId: id))
         navigationController.show(controller, sender: nil)
     }
     
     func showImageController() {
-        let controller = ImageController(viewModel: .init(photoId: id))
+        let controller = ImageController(viewModel: .init(photoId: id ))
         controller.hidesBottomBarWhenPushed = true
         navigationController.show(controller, sender: nil)
     }

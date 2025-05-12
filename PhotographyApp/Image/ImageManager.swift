@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ImageManager: ImageUserCase {
+final class ImageManager: ImageUserCase {
     
     func addPhotoToCollection(id: String, collectionId: String) async throws -> CollectionsPhoto {
         let path = CollectionsEndPoints.addToCollection(collectionId, id).path

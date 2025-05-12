@@ -7,7 +7,7 @@
 
 import Foundation
 
-class AddToCollectionManager: AddToCollectionUseCase {
+final class NewPhotoToCollectionManager: NewPhotoToCollectionUseCase {
     
     func deletePhotoFromCollection(id: String, collectionId: String) async throws -> CollectionsPhoto {
         let path = CollectionsEndPoints.addToCollection(collectionId, id).path

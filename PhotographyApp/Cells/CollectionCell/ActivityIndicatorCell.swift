@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ActivityIndicatorCell: UICollectionViewCell {
+final class ActivityIndicatorCell: UICollectionViewCell {
     
     private lazy var loadingView: UIActivityIndicatorView = {
         let loadingView = UIActivityIndicatorView()

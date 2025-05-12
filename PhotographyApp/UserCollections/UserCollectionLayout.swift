@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UserCollectionLayout {
+final class UserCollectionLayout {
     
     static func collectionPhotos() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))

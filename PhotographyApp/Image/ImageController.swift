@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageController: UIViewController {
+final class ImageController: UIViewController {
 
     //MARK: - UI Elements
     
@@ -98,6 +98,7 @@ class ImageController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "info.circle"), for: .normal) 
         button.tintColor = .white
+        button.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -415,5 +416,10 @@ extension ImageController {
     
     @objc private func handleDismiss() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func infoButtonTapped() {
+        let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), photo: viewModel.photo)
+        coordinator.showInfoController()
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TextTabelCell: UITableViewCell {
+final class TextTabelCell: UITableViewCell {
 
     private lazy var textField: UITextField = {
         let textField = UITextField()

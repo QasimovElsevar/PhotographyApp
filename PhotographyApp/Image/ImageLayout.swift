@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageLayout {
+final class ImageLayout {
     
     static func wholeScreen() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))

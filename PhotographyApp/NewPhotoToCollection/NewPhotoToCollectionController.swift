@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AddToCollectionController: UIViewController {
+final class NewPhotoToCollectionController: UIViewController {
     
     private lazy var table: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -21,9 +21,9 @@ final class AddToCollectionController: UIViewController {
         return tableView
     }()
     
-    let viewModel: AddToCollectionViewModel
+    let viewModel: NewPhotoToCollectionViewModel
     
-    init(viewModel: AddToCollectionViewModel) {
+    init(viewModel: NewPhotoToCollectionViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -53,7 +53,7 @@ final class AddToCollectionController: UIViewController {
     }
 }
 
-extension AddToCollectionController: UITableViewDelegate, UITableViewDataSource {
+extension NewPhotoToCollectionController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.collections.count
@@ -83,7 +83,7 @@ extension AddToCollectionController: UITableViewDelegate, UITableViewDataSource 
     }
 }
 
-extension AddToCollectionController {
+extension NewPhotoToCollectionController {
     private func bindViewModel() {
         viewModel.stateUpdate = { [weak self] state in
             

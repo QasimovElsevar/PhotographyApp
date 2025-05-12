@@ -19,7 +19,6 @@ final class WebCoordinator: Coordinator2 {
     
     func start() {
         let controller = WebController(viweModel: viewModel)
-//        controller.callback = completion
         navigationController.present(controller, animated: true)
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol AddToCollectionUseCase {
+protocol NewPhotoToCollectionUseCase {
     
     func getCollections() async throws -> [Collections]
     

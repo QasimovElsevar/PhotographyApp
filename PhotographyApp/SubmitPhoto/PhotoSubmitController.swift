@@ -107,14 +107,23 @@ extension PhotoSubmitController: UICollectionViewDelegate, UICollectionViewDataS
         case .description:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextFieldCell", for: indexPath) as! TextFieldCell
             cell.configure(placeholder: "Add Description")
+            cell.callback = { description in
+                self.viewModel.builder.set(description: description)
+            }
             return cell
         case .location:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextFieldCell", for: indexPath) as! TextFieldCell
             cell.configure(placeholder: "Add Location")
+            cell.callback = { location in
+                self.viewModel.builder.set(location: location)
+            }
             return cell
         case .tags:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "TextFieldCell", for: indexPath) as! TextFieldCell
             cell.configure(placeholder: "Add Tags")
+            cell.callback = { tags in
+                self.viewModel.builder.set(tags: tags)
+            }
             return cell
         case .pageControl:
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "PageControlCell", for: indexPath) as! PageControlCell
@@ -164,12 +173,6 @@ extension PhotoSubmitController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else {return}
                 switch state {
-                case .loading:
-//                    loadingView.startAnimating()
-                    print("ppp")
-                case  .loaded:
-//                    loadingView.stopAnimating()
-                    print("ppp")
                 case .success:
                     collection.reloadData()
                 case .error(let error):

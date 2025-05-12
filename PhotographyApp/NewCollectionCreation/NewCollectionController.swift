@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewCollectionController: UIViewController {
+final class NewCollectionController: UIViewController {
     
     private lazy var fieldView: UIView = {
         let view = UIView()

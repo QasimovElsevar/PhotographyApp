@@ -25,6 +25,7 @@ final class PhotoSubmitViewModel {
     let sections: [PhotoSubmitSections] = [.selectedPhotos, .pageControl, .descriptionText, .description, .locationText, .location, .tagsText, .tags]
     
     let manager = PhotoSubmitManager()
+    var builder = UsersPhotoBuilder()
     
     let id = UUID().uuidString
     var image: [UIImage]
@@ -38,8 +39,6 @@ final class PhotoSubmitViewModel {
     //MARK: - States
     
     enum ViewState {
-        case loading
-        case loaded
         case success
         case error(String)
         case idle
@@ -78,10 +77,23 @@ final class PhotoSubmitViewModel {
     }
     
     func uploadImage() {
-        StorageManager.shared.saveImage(images: image) { data, error in
+        StorageManager.shared.saveImage(images: image) { [weak self] id, url, error in
+            guard let self else {return}
             if let error = error {
-                self.state = .error(error)
+                state = .error(error)
             } else {
+                builder.set(id: id ?? "")
+                builder.set(url: url ?? "")
+                builder.set(createdAt: Date())
+                let data = builder.build()
+                
+                FirestoreManager.shared.saveData(collectionType: .userPhotos, docName: "\(id ?? "") images", parameters: data) { error in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        print("success")
+                    }
+                }
                 self.state = .success
             }
         }

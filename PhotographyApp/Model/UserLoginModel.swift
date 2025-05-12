@@ -26,6 +26,7 @@ struct UsersPhotos: Codable {
 }
 
 struct UsersCollections: Codable {
+    let id: String?
     let collectionName: String?
     let createdAt: Date?
     let photos: [UsersPhotos]

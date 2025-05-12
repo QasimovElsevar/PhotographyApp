@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UploadCoordinator: Coordinator {
+final class UploadCoordinator: Coordinator {
     
     var navigationController: UINavigationController
     var image: [UIImage]

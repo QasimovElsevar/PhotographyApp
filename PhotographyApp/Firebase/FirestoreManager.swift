@@ -63,13 +63,13 @@ final class FirestoreManager {
         }
     }
     
-    func getAPhoto<T: Codable>(collectionType: UserDataCollections, photoId: String, model: T.Type, completion: @escaping ([T]?, String?) -> Void) {
+    func getADocument<T: Codable>(collectionType: UserDataCollections,id: String, model: T.Type, completion: @escaping ([T]?, String?) -> Void) {
         
         var array: [T] = []
         
         guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
         
-        db.collection("\(collection) \(collectionType.rawValue)").whereField("id", isEqualTo: photoId).getDocuments(source: .default) { document, error in
+        db.collection("\(collection) \(collectionType.rawValue)").whereField("id", isEqualTo: id).getDocuments(source: .default) { document, error in
             if let error = error {
                 completion(nil, error.localizedDescription)
             } else if let document = document {

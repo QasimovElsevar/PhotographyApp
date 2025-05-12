@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageSaver: NSObject {
+final class ImageSaver: NSObject {
     
     var success: (() -> Void)?
     var failure: ((String) -> Void)?

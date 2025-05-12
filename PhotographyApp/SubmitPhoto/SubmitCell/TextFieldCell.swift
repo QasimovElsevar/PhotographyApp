@@ -13,7 +13,7 @@ final class TextFieldCell: UICollectionViewCell, UITextViewDelegate {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.systemFont(ofSize: 16)
-        textView.backgroundColor = .profile
+        textView.backgroundColor = .label
         textView.textColor = .white
         textView.delegate = self
         textView.textAlignment = .left
@@ -30,7 +30,7 @@ final class TextFieldCell: UICollectionViewCell, UITextViewDelegate {
     }()
     
     var text: String = ""
-    var callback: (() -> Void)?
+    var callback: ((String) -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,5 +60,15 @@ final class TextFieldCell: UICollectionViewCell, UITextViewDelegate {
     
     func configure(placeholder: String) {
         placeholderLabel.text = placeholder
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        placeholderLabel.isHidden = true
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        text = textView.text
+        callback?(text)
+        placeholderLabel.isHidden = textView.text.isEmpty
     }
 }

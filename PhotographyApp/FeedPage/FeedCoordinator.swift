@@ -7,16 +7,18 @@
 
 import UIKit
 
-class FeedCoordinator: Coordinator {
+final class FeedCoordinator: Coordinator {
     var navigationController: UINavigationController
     var photos: UsersPhotos?
+    var photo: PhotoDetails?
     var callback: (() -> Void)?
     var id: String?
     
-    init(navigationController: UINavigationController, id: String? = "" , photos: UsersPhotos? = nil) {
+    init(navigationController: UINavigationController, id: String? = "" , photos: UsersPhotos? = nil, photo: PhotoDetails? = nil) {
         self.navigationController = navigationController
         self.photos = photos
         self.id = id
+        self.photo = photo
     }
     
     func start() {
@@ -30,7 +32,7 @@ class FeedCoordinator: Coordinator {
     }
     
     func showAddToCollectionController() {
-        let controller = AddToCollectionController(viewModel: .init(photoId: id ?? "", photo: photos ?? nil))
+        let controller = NewPhotoToCollectionController(viewModel: .init(photoId: id ?? "", photo: photos ?? nil))
         let navController = UINavigationController(rootViewController: controller)
         navigationController.present(navController, animated: true)
     }
@@ -41,6 +43,12 @@ class FeedCoordinator: Coordinator {
         controller.viewModel.callBack = {
             self.callback?()
         }
+        navigationController.present(navController, animated: true)
+    }
+    
+    func showInfoController() {
+        let controller = PhotoInfoController(viewModel: .init(photo: photo ?? nil))
+        let navController = UINavigationController(rootViewController: controller)
         navigationController.present(navController, animated: true)
     }
 }

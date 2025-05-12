@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UserCollectionManager: UserCollectionUserCase {
+final class UserCollectionManager: UserCollectionUserCase {
    
     let manager = NetworkManager()
     

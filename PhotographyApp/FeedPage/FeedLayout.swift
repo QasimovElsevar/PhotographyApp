@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FeedLayout {
+final class FeedLayout {
     static func createHorizontalDoubleCell() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1)))
         

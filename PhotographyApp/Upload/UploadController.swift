@@ -25,7 +25,7 @@ final class UploadController: UIViewController {
     }()
     
     private lazy var pickerViewController: PHPickerViewController = {
-        var config = PHPickerConfiguration()
+        var config = PHPickerConfiguration(photoLibrary:  PHPhotoLibrary.shared())
         config.selectionLimit = 9
         let picker = PHPickerViewController(configuration: config)
         picker.delegate = self
@@ -114,6 +114,14 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
                 let navController = UINavigationController(rootViewController: pickerViewController)
                 navController.setNavigationBarHidden(true, animated: false)
                 show(navController, sender: nil)
+                
+//                var config = PHPickerConfiguration()
+//                config.selectionLimit = 9
+//                
+//                let picker = PHPickerViewController(configuration: config)
+//                picker.modalPresentationStyle = .fullScreen
+//                picker.delegate = self
+//                present(picker, animated: true)
             } else {
                 showAllert(title:"Failed", message: "Please Log in")
             }
@@ -139,11 +147,20 @@ extension UploadController: PHPickerViewControllerDelegate {
                         }
                         self.viewModel.group.leave()
                     }
+                    
+                    result.itemProvider.loadDataRepresentation(forTypeIdentifier: "public.jpeg", completionHandler: { data, arg  in
+                        if let data = data {
+                               let src = CGImageSourceCreateWithData(data as CFData, nil)!
+                               let d = CGImageSourceCopyPropertiesAtIndex(src,0,nil) as! [AnyHashable:Any]
+                               print("metadata", d)
+                           }
+                    })
                 }
             }
             viewModel.group.notify(queue: .main) {
                 let coordinator = UploadCoordinator(navigationController: self.pickerViewController.navigationController ?? UINavigationController(), image: self.viewModel.selectedImages)
                 coordinator.showSubmitController()
+                self.viewModel.selectedImages.removeAll()
             }
         }
     }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CollectionsCell: UITableViewCell {
+final class CollectionsCell: UITableViewCell {
 
     private lazy var image: UIImageView = {
        let image = UIImageView()

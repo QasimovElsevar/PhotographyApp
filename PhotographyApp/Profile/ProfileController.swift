@@ -174,23 +174,34 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if (viewModel.index == 1) && indexPath.section == 2 {
             let id = viewModel.userLiked[indexPath.row].id ?? ""
-            showImageController(photoId: id)
+            showUsersLikedPhotosController(photoId: id)
         } else if viewModel.index == 0 && indexPath.section == 2 {
             let id = viewModel.userPhotos[indexPath.row].id ?? ""
-            showImageController(photoId: id )
+            showUsersPhotosController(photoId: id )
         } else if viewModel.index == 2 && indexPath.section == 2 {
             showUserCollectionController(indexPath: indexPath.row)
         }
     }
     
-    func showImageController(photoId: String) {
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: photoId, user: viewModel.userData!  )
-        coordinator.showImageController()
+    func showUsersPhotosController(photoId: String) {
+        if !viewModel.userPhotos.isEmpty {
+            let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: photoId, user: viewModel.userData!  )
+            coordinator.showImageController()
+        }
+    }
+    
+    func showUsersLikedPhotosController(photoId: String) {
+        if !viewModel.userLiked.isEmpty {
+            let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: photoId, user: viewModel.userData!  )
+            coordinator.showImageController()
+        }
     }
     
     func showUserCollectionController(indexPath: Int) {
-        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), title: viewModel.userCollections[indexPath].collectionName ?? "", user: viewModel.userData!, photos: viewModel.userCollections[indexPath].photos)
-        coordinator.showUserCollectionController()
+        if !viewModel.userCollections.isEmpty {
+            let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.userCollections[indexPath].id ?? "")
+            coordinator.showUserCollectionController()
+        }
     }
     
     

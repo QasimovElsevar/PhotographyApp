@@ -10,14 +10,13 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 
-class StorageManager {
+final class StorageManager {
     
     static let shared = StorageManager()
 
     private let storage = Storage.storage()
     
-    
-    func saveImage(images: [UIImage], completion: @escaping (StorageMetadata?, String?) -> Void) {
+    func saveImage(images: [UIImage], completion: @escaping (String?, String?, String?) -> Void) {
         let storageRef = storage.reference()
         
         for image in images {
@@ -28,19 +27,11 @@ class StorageManager {
             let fileRef = storageRef.child(url)
             
             let _ = fileRef.putData(imageData, metadata: nil) { data, error in
-                
+                                
                 if let error = error {
-                    completion(nil, error.localizedDescription)
+                    completion(nil, nil, error.localizedDescription)
                 } else {
-                    let data = ["id": id,
-                                "url": url,
-                                "createdAt": Date()]
-                    
-                    FirestoreManager.shared.saveData(collectionType: .userPhotos, docName: "\(id) images", parameters: data) { error in
-                        if let error = error {
-                            completion(nil, error)
-                        }
-                    }
+                    completion(id, url, nil)
                 }
             }
         }

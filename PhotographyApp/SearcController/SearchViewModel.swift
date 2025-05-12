@@ -15,7 +15,7 @@ enum Section {
     case discover
 }
 
-class SearchViewModel {
+final class SearchViewModel {
     var coordinator: MainCoordinator?
     
     let sections: [Section] = [

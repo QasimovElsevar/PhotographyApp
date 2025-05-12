@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchResultViewModel {
+final class SearchResultViewModel {
     
     var isSearched = false
     var query: String = ""
