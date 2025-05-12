@@ -107,7 +107,6 @@ extension NewPhotoToCollectionController {
                 case .idle:
                     break
                 }
-                
             }
         }
     }

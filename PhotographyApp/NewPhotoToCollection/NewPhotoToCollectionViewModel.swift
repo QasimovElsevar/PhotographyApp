@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 
 final class NewPhotoToCollectionViewModel {
      
@@ -100,6 +101,32 @@ final class NewPhotoToCollectionViewModel {
                 self.state = .deleted
             }
         })
+    }
+    
+    func createCollection(collectionName: String) {
+        
+        let photos = ["url": photo?.url ?? "",
+                      "author": photo?.author ?? "",
+                      "blurHash" : photo?.blurHash ?? "",
+                      "id": photo?.id ?? ""]
+
+        
+        let data: [String: Any] = [
+            "id": String(UUID().uuidString),
+            "collectionName": collectionName,
+            "createdAt": Date(),
+            "photos": FieldValue.arrayUnion([photos]),
+            "numberOfPhotos": 1
+        ]
+        
+        
+        FirestoreManager.shared.saveData(collectionType: .collectionOfPhotosCollection, docName: collectionName, parameters: data) { error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .success
+            }
+        }
     }
     
 }

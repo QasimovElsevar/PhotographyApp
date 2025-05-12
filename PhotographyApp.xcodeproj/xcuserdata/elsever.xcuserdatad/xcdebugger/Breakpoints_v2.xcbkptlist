@@ -55,22 +55,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FDA6A656-3CE6-4A9B-8947-8C67A450C58C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PhotographyApp/Image/ImageController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "337"
-            endingLineNumber = "337"
-            landmarkName = "handleAddingToCollection()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "32546BE6-F692-4019-B639-3C60FA4AEBC9"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -194,6 +178,98 @@
             endingLineNumber = "64"
             landmarkName = "getCollection()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E48A368C-CFC8-4BF2-8C25-B438A6B8A3B3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhotographyApp/UserCollections/UserCollectionViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "deleteCollection()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E48A368C-CFC8-4BF2-8C25-B438A6B8A3B3 - b33025c713e160c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhotographyApp.UserCollectionViewModel.deleteCollection() -&gt; ()"
+                  moduleName = "PhotographyApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/UserCollections/UserCollectionViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48">
+               </Location>
+               <Location
+                  uuid = "E48A368C-CFC8-4BF2-8C25-B438A6B8A3B3 - 91657bab44fd728"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.String&gt;) -&gt; () in PhotographyApp.UserCollectionViewModel.deleteCollection() -&gt; ()"
+                  moduleName = "PhotographyApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/UserCollections/UserCollectionViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AD2A25AD-D565-4B18-8F6B-47D502348AFC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhotographyApp/UserCollections/UserCollectionViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "getCollection()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "AD2A25AD-D565-4B18-8F6B-47D502348AFC - b1bea1e170e651d3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhotographyApp.UserCollectionViewModel.getCollection() -&gt; ()"
+                  moduleName = "PhotographyApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/UserCollections/UserCollectionViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59">
+               </Location>
+               <Location
+                  uuid = "AD2A25AD-D565-4B18-8F6B-47D502348AFC - 9ca9aa5e964e69ab"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Array&lt;PhotographyApp.UsersCollections&gt;&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in PhotographyApp.UserCollectionViewModel.getCollection() -&gt; ()"
+                  moduleName = "PhotographyApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elsever/Documents/%D0%9C%D0%BE%D0%B5/github/PhotographyApp/PhotographyApp/UserCollections/UserCollectionViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

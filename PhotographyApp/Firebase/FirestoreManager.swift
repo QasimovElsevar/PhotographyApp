@@ -63,7 +63,7 @@ final class FirestoreManager {
         }
     }
     
-    func getADocument<T: Codable>(collectionType: UserDataCollections,id: String, model: T.Type, completion: @escaping ([T]?, String?) -> Void) {
+    func getADocument<T: Codable>(collectionType: UserDataCollections, id: String, model: T.Type, completion: @escaping ([T]?, String?) -> Void) {
         
         var array: [T] = []
         
