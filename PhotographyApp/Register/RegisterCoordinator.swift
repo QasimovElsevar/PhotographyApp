@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class RegisterCoordinator: Coordinator2 {
+final class RegisterCoordinator: Coordinator {
     
     var navigationController: UINavigationController
     

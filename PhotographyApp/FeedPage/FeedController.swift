@@ -51,8 +51,10 @@ final class FeedController: UIViewController {
         return refresh
     }()
     
+    
     let viewModel = FeedViewModel()
-    var isInFourSquaresState: Bool = true
+
+    //MARK: - Lyfecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,15 +89,16 @@ final class FeedController: UIViewController {
             loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
-    
-    func statusBarConfigure() {
-        view.createStatusBarCover(mainView: view)
-        view.makeNavBarTransparent(navController: navigationController ?? UINavigationController())
-        edgesForExtendedLayout = [.top]
-    }
 }
 
 extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    //MARK: - Collection
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.photoList.count
     }
@@ -114,10 +117,6 @@ extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource, 
         }
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == (viewModel.photoList.count) - 1 {
             Task {
@@ -128,12 +127,8 @@ extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photoList[indexPath.row].id ?? "")
-        coordinator.showImageController()
+        coordinator.start()
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return 100
-//    }
 }
 
 extension FeedController {
@@ -172,6 +167,12 @@ extension FeedController {
     
     //MARK: - NavigationBar Configurations
     
+    func statusBarConfigure() {
+        view.createStatusBarCover(mainView: view)
+        view.makeNavBarTransparent(navController: navigationController ?? UINavigationController())
+        edgesForExtendedLayout = [.top]
+    }
+    
     func configureTitle() {
         navigationController?.navigationBar.titleTextAttributes = [
             .font: UIFont(name: "impact", size: 18) ?? UIFont()
@@ -203,7 +204,7 @@ extension FeedController {
     }
     
     @objc private func showInfo() {
-        let coordinator = MainCoordinator(navigationController: navigationController ?? UINavigationController())
+        let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController())
         coordinator.showInfoController()
     }
     

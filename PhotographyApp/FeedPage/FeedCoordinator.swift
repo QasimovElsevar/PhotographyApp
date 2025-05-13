@@ -8,13 +8,18 @@
 import UIKit
 
 final class FeedCoordinator: Coordinator {
+    
     var navigationController: UINavigationController
     var photos: UsersPhotos?
     var photo: PhotoDetails?
     var callback: (() -> Void)?
     var id: String?
     
-    init(navigationController: UINavigationController, id: String? = "" , photos: UsersPhotos? = nil, photo: PhotoDetails? = nil) {
+    init(navigationController: UINavigationController,
+         id: String? = "" ,
+         photos: UsersPhotos? = nil,
+         photo: PhotoDetails? = nil,
+         usersPhotos: Bool? = false) {
         self.navigationController = navigationController
         self.photos = photos
         self.id = id
@@ -22,10 +27,6 @@ final class FeedCoordinator: Coordinator {
     }
     
     func start() {
-        print("ffff")
-    }
-    
-    func showImageController() {
         let controller = ImageController(viewModel: .init(photoId: id ?? ""))
         controller.hidesBottomBarWhenPushed = true
         navigationController.show(controller, sender: nil)

@@ -12,11 +12,13 @@ protocol ImageUserCase {
     
     func getRelatedPhotos(query: String) async throws -> Search
     
-    func likePhoto(id: String) async throws -> Photos
+    func getAPhoto(id: String, completion: @escaping ([UsersPhotos]?, String?) -> Void)
     
-    func unlikePhoto(id: String) async throws -> Photos
+    func likePhoto(id: String, parameter: [String: Any], completion: @escaping (String?) -> Void)
     
-    func addPhotoToCollection(id: String, collectionId: String) async throws -> CollectionsPhoto
+    func unlikePhoto(id: String, completion: @escaping (String?) -> Void)
     
-//    func removePhotoFromCollection(id: String, collectionId: String) async throws -> Photos
+    func checkLike(completion: @escaping ([UsersPhotos]?, String?) -> Void)
+    
+    func deletePhoto(id: String, completion: @escaping (String?) -> Void)
 }

@@ -9,6 +9,7 @@ import UIKit
 
 final class SettingHeadCell: UITableViewCell {
 
+    //MARK: - UI Elements
     private lazy var image: UIImageView = {
         let image = UIImageView()
         image.contentMode = .center

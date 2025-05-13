@@ -77,7 +77,7 @@ extension NewPhotoToCollectionController: UITableViewDelegate, UITableViewDataSo
             viewModel.addPhotoToCollection(collectionName: viewModel.collections[indexPath.row].collectionName ?? "")
             viewModel.indexOfCollection = indexPath.row
         } else {
-            viewModel.deleteFromCollection(collectionName: viewModel.collections[indexPath.row].collectionName ?? "")
+            viewModel.deletePhotoFromCollection(collectionName: viewModel.collections[indexPath.row].collectionName ?? "")
             viewModel.indexOfCollection = indexPath.row
         }
     }
@@ -91,15 +91,13 @@ extension NewPhotoToCollectionController {
                 guard let self else {return}
                 switch state {
                 case .added:
-                    viewModel.updateNumberOfPhotos(collectionName: viewModel.collections[viewModel.indexOfCollection].collectionName ?? "", number: (viewModel.collections[viewModel.indexOfCollection].numberOfPhotos ?? 0) + 1)
+                    viewModel.updateNumberOfPhotos(collectionName: viewModel.collections[viewModel.indexOfCollection].collectionName ?? "", number: viewModel.collections[viewModel.indexOfCollection].photos.count + 1)
                     viewModel.isAdded = true
                     viewModel.getCollections()
                 case .deleted:
-                    viewModel.updateNumberOfPhotos(collectionName: viewModel.collections[viewModel.indexOfCollection].collectionName ?? "", number: (viewModel.collections[viewModel.indexOfCollection].numberOfPhotos ?? 0) - 1)
+                    viewModel.updateNumberOfPhotos(collectionName: viewModel.collections[viewModel.indexOfCollection].collectionName ?? "", number: viewModel.collections[viewModel.indexOfCollection].photos.count - 1)
                     viewModel.isAdded = false
                     viewModel.getCollections()
-                case .impossibleToAdd:
-                    print("impossibleToAdd")
                 case .success:
                     table.reloadData()
                 case .error(let error):

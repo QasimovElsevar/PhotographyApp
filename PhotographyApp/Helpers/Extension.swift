@@ -11,36 +11,24 @@ import Kingfisher
 
 extension UIImageView {
     
-    func loadImage2(with data: String, and blurHash: String) {
-        let url = URL(string: data)
-        let bluredImage = UIImage(blurHash: blurHash, size: CGSize(width: 32, height: 32), punch: 1)
-        if let image = UIImage(named: data) {
-            self.image = image
-        } else {
-            kf.setImage(with: url, placeholder: bluredImage)
-        }
-    }
-    
-    func loadImage(with data: String, and blurHash: String) {
-        let url = URL(string: data)
-        let bluredImage = UIImage(blurHash: blurHash, size: CGSize(width: 32, height: 32), punch: 1)
-        if let image = UIImage(named: data) {
-            self.image = image
-        } else {
-            kf.setImage(with: url, placeholder: bluredImage) { result in
-                switch result {
-                case .success(_):
-                    print("")
-                case .failure(_):
-                    StorageManager.shared.downloadImage(url: data, completion: { [weak self] image, error  in
-                        if let error = error {
-                            print(error)
-                        } else {
-                            self?.image = image
-                        }
-                    })
-                }
+    func loadImage(with data: String, and blurHash: String, UsersPhotos: Bool = false) {
+        if !UsersPhotos {
+            let url = URL(string: data)
+            let bluredImage = UIImage(blurHash: blurHash, size: CGSize(width: 32, height: 32), punch: 1)
+            
+            if let image = UIImage(named: data) {
+                self.image = image
+            } else {
+                kf.setImage(with: url, placeholder: bluredImage)
             }
+        } else {
+            StorageManager.shared.downloadImage(url: data, completion: { [weak self] image, error  in
+                if let error = error {
+                    print(error)
+                } else {
+                    self?.image = image
+                }
+            })
         }
     }
 }

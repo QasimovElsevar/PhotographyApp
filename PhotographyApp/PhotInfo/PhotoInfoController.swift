@@ -9,6 +9,8 @@ import UIKit
 
 final class PhotoInfoController: UIViewController {
     
+    //MARK: UI Elements
+    
     private lazy var  cameraLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label
@@ -132,6 +134,8 @@ final class PhotoInfoController: UIViewController {
         return stackView
     }()
     
+    //MARK: - Properties
+    
     let viewModel: PhotoInfoViewModel
     
     init(viewModel: PhotoInfoViewModel) {
@@ -147,6 +151,8 @@ final class PhotoInfoController: UIViewController {
         super.viewDidLoad()
         configureUI()
     }
+    
+    //MARK: - Configure UI
     
     private func configureUI() {
         view.backgroundColor = .myBackground
@@ -181,6 +187,8 @@ final class PhotoInfoController: UIViewController {
         dateLabel.text = viewModel.photo?.createdAt ?? "-"
         isoLabel.text = viewModel.photo?.exif?.iso?.description ?? "-"
     }
+    
+    //MARK: - Actions
     
     @objc private func handleCancel() {
         dismiss(animated: true)

@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import Firebase
 
 final class NewPhotoToCollectionViewModel {
-     
+    
     let manager = NewPhotoToCollectionManager()
     var photo: UsersPhotos?
     var isAdded: Bool = false
@@ -27,12 +26,11 @@ final class NewPhotoToCollectionViewModel {
     enum ViewState {
         case added
         case deleted
-        case impossibleToAdd
         case success
         case error(String)
         case idle
     }
-
+    
     var stateUpdate: ((ViewState) -> Void)?
     
     var state: ViewState = .idle {
@@ -40,9 +38,9 @@ final class NewPhotoToCollectionViewModel {
             stateUpdate?(state)
         }
     }
-
+    
     func getCollections() {
-        FirestoreManager.shared.getData(collectionType: .collectionOfPhotosCollection, model: UsersCollections.self) { data, error in
+        manager.getCollections { data, error in
             if let error = error {
                 self.state = .error(error)
             } else {
@@ -66,61 +64,21 @@ final class NewPhotoToCollectionViewModel {
                                       "blurHash": photo?.blurHash ?? "",
                                       "author": photo?.author ?? "",
                                       "id": photoId]
-        FirestoreManager.shared.updateData(docName: collectionName, updatedField: "photos", parameters: photos, completion: { error in
+        
+        manager.addPhotoToCollection(collectionName: collectionName, parameter: photos) { error in
             if let error = error {
                 self.state = .error(error)
             } else {
                 self.state = .added
             }
-        })
+        }
     }
     
     func updateNumberOfPhotos(collectionName: String, number: Int) {
         
         let numberOfPhotos: [String : Any] = ["numberOfPhotos": number]
         
-        FirestoreManager.shared.updateData(docName: collectionName, updatedField: "numberOfPhotos", parameters: numberOfPhotos, completion: { error in
-            if let error = error {
-                self.state = .error(error)
-            } else {
-                self.state = .success
-            }
-        })
-    }
-    
-    func deleteFromCollection(collectionName: String) {
-        let photos: [String : Any] = ["url": photo?.url ?? "",
-                                      "blurHash": photo?.blurHash ?? "",
-                                      "author": photo?.author ?? "",
-                                      "id": photoId]
-        
-        FirestoreManager.shared.updateData(docName: collectionName, updatedField: "photos", parameters: photos, deleteField: true, completion: { error in
-            if let error = error {
-                self.state = .error(error)
-            } else {
-                self.state = .deleted
-            }
-        })
-    }
-    
-    func createCollection(collectionName: String) {
-        
-        let photos = ["url": photo?.url ?? "",
-                      "author": photo?.author ?? "",
-                      "blurHash" : photo?.blurHash ?? "",
-                      "id": photo?.id ?? ""]
-
-        
-        let data: [String: Any] = [
-            "id": String(UUID().uuidString),
-            "collectionName": collectionName,
-            "createdAt": Date(),
-            "photos": FieldValue.arrayUnion([photos]),
-            "numberOfPhotos": 1
-        ]
-        
-        
-        FirestoreManager.shared.saveData(collectionType: .collectionOfPhotosCollection, docName: collectionName, parameters: data) { error in
+        manager.updateNumberOfPhotosInCollection(collectionName: collectionName, parameter: numberOfPhotos) { error in
             if let error = error {
                 self.state = .error(error)
             } else {
@@ -129,4 +87,14 @@ final class NewPhotoToCollectionViewModel {
         }
     }
     
+    func deletePhotoFromCollection(collectionName: String) {
+        
+        manager.deletePhotoFromCollection(collectionName: collectionName, photoId: photoId) { error in
+            if let error = error {
+                print("Error deleting photo from collection: \(error)")
+            } else {
+                self.state = .deleted
+            }
+        }
+    }
 }

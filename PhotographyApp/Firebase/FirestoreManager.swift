@@ -23,10 +23,8 @@ final class FirestoreManager {
     
     private let db = Firestore.firestore()
     
-    private let storage = Storage.storage()
-        
     private init() {}
-        
+    
     func saveData(collectionType: UserDataCollections, docName: String, parameters: [String: Any], completion: @escaping (String?) -> Void) {
         
         guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
@@ -51,9 +49,9 @@ final class FirestoreManager {
                 completion(nil, error.localizedDescription)
             } else if let document = document {
                 do {
-                        for docs in document.documents {
-                            let data = try docs.data(as: T.self)
-                            array.append(data)
+                    for docs in document.documents {
+                        let data = try docs.data(as: T.self)
+                        array.append(data)
                     }
                     completion(array, nil)
                 } catch {
@@ -74,9 +72,9 @@ final class FirestoreManager {
                 completion(nil, error.localizedDescription)
             } else if let document = document {
                 do {
-                        for docs in document.documents {
-                            let data = try docs.data(as: T.self)
-                            array.append(data)
+                    for docs in document.documents {
+                        let data = try docs.data(as: T.self)
+                        array.append(data)
                     }
                     completion(array, nil)
                 } catch {
@@ -124,5 +122,36 @@ final class FirestoreManager {
             .updateData(updatedNewField) { error in
                 completion(error?.localizedDescription)
             }
+    }
+    
+    func deletePhotoFromCollection(docName: String,
+                                   field: String,
+                                   photoID: String,
+                                   completion: @escaping (String?) -> Void) {
+        
+        guard let collection = UserDefaults.standard.value(forKey: "userID") as? String else { return }
+        
+        let docRef = db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)").document(docName)
+        
+        docRef.getDocument { document, error in
+            if let error = error {
+                completion(error.localizedDescription)
+                return
+            }
+            
+            guard let data = document?.data(),
+                  var photosArray = data[field] as? [[String: Any]] else {
+                completion("Invalid document structure.")
+                return
+            }
+            
+            photosArray.removeAll { item in
+                item["id"] as? String == photoID
+            }
+            
+            docRef.updateData([field: photosArray]) { error in
+                completion(error?.localizedDescription)
+            }
+        }
     }
 }

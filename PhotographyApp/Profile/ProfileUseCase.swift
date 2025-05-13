@@ -8,9 +8,9 @@
 import Foundation
 
 protocol ProfileUseCase {
-    func getPhotos() async throws -> [Photos]
-    
-    func getLikes() async throws -> [Photos]
-    
-    func getCollections() async throws -> [Collections]
+//    func getPhotos() async throws -> [Photos]
+//    
+//    func getLikes() async throws -> [Photos]
+//    
+//    func getCollections() async throws -> [Collections]
 }

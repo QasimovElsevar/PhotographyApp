@@ -28,7 +28,7 @@ struct UsersPhotos: Codable {
 struct UsersCollections: Codable {
     let id: String?
     let collectionName: String?
-    let createdAt: Date?
-    let photos: [UsersPhotos]
+    let publishedAt: Date?
+    var photos: [UsersPhotos]
     let numberOfPhotos: Int?
 }

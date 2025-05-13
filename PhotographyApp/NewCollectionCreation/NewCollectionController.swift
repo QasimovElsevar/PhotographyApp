@@ -9,6 +9,8 @@ import UIKit
 
 final class NewCollectionController: UIViewController {
     
+    //MARK: - UI Elements
+    
     private lazy var fieldView: UIView = {
         let view = UIView()
         view.backgroundColor = .selectionView
@@ -32,6 +34,8 @@ final class NewCollectionController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
+    
+    //MARK: - Properties
     
     let viewModel: NewCollectionControllerViewModel
     
@@ -98,17 +102,7 @@ final class NewCollectionController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
     }
     
-    @objc private func handleCancel() {
-        dismiss(animated: true)
-    }
-    
-    @objc private func handleSave() {
-        if let collectionName = collectionNameField.text, !collectionName.isEmpty {
-            viewModel.createCollection(collectionName: collectionName)
-        } else {
-            showAllert(title: "Error", message: "Collection name can not be empty")
-        }
-    }
+    //MARK: - Bindinng View Model
     
     private func bindViewModel() {
         viewModel.stateUpdate = { [weak self] state in
@@ -129,6 +123,20 @@ final class NewCollectionController: UIViewController {
                 }
                 
             }
+        }
+    }
+    
+    //MARK: - Actions
+    
+    @objc private func handleCancel() {
+        dismiss(animated: true)
+    }
+    
+    @objc private func handleSave() {
+        if let collectionName = collectionNameField.text, !collectionName.isEmpty {
+            viewModel.createCollection(collectionName: collectionName)
+        } else {
+            showAllert(title: "Error", message: "Collection name can not be empty")
         }
     }
 }

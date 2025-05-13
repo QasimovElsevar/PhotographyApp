@@ -9,25 +9,24 @@ import Foundation
 
 final class ImageManager: ImageUserCase {
     
-    func addPhotoToCollection(id: String, collectionId: String) async throws -> CollectionsPhoto {
-        let path = CollectionsEndPoints.addToCollection(collectionId, id).path
-        return try await NetworkManager.shared.request(endPoint: path, model: CollectionsPhoto.self, method: .post)
+    func deletePhoto(id: String, completion: @escaping (String?) -> Void) {
+        FirestoreManager.shared.deleteDocument(collectionType: .userPhotos, docName: "\(id) images", completion: completion)
     }
     
-    
-//    func removePhotoFromCollection(id: String, collectionId: String) async throws -> Photos {
-//        print("hjk")
-//    }
-    
-    
-    func unlikePhoto(id: String) async throws -> Photos {
-        let path = PhotoActionsEndPoints.like(id).path
-        return try await NetworkManager.shared.request(endPoint: path, model: Photos.self, method: .delete)
+    func getAPhoto(id: String, completion: @escaping ([UsersPhotos]?, String?) -> Void) {
+        FirestoreManager.shared.getADocument(collectionType: .userPhotos, id: id, model: UsersPhotos.self, completion: completion)
     }
     
-    func likePhoto(id: String) async throws -> Photos {
-        let path = PhotoActionsEndPoints.like(id).path
-        return try await NetworkManager.shared.request(endPoint: path, model: Photos.self, method: .post)
+    func unlikePhoto(id: String, completion: @escaping (String?) -> Void) {
+        FirestoreManager.shared.deleteDocument(collectionType: .likedPhotoCollection, docName: id, completion: completion)
+    }
+    
+    func likePhoto(id: String, parameter: [String: Any], completion: @escaping (String?) -> Void) {
+        FirestoreManager.shared.saveData(collectionType: .likedPhotoCollection, docName: id, parameters: parameter, completion: completion)
+    }
+    
+    func checkLike(completion: @escaping ([UsersPhotos]?, String?) -> Void) {
+        FirestoreManager.shared.getData(collectionType: .likedPhotoCollection, model: UsersPhotos.self, completion: completion)
     }
     
     func getPhoto(id: String) async throws -> PhotoDetails {

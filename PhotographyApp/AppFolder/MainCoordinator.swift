@@ -11,12 +11,9 @@ final class MainCoordinator: Coordinator {
     
     var navigationController: UINavigationController
     var window: UIWindow?
-
-    var photoId: String?
     
-    init(navigationController: UINavigationController/*, photoId: Int*/) {
+    init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-//        self.photoId = photoId
     }
     
     private func setupTabBarController() {
@@ -27,35 +24,5 @@ final class MainCoordinator: Coordinator {
     
     func start() {
         setupTabBarController()
-    }
-    
-    func showFeedController() {
-        let controller = FeedController()
-        navigationController.show(controller, sender: nil)
-    }
-    
-    func showInfoController() {
-        let controller = InfoController()
-        let searchNav = UINavigationController(rootViewController: controller)
-        navigationController.present(searchNav, animated: true)
-    }
-    
-    
-    
-    func showSearchController() {
-        let controller = SearchController()
-        navigationController.show(controller, sender: nil)
-    }
-    
-   
-    
-    func showLoginCOntroller() {
-        let controller = LoginController()
-        navigationController.show(controller, sender: nil)
-    }
-    
-    func showProfileController() {
-        let controller = ProfileController()
-        navigationController.show(controller, sender: nil)
     }
 }

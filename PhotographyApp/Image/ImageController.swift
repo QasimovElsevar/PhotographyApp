@@ -206,17 +206,15 @@ final class ImageController: UIViewController {
             likeImage.tintColor = .white
         }
     }
-    
-    func statusBarConfigure() {
-        view.createStatusBarCover(mainView: view)
-        view.makeNavBarTransparent(navController: navigationController ?? UINavigationController())
-        edgesForExtendedLayout = [.top]
-    }
 }
 
 extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     //MARK: - Collection
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        2
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.numberOfItems(sections: section)
@@ -229,32 +227,28 @@ extension ImageController: UICollectionViewDelegate, UICollectionViewDataSource 
             cell.configure(text: "")
             return cell
         case .relatedPhotos:
-            if viewModel.photoResultArray.isEmpty {
+            if viewModel.relatedPhotos.isEmpty {
                 let cell = collection.dequeueReusableCell(withReuseIdentifier: "TransparentViewCell", for: indexPath) as! TransparentViewCell
                 cell.configure(text: "No related photos")
                 return cell
             } else {
                 let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
-                let photos = viewModel.photoResultArray[indexPath.row]
-                cell.configure(data: photos.urls?.regular ?? "" , text: photos.user?.name ?? "", blurHash: photos.blurHash ?? "")
+                let photos = viewModel.relatedPhotos[indexPath.row]
+                cell.configure(data: photos.urls?.regular ?? "" , text: photos.user?.name ?? "", blurHash: photos.blurHash ?? "", isUsersPhotos: viewModel.isUsersPhotos)
                 return cell
             }
         }
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        2
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.photoResultArray[indexPath.row].id ?? "")
-            coordinator.showImageController()
+            let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), id: viewModel.relatedPhotos[indexPath.row].id ?? "")
+            coordinator.start()
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.section == 1 && viewModel.count < viewModel.photo?.tags?.count ?? 0 && indexPath.row == viewModel.photoResultArray.count - 2 {
+        if indexPath.section == 1 && viewModel.count < viewModel.photo?.tags?.count ?? 0 && indexPath.row == viewModel.relatedPhotos.count - 2 {
             Task {
                 await viewModel.getRelatedPhotos()
             }
@@ -284,9 +278,8 @@ extension ImageController {
                 case .success:
                     collection.reloadData()
                     imageConfigure()
-                    imageView.loadImage(with: viewModel.urlToCall, and: viewModel.photo?.blurHash ?? "")
+                    imageView.loadImage(with: viewModel.urlToCall, and: viewModel.photo?.blurHash ?? "", UsersPhotos: viewModel.isUsersPhotos ?? false)
                     navigationItem.title = viewModel.photo?.user?.name ?? ""
-                    checkUser()
                     configureNavBar()
                 case .error(let error):
                     print(error)
@@ -299,15 +292,12 @@ extension ImageController {
     
     func getData() {
         Task {
-            await viewModel.getPhoto()
-            viewModel.getAPhoto()
+            if !(viewModel.isUsersPhotos ?? true ){
+                await viewModel.getPhoto()
+            } else {
+                viewModel.getAPhoto()
+            }
             viewModel.getUsersLikedPhotos()
-        }
-    }
-    
-    func checkUser() {
-        if viewModel.photo?.user?.name == nil {
-            viewModel.userPhotos = true
         }
     }
     
@@ -338,16 +328,21 @@ extension ImageController {
         coordinator.showAddToCollectionController()
     }
     
-    @objc private func handleInfo() {
+    //MARK: - BarButton Action
     
+    @objc func handleShare() {
+        let items = [URL(string: viewModel.photo?.urls?.regular ?? "")]
+        let ac = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
+        present(ac, animated: true)
     }
     
-    private func changeAlpha(scrollView: UIScrollView) {
-        imageView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
-        likeBackgroundView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
-        addToCollectionBackgrounfView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
-        downloadBackgrounfView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
-        infoButton.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+    @objc private func handleDismiss() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func infoButtonTapped() {
+        let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), photo: viewModel.photo)
+        coordinator.showInfoController()
     }
     
     func savePhotoToLibrary() {
@@ -366,7 +361,7 @@ extension ImageController {
         }
     }
     
-    //MARK: - NavigationBa Configure
+    //MARK: - NavigationBar Configure
     
     private func configureNavBar() {
         
@@ -393,11 +388,17 @@ extension ImageController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"),style: .plain, target: self, action: #selector(handleDismiss))
         
-        if viewModel.userPhotos {
+        if viewModel.isUsersPhotos ?? false {
             navigationItem.rightBarButtonItems = [shareButton, menuButton]
         } else {
             navigationItem.rightBarButtonItems = [shareButton]
         }
+    }
+    
+    func statusBarConfigure() {
+        view.createStatusBarCover(mainView: view)
+        view.makeNavBarTransparent(navController: navigationController ?? UINavigationController())
+        edgesForExtendedLayout = [.top]
     }
     
     private func navBarTitleConfigure() {
@@ -406,20 +407,13 @@ extension ImageController {
         ]
     }
     
-    //MARK: - BarButton Action
+    //MARK: - Custom Buttons
     
-    @objc func handleShare() {
-        let items = [URL(string: viewModel.photo?.urls?.regular ?? "")]
-        let ac = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
-        present(ac, animated: true)
-    }
-    
-    @objc private func handleDismiss() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @objc private func infoButtonTapped() {
-        let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), photo: viewModel.photo)
-        coordinator.showInfoController()
+    private func changeAlpha(scrollView: UIScrollView) {
+        imageView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        likeBackgroundView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        addToCollectionBackgrounfView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        downloadBackgrounfView.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
+        infoButton.alpha = 1 - scrollView.contentOffset.y / (view.frame.height / 1.5)
     }
 }

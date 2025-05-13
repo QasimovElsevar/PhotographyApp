@@ -9,9 +9,11 @@ import Foundation
 
 protocol NewPhotoToCollectionUseCase {
     
-    func getCollections() async throws -> [Collections]
+    func getCollections(completion: @escaping ([UsersCollections]?, String?) -> Void)
     
-    func addPhotoToCollection(id: String, collectionId: String) async throws -> CollectionsPhoto
+    func addPhotoToCollection(collectionName: String, parameter: [String: Any], completion: @escaping (String?) -> Void)
     
-    func deletePhotoFromCollection(id: String, collectionId: String) async throws -> CollectionsPhoto
+    func deletePhotoFromCollection(collectionName: String, photoId: String, completion: @escaping (String?) -> Void)
+    
+    func updateNumberOfPhotosInCollection(collectionName: String, parameter: [String: Any], completion: @escaping (String?) -> Void)
 }

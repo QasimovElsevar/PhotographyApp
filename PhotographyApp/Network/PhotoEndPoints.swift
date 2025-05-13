@@ -23,22 +23,3 @@ enum  PhotosEndPoint {
     }
 }
 
-enum  PhotoActionsEndPoints {
-    case downloadTrack(String)
-    case upload(String)
-    case like(String)
-    case unlike(String)
-    
-    var path: String {
-        switch self {
-        case .upload(let id):
-            NetworkManager.shared.configureUrl(endPoint: "photos/\(id)")
-        case .like(let id):
-            NetworkManager.shared.configureUrl(endPoint: "photos/\(id)/like")
-        case .unlike(let id):
-            NetworkManager.shared.configureUrl(endPoint: "photos/\(id)/like")
-        case .downloadTrack(let id):
-            NetworkManager.shared.configureUrl(endPoint: "photos/:\(id)/download")
-        }
-    }
-}

@@ -55,7 +55,7 @@ final class NetworkManager {
                        headers: header).responseDecodable(of: model.self) { response in
                 switch response.result {
                 case .success(let data):
-                    if let headers = response.response?.allHeaderFields {
+                    if let _ = response.response?.allHeaderFields {
                         continuation.resume(returning: data)
                     }
                 case .failure(let error):

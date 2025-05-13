@@ -12,6 +12,7 @@ final class ProfileCoordinator: Coordinator {
     var navigationController: UINavigationController
     var title: String
     var userArray: UserModel?
+    var isUsersPhotos: Bool?
     var photos: [UsersPhotos]?
     var id: String
     
@@ -19,19 +20,17 @@ final class ProfileCoordinator: Coordinator {
          id: String = "",
          title: String = "",
          user: UserModel? = nil,
-         photos: [UsersPhotos]? = nil) {
+         photos: [UsersPhotos]? = nil,
+         usersPhotos: Bool? = false) {
         self.navigationController = navigationController
         self.title = title
         self.id = id
         self.userArray = user
         self.photos = photos
+        self.isUsersPhotos = usersPhotos
     }
     
     func start() {
-        print("fffff")
-    }
-    
-    func showSettingsController() {
         guard let userArray else { return }
         let controller = SettingsViewController(viewModel: .init(userDara: userArray))
         let nvConreoller = UINavigationController(rootViewController: controller)
@@ -44,7 +43,7 @@ final class ProfileCoordinator: Coordinator {
     }
     
     func showImageController() {
-        let controller = ImageController(viewModel: .init(photoId: id ))
+        let controller = ImageController(viewModel: .init(photoId: id, userPhotos: isUsersPhotos))
         controller.hidesBottomBarWhenPushed = true
         navigationController.show(controller, sender: nil)
     }

@@ -8,6 +8,7 @@
 import Foundation
 
 final class FeedManager {
+    
     let manager = NetworkManager()
     
     func getList(page: Int) async throws -> [Photos] {

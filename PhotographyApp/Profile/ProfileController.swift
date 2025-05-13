@@ -104,6 +104,13 @@ final class ProfileController: UIViewController {
 }
 
 extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    //MARK: - Collection
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        3
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.numberOfCells(index: section)
     }
@@ -112,6 +119,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
         switch viewModel.sections[indexPath.section] {
             
         case .profile:
+            // First section
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
             cell.configure(username: viewModel.userData?.username ?? "")
             cell.callback = {
@@ -120,6 +128,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             }
             return cell
         case .selection:
+            // Second section
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileSelectionCell", for: indexPath) as! ProfileSelectionCell
             cell.callback = { tag in
                 self.viewModel.index = tag
@@ -129,6 +138,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             return cell
             
         case .collection:
+            //Third section
             switch viewModel.selections[viewModel.index] {
             case .photos:
                 if viewModel.userPhotos.isEmpty {
@@ -138,7 +148,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
                 } else {
                     let cell = collection.dequeueReusableCell(withReuseIdentifier: "ImageWithLabelCell", for: indexPath) as! ImageWithLabelCell
                     let photos = viewModel.userPhotos[indexPath.row]
-                    cell.configure(data: photos.url ?? "", text: "", blurHash: photos.blurHash ?? "")
+                    cell.configure(data: photos.url ?? "", text: "", blurHash: photos.blurHash ?? "", isUsersPhotos: true)
                     return cell
                 }
             case .likes:
@@ -167,10 +177,6 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
         }
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        3
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if (viewModel.index == 1) && indexPath.section == 2 {
             let id = viewModel.userLiked[indexPath.row].id ?? ""
@@ -183,16 +189,18 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
         }
     }
     
+    //MARK: - Actions for selections in 3rd section
+    
     func showUsersPhotosController(photoId: String) {
         if !viewModel.userPhotos.isEmpty {
-            let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: photoId, user: viewModel.userData!  )
+            let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: photoId, user: viewModel.userData!, usersPhotos: true  )
             coordinator.showImageController()
         }
     }
     
     func showUsersLikedPhotosController(photoId: String) {
         if !viewModel.userLiked.isEmpty {
-            let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: photoId, user: viewModel.userData!  )
+            let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: photoId, user: viewModel.userData!)
             coordinator.showImageController()
         }
     }
@@ -302,7 +310,7 @@ extension ProfileController {
     func openSettings() {
         guard let data = viewModel.userData else { return }
         let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", user: data)
-        coordinator.showSettingsController()
+        coordinator.start()
     }
     
     func goToProfile() {

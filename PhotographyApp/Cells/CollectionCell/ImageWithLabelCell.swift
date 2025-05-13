@@ -60,8 +60,8 @@ final class ImageWithLabelCell: UICollectionViewCell {
         ])
     }
     
-    func configure(data: String, text: String, blurHash: String) {
-        imageView.loadImage(with: data, and: blurHash)
+    func configure(data: String, text: String, blurHash: String, isUsersPhotos: Bool? = false) {
+        imageView.loadImage(with: data, and: blurHash, UsersPhotos: isUsersPhotos ?? false)
         label.text = text
         callback?()
     }

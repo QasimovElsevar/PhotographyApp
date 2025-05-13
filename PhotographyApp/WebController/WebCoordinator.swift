@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class WebCoordinator: Coordinator2 {
+final class WebCoordinator: Coordinator {
     var navigationController: UINavigationController
     var viewModel: WebViewModel
     

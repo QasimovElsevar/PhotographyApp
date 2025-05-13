@@ -9,6 +9,8 @@ import UIKit
 
 final class MyCollectionsCell: UICollectionViewCell {
     
+    //MARK: - UI Elements
+    
     private lazy var firstPreviewImage : UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
@@ -71,7 +73,11 @@ final class MyCollectionsCell: UICollectionViewCell {
         return label
     }()
     
+    //MARK: - Properties
+    
     var count = 0
+    
+    //MARK: - Lifcycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -81,6 +87,8 @@ final class MyCollectionsCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: - Configure UI
     
     private func configureUI() {
         backgroundColor = .profile

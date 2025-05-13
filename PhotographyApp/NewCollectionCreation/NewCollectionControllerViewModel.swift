@@ -13,6 +13,8 @@ final class NewCollectionControllerViewModel {
     var photo: UsersPhotos?
     var callBack: (() -> Void)?
     
+    let manager = NewCollectionManager()
+    
     init(photo: UsersPhotos? = nil) {
         self.photo = photo
     }
@@ -48,7 +50,7 @@ final class NewCollectionControllerViewModel {
             "numberOfPhotos": 1
         ]
         
-        FirestoreManager.shared.saveData(collectionType: .collectionOfPhotosCollection, docName: collectionName, parameters: data) { error in
+        manager.createCollection(withName: collectionName, parameter: data) { error in
             if let error = error {
                 self.state = .error(error)
             } else {

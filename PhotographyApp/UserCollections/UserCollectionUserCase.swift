@@ -8,5 +8,5 @@
 import Foundation
 
 protocol UserCollectionUserCase {
-    func fetchUserCollection(id: String) async throws -> [Photos]
+//    func fetchUserCollection(id: String) async throws -> [Photos]
 }

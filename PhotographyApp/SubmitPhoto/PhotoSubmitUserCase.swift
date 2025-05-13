@@ -8,5 +8,5 @@
 import Foundation
 
 protocol PhotoSubmitUserCase {
-    func uploadPhotos(id: String) async throws -> PhotoDetails
+//    func uploadPhotos(id: String) async throws -> PhotoDetails
 }

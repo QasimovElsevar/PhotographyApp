@@ -9,18 +9,20 @@ import Foundation
 
 final class NewPhotoToCollectionManager: NewPhotoToCollectionUseCase {
     
-    func deletePhotoFromCollection(id: String, collectionId: String) async throws -> CollectionsPhoto {
-        let path = CollectionsEndPoints.addToCollection(collectionId, id).path
-        return try await NetworkManager.shared.request(endPoint: path, model: CollectionsPhoto.self, method: .delete)
+    func updateNumberOfPhotosInCollection(collectionName: String, parameter: [String : Any], completion: @escaping (String?) -> Void) {
+        FirestoreManager.shared.updateData(docName: collectionName, updatedField: "numberOfPhotos", parameters: parameter, completion: completion)
     }
     
-    func addPhotoToCollection(id: String, collectionId: String) async throws -> CollectionsPhoto {
-        let path = CollectionsEndPoints.addToCollection(collectionId, id).path
-        return try await NetworkManager.shared.request(endPoint: path, model: CollectionsPhoto.self, method: .post)
+    
+    func getCollections(completion: @escaping ([UsersCollections]?, String?) -> Void) {
+        FirestoreManager.shared.getData(collectionType: .collectionOfPhotosCollection, model: UsersCollections.self, completion: completion)
     }
     
-    func getCollections() async throws -> [Collections] {
-        let path = CollectionsEndPoints.userCollections("elfuciy").path
-        return try await NetworkManager.shared.request(endPoint: path, model: [Collections].self)
+    func addPhotoToCollection(collectionName: String, parameter: [String: Any], completion: @escaping (String?) -> Void) {
+        FirestoreManager.shared.updateData(docName: collectionName, updatedField: "photos", parameters: parameter, completion: completion)
+    }
+    
+    func deletePhotoFromCollection(collectionName: String, photoId: String, completion: @escaping (String?) -> Void) {
+        FirestoreManager.shared.deletePhotoFromCollection(docName: collectionName, field: "photos", photoID: photoId, completion: completion)
     }
 }

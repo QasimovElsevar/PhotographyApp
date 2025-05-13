@@ -9,6 +9,8 @@ import UIKit
 
 final class CollectionsCell: UITableViewCell {
 
+    //MARK: - UI Elements
+    
     private lazy var image: UIImageView = {
        let image = UIImageView()
         image.contentMode = .scaleAspectFill
@@ -50,6 +52,8 @@ final class CollectionsCell: UITableViewCell {
         return image
     }()
     
+    //MARK: - Properties
+    
     var callback: (() -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -64,6 +68,8 @@ final class CollectionsCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    //MARK: - Configure UI
     
     private func configureUI() {
         [image,

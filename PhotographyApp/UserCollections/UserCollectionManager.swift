@@ -11,10 +11,10 @@ final class UserCollectionManager: UserCollectionUserCase {
    
     let manager = NetworkManager()
     
-    func fetchUserCollection(id: String) async throws -> [Photos] {
-        let path = CollectionsEndPoints.collectionPhotos(id).path
-        return try await manager.request(endPoint: path, model: [Photos].self)
-    }
+//    func fetchUserCollection(id: String) async throws -> [Photos] {
+//        let path = CollectionsEndPoints.collectionPhotos(id).path
+//        return try await manager.request(endPoint: path, model: [Photos].self)
+//    }
     
     
 }
