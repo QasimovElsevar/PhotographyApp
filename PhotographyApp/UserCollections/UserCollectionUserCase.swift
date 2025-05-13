@@ -8,5 +8,8 @@
 import Foundation
 
 protocol UserCollectionUserCase {
-//    func fetchUserCollection(id: String) async throws -> [Photos]
+    
+    func getUsersCollection(id: String, completion: @escaping ([UsersCollections]?, String?) -> Void)
+    
+    func deleteCollection(collectionsName: String, completion: @escaping (String?) -> Void)
 }

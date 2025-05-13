@@ -9,13 +9,6 @@ import Foundation
 import UIKit
 
 final class WebViewModel {
-    
-    let builder: UserBuilder
-    var success: (() -> Void)?
-    
-    init (builder: UserBuilder) {
-        self.builder = builder
-    }
 
     func cutURL(url: String) -> String {
         let urlArray = url.split(separator: "=")

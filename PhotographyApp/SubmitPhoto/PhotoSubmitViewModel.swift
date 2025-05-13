@@ -24,7 +24,6 @@ final class PhotoSubmitViewModel {
     
     let sections: [PhotoSubmitSections] = [.selectedPhotos, .pageControl, .descriptionText, .description, .locationText, .location, .tagsText, .tags]
     
-    let manager = PhotoSubmitManager()
     var builder = UsersPhotoBuilder()
     
     let id = UUID().uuidString

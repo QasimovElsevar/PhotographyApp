@@ -8,8 +8,6 @@
 import UIKit
 
 final class SearchResultsController: UIViewController {
-
-    var fiteredResults: [String] = []
     
     private lazy var table: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)

@@ -194,8 +194,8 @@ final class RegisterController: UIViewController {
                 if let error = error {
                     showAllert(message: error)
                 } else {
-                    let coordinator = WebCoordinator(navigationController: navigationController ?? UINavigationController(), viewModel: .init(builder: viewModel.builder))
-                    coordinator.start()
+                    let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController())
+                    coordinator.showWebController()
                 }
             }
         }

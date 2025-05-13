@@ -16,7 +16,7 @@ final class SearchResultViewModel {
     
     var suggestions: [UISearchSuggestion] = [
         UISearchSuggestionItem(
-            localizedSuggestion: "Walpapperrrrr"
+            localizedSuggestion: "Walpapper"
         ),
         UISearchSuggestionItem(
             localizedSuggestion: "Summer"

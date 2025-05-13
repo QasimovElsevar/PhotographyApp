@@ -149,6 +149,8 @@ extension UserCollectionController {
         }
     }
     
+    //MARK: - Confihure NavBar
+    
     func configureNavButtons() {
         
         let delete = UIAction(title: "Delete") { action in

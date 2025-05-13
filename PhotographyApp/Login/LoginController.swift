@@ -181,8 +181,8 @@ final class LoginController: UIViewController {
     }
     
     @objc func registerJoin() {
-        let coordinator = RegisterCoordinator(navigationController: navigationController ?? UINavigationController())
-        coordinator.start()
+        let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController())
+        coordinator.showRegisterController()
     }
 }
 

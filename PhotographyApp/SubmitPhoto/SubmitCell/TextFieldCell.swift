@@ -69,6 +69,5 @@ final class TextFieldCell: UICollectionViewCell, UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         text = textView.text
         callback?(text)
-        placeholderLabel.isHidden = textView.text.isEmpty
     }
 }

@@ -18,10 +18,6 @@ final class UploadCoordinator: Coordinator {
     }
     
     func start() {
-        print("coo")
-    }
-    
-    func showUploadController() {
         let controller = UploadController()
         navigationController.show(controller, sender: nil)
     }

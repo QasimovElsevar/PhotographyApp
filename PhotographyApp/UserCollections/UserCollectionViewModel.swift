@@ -45,7 +45,8 @@ final class UserCollectionViewModel {
     }
     
     func deleteCollection() {
-        FirestoreManager.shared.deleteDocument(collectionType: .collectionOfPhotosCollection, docName: userCollections?.collectionName ?? "") { error in
+        
+        manager.deleteCollection(collectionsName: userCollections?.collectionName ?? "") { error in
             if let error = error {
                 self.state = .error(error)
             } else {
@@ -56,7 +57,8 @@ final class UserCollectionViewModel {
     
     func getCollection() {
         state = .loading
-        FirestoreManager.shared.getADocument(collectionType: .collectionOfPhotosCollection, id: collectoinsId, model: UsersCollections.self, completion: { data, error in
+        
+        manager.getUsersCollection(id: collectoinsId) { data, error in
             if let error = error {
                 self.state = .error(error)
                 self.state = .loaded
@@ -66,6 +68,6 @@ final class UserCollectionViewModel {
                 self.state = .success
                 self.state = .loaded
             }
-        })
+        }
     }
 }

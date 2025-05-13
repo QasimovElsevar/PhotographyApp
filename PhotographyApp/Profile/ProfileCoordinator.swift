@@ -58,4 +58,14 @@ final class ProfileCoordinator: Coordinator {
         let controller = AccountController()
         navigationController.show(controller, sender: nil)
     }
+    
+    func showRegisterController() {
+        let controller = RegisterController()
+        navigationController.show(controller, sender: nil)
+    }
+    
+    func showWebController() {
+        let controller = WebController()
+        navigationController.present(controller, animated: true)
+    }
 }

@@ -114,14 +114,6 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
                 let navController = UINavigationController(rootViewController: pickerViewController)
                 navController.setNavigationBarHidden(true, animated: false)
                 show(navController, sender: nil)
-                
-//                var config = PHPickerConfiguration()
-//                config.selectionLimit = 9
-//                
-//                let picker = PHPickerViewController(configuration: config)
-//                picker.modalPresentationStyle = .fullScreen
-//                picker.delegate = self
-//                present(picker, animated: true)
             } else {
                 showAllert(title:"Failed", message: "Please Log in")
             }

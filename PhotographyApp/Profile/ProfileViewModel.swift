@@ -128,41 +128,9 @@ final class ProfileViewModel {
         }
     }
     
-    func getUsersLikedPhotos() {
-        FirestoreManager.shared.getData(collectionType: .likedPhotoCollection, model: UsersPhotos.self) { data, error in
-            if let error = error {
-                self.state = .error(error)
-            } else {
-                self.userLiked = data ?? []
-                self.state = .success
-            }
-        }
-    }
-    
-    func getCollections() {
-        FirestoreManager.shared.getData(collectionType: .collectionOfPhotosCollection, model: UsersCollections.self) { data, error in
-            if let error = error {
-                self.state = .error(error)
-            } else {
-                self.userCollections = data ?? []
-                self.state = .success
-            }
-        }
-    }
-    
-    func getUserPhotos() {
-        FirestoreManager.shared.getData(collectionType: .userPhotos, model: UsersPhotos.self) { data, error in
-            if let error = error {
-                self.state = .error(error)
-            } else {
-                self.state = .success
-                self.userPhotos = data ?? []
-            }
-        }
-    }
-    
     func getUser() {
-        FirestoreManager.shared.getData(collectionType: .userDataCollection, model: UserModel.self, completion: { [weak self] data, error in
+        
+        manager.getUser { [weak self] data, error in
             guard let self else {return}
             
             if let error = error {
@@ -174,7 +142,41 @@ final class ProfileViewModel {
                 state = .success
                 state = .loaded
             }
-        })
+        }
+    }
+    
+    func getUserPhotos() {
+        manager.getUsersPhotos { data, error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.state = .success
+                self.userPhotos = data ?? []
+            }
+        }
+    }
+    
+    func getUsersLikedPhotos() {
+        manager.getUsersLikedPhotos { data, error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.userLiked = data ?? []
+                self.state = .success
+            }
+        }
+    }
+    
+    func getCollections() {
+        
+        manager.getUsersCollections { data, error in
+            if let error = error {
+                self.state = .error(error)
+            } else {
+                self.userCollections = data ?? []
+                self.state = .success
+            }
+        }
     }
     
     func signOut() {

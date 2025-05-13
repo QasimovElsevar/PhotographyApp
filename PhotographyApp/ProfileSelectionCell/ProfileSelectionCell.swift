@@ -73,6 +73,7 @@ final class ProfileSelectionCell: UICollectionViewCell {
         return label
     }()
     
+    //MARK: - Properties
     private var leftConstraint = NSLayoutConstraint()
     
     let viewModel = ProfileSelectionViewModel()
@@ -89,6 +90,8 @@ final class ProfileSelectionCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: - Configure UI
     
     func configureUI() {
        addSubview(selectionView)
@@ -125,6 +128,8 @@ final class ProfileSelectionCell: UICollectionViewCell {
 
         ])
     }
+    
+    //MARK: Actions
     
     @objc func changeSelection(_ sender: UITapGestureRecognizer) {
         

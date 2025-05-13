@@ -12,14 +12,11 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        tabBar.backgroundColor = .myBackground
-//        createTab()
-        
         setupNavigationTabs()
-        //tanBarController.viewController = [
     }
     
     func setupNavigationTabs() {
+        tabBar.backgroundColor = .myBackground
         setupTabBarAppearance()
         createTab()
     }
@@ -27,7 +24,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func createHome() -> UINavigationController {
         let searchController = FeedController()
         let searchNav = UINavigationController(rootViewController: searchController)
-//        searchController.viewModel.coordinator = MainCoordinator(navigationController: searchNav)
         let tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(systemName: "photo"),
@@ -40,7 +36,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func createFeed() -> UINavigationController {
         let searchController = SearchController()
         let searchNav = UINavigationController(rootViewController: searchController)
-//        searchController.viewModel.coordinator = MainCoordinator(navigationController: searchNav)
         let tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(systemName: "magnifyingglass"),
@@ -53,7 +48,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func createloadController() -> UINavigationController {
         let uploadController = UploadController()
         let uploadNav = UINavigationController(rootViewController: uploadController)
-//        uploadController.viewModel.coordinator = UploadCoordinator(navigationController: uploadNav, image: <#UIImage#>)
         let tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(systemName: "plus.app.fill"),
@@ -66,7 +60,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func createLogin() -> UINavigationController {
         let loginController = LoginController()
         let loginNav = UINavigationController(rootViewController: loginController)
-//        loginController.viewModel.coordinator = MainCoordinator(navigationController: loginNav)
         let tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(systemName: "person"),
@@ -87,9 +80,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         )
         profileController.tabBarItem = tabBarItem
         
-//        UINavigationBar.appearance().backgroundColor = .myBackground
-//        UINavigationBar.appearance().isTranslucent = false
-//        UINavigationBar.appearance().tintColor = .label
         return profileNav
     }
     
@@ -111,11 +101,4 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
             self.viewControllers = [createHome(), createFeed(), createloadController(), createProfile()]
         }
     }
-//    
-//    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-//        if let navController = viewController as? UINavigationController,
-//            let topVC = navController.topViewController {
-//            topVC.title = "New Title"
-//        }
-//    }
 }

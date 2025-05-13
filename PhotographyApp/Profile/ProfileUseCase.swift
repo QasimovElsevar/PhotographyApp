@@ -8,9 +8,13 @@
 import Foundation
 
 protocol ProfileUseCase {
-//    func getPhotos() async throws -> [Photos]
-//    
-//    func getLikes() async throws -> [Photos]
-//    
-//    func getCollections() async throws -> [Collections]
+    
+    func getUser(completion: @escaping ([UserModel]?, String?) -> Void)
+    
+    func getUsersPhotos(completion: @escaping ([UsersPhotos]?, String?) -> Void)
+    
+    func getUsersLikedPhotos(completion: @escaping ([UsersPhotos]?, String?) -> Void)
+    
+    func getUsersCollections(completion: @escaping ([UsersCollections]?, String?) -> Void)
+
 }

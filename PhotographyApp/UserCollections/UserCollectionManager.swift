@@ -11,10 +11,11 @@ final class UserCollectionManager: UserCollectionUserCase {
    
     let manager = NetworkManager()
     
-//    func fetchUserCollection(id: String) async throws -> [Photos] {
-//        let path = CollectionsEndPoints.collectionPhotos(id).path
-//        return try await manager.request(endPoint: path, model: [Photos].self)
-//    }
+    func getUsersCollection(id: String, completion: @escaping ([UsersCollections]?, String?) -> Void) {
+        FirestoreManager.shared.getADocument(collectionType: .collectionOfPhotosCollection, id: id, model: UsersCollections.self, completion: completion)
+    }
     
-    
+    func deleteCollection(collectionsName: String, completion: @escaping (String?) -> Void) {
+        FirestoreManager.shared.deleteDocument(collectionType: .collectionOfPhotosCollection, docName: collectionsName, completion: completion)
+    }
 }

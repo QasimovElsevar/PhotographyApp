@@ -67,10 +67,7 @@ final class AccountController: UIViewController {
         [warningLabel,
          warningText,
          deleteButton
-         /*passwordBackgroundView*/].forEach({view.addSubview($0)})
-        
-//        passwordBackgroundView.addSubview(passwordTextField)
-        
+         ].forEach({view.addSubview($0)})
     }
     
     private func setConstraints() {
