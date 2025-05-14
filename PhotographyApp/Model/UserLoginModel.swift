@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 struct UserModel: Codable {
-    let firstname, lastname, username, email, accessKey: String?
+    let id, firstname, lastname, username, email, accessKey: String?
     let createdAt: Date?
 }
 

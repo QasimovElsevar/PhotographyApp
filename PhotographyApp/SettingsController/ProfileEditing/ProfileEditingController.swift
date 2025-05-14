@@ -11,6 +11,14 @@ final class ProfileEditingController: UIViewController {
     
     //MARK: - UI Elements
     
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "person.circle")
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     private lazy var label: UILabel = {
         let label = UILabel()
         label.text = "Profile"
@@ -150,12 +158,20 @@ extension ProfileEditingController {
     }
     
     @objc private func saveChanges() {
-//        FirestoreManager.shared.updateUserData(firstName: nameField.text ?? "", lastName: lastnameField.text ?? "", username: usernameField.text ?? "", email: emailField.text ?? "", accessKey: viewModel.userArray.accessKey ?? "") { error in
-//            if let error = error {
-//                print(error)
-//            } else {
-//                self.showAllert(title: "Success", message: "Your profile updated")
-//            }
-//        }
+        
+        let parameter: [String: Any] = ["firstname": nameField.text ?? "",
+                                        "lastname": lastnameField.text ?? "",
+                                        "username": usernameField.text ?? "",
+                                        "email": emailField.text ?? "",
+                                        "accessKey": viewModel.userArray.accessKey ?? "",
+                                        "createdAt": viewModel.userArray.createdAt ?? Date()]
+        
+        FirestoreManager.shared.saveData(collectionType: .userDataCollection, docName: viewModel.userArray.id ?? "", parameters: parameter) { error in
+            if let error = error {
+                print(error)
+            } else {
+                self.showAllert(title: "Success", message: "Your profile updated")
+            }
+        }
     }
 }

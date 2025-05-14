@@ -16,6 +16,7 @@ final class PhotoSubmitController: UIViewController {
         collection.delegate = self
         collection.dataSource = self
         collection.backgroundColor = .clear
+        collection.keyboardDismissMode = .onDrag
         collection.register(TextCell.self, forCellWithReuseIdentifier: "TextCell")
         collection.register(TextFieldCell.self, forCellWithReuseIdentifier: "TextFieldCell")
         collection.register(PhotoCell.self, forCellWithReuseIdentifier: "PhotoCell")
@@ -49,6 +50,7 @@ final class PhotoSubmitController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        bindViewModel()
     }
     
     private func configureUI() {
@@ -152,7 +154,6 @@ extension PhotoSubmitController {
     
     @objc func handleSubmit() {
         viewModel.uploadImage()
-        dismiss(animated: true)
     }
     
     func configureNavRightButton() {
@@ -174,9 +175,11 @@ extension PhotoSubmitController {
                 guard let self else {return}
                 switch state {
                 case .success:
-                    collection.reloadData()
+                    showAllert(title: "Success", message: "Photos are uploaded") { _ in
+                        self.navigationController?.popViewController(animated: true)
+                    }
                 case .error(let error):
-                    print(error)
+                    showAllert(title: "Failure", message: error)
                 case .idle:
                     break
                 }

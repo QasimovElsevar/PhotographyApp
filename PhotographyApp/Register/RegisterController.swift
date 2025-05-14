@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class RegisterController: UIViewController {
+final class RegisterController: UIViewController, UITextFieldDelegate {
 
     // MARK: - UI Elements
         
@@ -25,6 +25,7 @@ final class RegisterController: UIViewController {
         textField.placeholder = "First name"
         textField.textColor = .label
         textField.autocapitalizationType = .none
+        textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -106,6 +107,7 @@ final class RegisterController: UIViewController {
         super.viewDidLoad()
         configureUI()
         notify()
+        hideKeyboardWhenTappedAround()
     }
 
     //MARK: - UI Configuration

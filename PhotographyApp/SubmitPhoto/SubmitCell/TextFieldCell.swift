@@ -13,8 +13,9 @@ final class TextFieldCell: UICollectionViewCell, UITextViewDelegate {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.systemFont(ofSize: 16)
-        textView.backgroundColor = .label
-        textView.textColor = .white
+        textView.backgroundColor = .profile
+        textView.layer.cornerRadius = 8
+        textView.textColor = .label
         textView.delegate = self
         textView.textAlignment = .left
         return textView
@@ -23,7 +24,7 @@ final class TextFieldCell: UICollectionViewCell, UITextViewDelegate {
     private lazy var placeholderLabel: UILabel = {
         let label = UILabel()
         label.layer.borderWidth = 0
-        label.textColor = .lightGray
+        label.textColor = .placeholder
         label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

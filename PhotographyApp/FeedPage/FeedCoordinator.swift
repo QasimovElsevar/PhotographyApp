@@ -48,6 +48,12 @@ final class FeedCoordinator: Coordinator {
     }
     
     func showInfoController() {
+        let controller = InfoController()
+        let navController = UINavigationController(rootViewController: controller)
+        navigationController.present(navController, animated: true)
+    }
+    
+    func showPhotoInfoController() {
         let controller = PhotoInfoController(viewModel: .init(photo: photo ?? nil))
         let navController = UINavigationController(rootViewController: controller)
         navigationController.present(navController, animated: true)

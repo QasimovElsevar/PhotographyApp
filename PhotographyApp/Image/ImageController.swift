@@ -342,7 +342,7 @@ extension ImageController {
     
     @objc private func infoButtonTapped() {
         let coordinator = FeedCoordinator(navigationController: navigationController ?? UINavigationController(), photo: viewModel.photo)
-        coordinator.showInfoController()
+        coordinator.showPhotoInfoController()
     }
     
     func savePhotoToLibrary() {

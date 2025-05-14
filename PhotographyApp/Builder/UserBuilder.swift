@@ -8,11 +8,16 @@
 import Foundation
 
 final class UserBuilder {
+    private var id: String?
     private var firstname: String?
     private var lastname: String?
     private var username: String?
     private var email: String?
     private var accessKey: String?
+    
+    func set(id: String) {
+        self.id = id
+    }
     
     func set(firstname: String) {
         self.firstname = firstname
@@ -35,7 +40,8 @@ final class UserBuilder {
     }
     
     func build() -> [String: Any] {
-        return ["firstname": firstname ?? "",
+        return ["id": id ?? "",
+                "firstname": firstname ?? "",
                 "lastname": lastname ?? "",
                 "username": username ?? "",
                 "email": email ?? "",

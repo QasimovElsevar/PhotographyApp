@@ -33,6 +33,17 @@ final class UploadController: UIViewController {
         return picker
     }()
     
+    func showPicker() {
+        var config = PHPickerConfiguration(photoLibrary:  PHPhotoLibrary.shared())
+        config.selectionLimit = 9
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        picker.modalPresentationStyle = .fullScreen
+        let navController = UINavigationController(rootViewController: picker)
+        navController.setNavigationBarHidden(true, animated: false)
+        present(navController, animated: true)
+    }
+    
     
     //MARK: - Properties
     
@@ -111,15 +122,15 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if viewModel.sections[indexPath.section] == .image {
             if FireBaseManager.shared.isUserSignedIn {
-                let navController = UINavigationController(rootViewController: pickerViewController)
-                navController.setNavigationBarHidden(true, animated: false)
-                show(navController, sender: nil)
+//                let navController = UINavigationController(rootViewController: pickerViewController)
+//                navController.setNavigationBarHidden(true, animated: false)
+//                show(navController, sender: nil)
+                showPicker()
             } else {
                 showAllert(title:"Failed", message: "Please Log in")
             }
         }
     }
-
 }
 
 extension UploadController: PHPickerViewControllerDelegate {
@@ -128,7 +139,8 @@ extension UploadController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         if results.isEmpty {
-            dismiss(animated: true)
+            dismiss(animated: true) {
+            }
         } else {
             for result in results {
                 if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
@@ -150,7 +162,8 @@ extension UploadController: PHPickerViewControllerDelegate {
                 }
             }
             viewModel.group.notify(queue: .main) {
-                let coordinator = UploadCoordinator(navigationController: self.pickerViewController.navigationController ?? UINavigationController(), image: self.viewModel.selectedImages)
+                self.dismiss(animated: true)
+                let coordinator = UploadCoordinator(navigationController: self.navigationController ?? UINavigationController(), image: self.viewModel.selectedImages)
                 coordinator.showSubmitController()
                 self.viewModel.selectedImages.removeAll()
             }

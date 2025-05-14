@@ -88,12 +88,11 @@ final class PhotoSubmitViewModel {
                 
                 FirestoreManager.shared.saveData(collectionType: .userPhotos, docName: "\(id ?? "") images", parameters: data) { error in
                     if let error = error {
-                        print(error)
+                        self.state = .error(error)
                     } else {
-                        print("success")
+                        self.state = .success
                     }
                 }
-                self.state = .success
             }
         }
     }

@@ -106,6 +106,7 @@ final class LoginController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UIConfigure()
+        hideKeyboardWhenTappedAround()
     }
     
     //MARK: - UI Configurations

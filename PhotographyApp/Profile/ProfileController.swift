@@ -245,7 +245,7 @@ extension ProfileController {
                 case .success:
                     navigationItem.title = "\(viewModel.userData?.firstname ?? "") \(viewModel.userData?.lastname ?? "")"
                     collection.refreshControl?.endRefreshing()
-                    collection.reloadSections(IndexSet(integer: 2))
+                    collection.reloadData()
                 case .error(let error):
                     print(error)
                 case .idle:
