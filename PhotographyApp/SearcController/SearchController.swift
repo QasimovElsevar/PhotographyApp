@@ -169,7 +169,6 @@ extension SearchController {
                 guard let self else {return}
                 switch state {
                 case .success:
-                    print("success")
                     collection.refreshControl?.endRefreshing()
                     collection.reloadSections(IndexSet(integer: 3))
                 case .error(let error):

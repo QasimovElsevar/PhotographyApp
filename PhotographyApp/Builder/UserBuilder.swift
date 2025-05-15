@@ -14,6 +14,7 @@ final class UserBuilder {
     private var username: String?
     private var email: String?
     private var accessKey: String?
+    private var profilePhoto: String?
     
     func set(id: String) {
         self.id = id
@@ -39,6 +40,10 @@ final class UserBuilder {
         self.accessKey = accessKey
     }
     
+    func set(profilePhoto: String) {
+        self.profilePhoto = profilePhoto
+    }
+    
     func build() -> [String: Any] {
         return ["id": id ?? "",
                 "firstname": firstname ?? "",
@@ -46,6 +51,7 @@ final class UserBuilder {
                 "username": username ?? "",
                 "email": email ?? "",
                 "accessKey": accessKey ?? "",
+                "profilePhoto": "icons/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png.webp",
                 "createdAt": Date()]
     }
 }

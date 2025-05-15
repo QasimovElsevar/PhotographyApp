@@ -117,7 +117,8 @@ final class ProfileViewModel {
     
     //MARK: - Data
     
-    func getUserData() async {
+    func getUserData() {
+        getUser()
         switch selections[self.index] {
         case .photos:
             getUserPhotos()
@@ -150,8 +151,8 @@ final class ProfileViewModel {
             if let error = error {
                 self.state = .error(error)
             } else {
-                self.state = .success
                 self.userPhotos = data ?? []
+                self.state = .success
             }
         }
     }

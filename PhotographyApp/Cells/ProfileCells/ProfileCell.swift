@@ -14,10 +14,9 @@ final class ProfileCell: UICollectionViewCell {
     private lazy var imageView : UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(systemName: "person.fill")
         image.backgroundColor = .gray
         image.clipsToBounds = true
-        image.layer.cornerRadius = 30
+        image.layer.cornerRadius = 40
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -86,17 +85,19 @@ final class ProfileCell: UICollectionViewCell {
             stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24),
             stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             
-            imageView.widthAnchor.constraint(equalToConstant: 60),
-            imageView.heightAnchor.constraint(equalToConstant: 60),
+            imageView.widthAnchor.constraint(equalToConstant: 80),
+            imageView.heightAnchor.constraint(equalToConstant: 80),
             imageView.bottomAnchor.constraint(equalTo: stack.topAnchor, constant: -8),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
         ])
     }
     
     //MARK: - Cell Data
-    func configure(username: String) {
+    func configure(username: String, imageUrl: String) {
         label.text = "\(username)"
+        imageView.loadImage(with: imageUrl, and: "", UsersPhotos: true)
     }
+        
     
     @objc private func handleEditProfile() {
         callback?()

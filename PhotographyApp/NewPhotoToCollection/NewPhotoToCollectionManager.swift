@@ -10,7 +10,7 @@ import Foundation
 final class NewPhotoToCollectionManager: NewPhotoToCollectionUseCase {
     
     func updateNumberOfPhotosInCollection(collectionName: String, parameter: [String : Any], completion: @escaping (String?) -> Void) {
-        FirestoreManager.shared.updateData(docName: collectionName, updatedField: "numberOfPhotos", parameters: parameter, completion: completion)
+        FirestoreManager.shared.updateData(docName: collectionName, collectionType: .collectionOfPhotosCollection, updatedField: "numberOfPhotos", parameters: parameter, completion: completion)
     }
     
     
@@ -19,7 +19,7 @@ final class NewPhotoToCollectionManager: NewPhotoToCollectionUseCase {
     }
     
     func addPhotoToCollection(collectionName: String, parameter: [String: Any], completion: @escaping (String?) -> Void) {
-        FirestoreManager.shared.updateData(docName: collectionName, updatedField: "photos", parameters: parameter, completion: completion)
+        FirestoreManager.shared.updateData(docName: collectionName, collectionType: .collectionOfPhotosCollection, updatedField: "photos", parameters: parameter, completion: completion)
     }
     
     func deletePhotoFromCollection(collectionName: String, photoId: String, completion: @escaping (String?) -> Void) {

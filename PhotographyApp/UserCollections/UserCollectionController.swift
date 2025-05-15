@@ -135,7 +135,6 @@ extension UserCollectionController {
                 case  .loaded:
                     loadingView.stopAnimating()
                 case .success:
-                    print("success")
                     collection.refreshControl?.endRefreshing()
                     navigationItem.title = viewModel.userCollections?.collectionName
                     collection.reloadData()

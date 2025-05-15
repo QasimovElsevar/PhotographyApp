@@ -68,7 +68,7 @@ final class ProfileController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navBarConfigure()
-        getData()
+        viewModel.getUserData()
     }
     
     //MARK: - UI Configuration
@@ -121,7 +121,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
         case .profile:
             // First section
             let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
-            cell.configure(username: viewModel.userData?.username ?? "")
+            cell.configure(username: viewModel.userData?.username ?? "", imageUrl: viewModel.userData?.profilePhoto ?? "")
             cell.callback = {
                 let coordinator = ProfileCoordinator(navigationController: self.navigationController!, user: self.viewModel.userData)
                 coordinator.showProfileEditingController()
@@ -133,7 +133,7 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
             cell.callback = { tag in
                 self.viewModel.index = tag
                 self.collection.reloadSections(IndexSet(integer: 2))
-                self.getData()
+                self.viewModel.getUserData()
             }
             return cell
             
@@ -223,12 +223,6 @@ extension ProfileController: UICollectionViewDelegate, UICollectionViewDataSourc
 extension ProfileController {
     
     //MARK: - Data
-    
-    private func getData() {
-        Task {
-            await viewModel.getUserData()
-        }
-    }
     
     private func bindViewModel() {
         viewModel.stateUpdate = { [weak self] state in
@@ -342,6 +336,6 @@ extension ProfileController {
     }
     
     @objc private func handleRefresh() {
-        getData()
+        viewModel.getUserData()
     }
 }

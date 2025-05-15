@@ -98,6 +98,7 @@ final class FirestoreManager {
     }
     
     func updateData(docName: String,
+                    collectionType: UserDataCollections,
                     updatedField: String,
                     parameters: [String: Any],
                     deleteField: Bool = false,
@@ -117,7 +118,7 @@ final class FirestoreManager {
             }
         }
         
-        db.collection("\(collection) \(UserDataCollections.collectionOfPhotosCollection.rawValue)")
+        db.collection("\(collection) \(collectionType.rawValue)")
             .document(docName)
             .updateData(updatedNewField) { error in
                 completion(error?.localizedDescription)

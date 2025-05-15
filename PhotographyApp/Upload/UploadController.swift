@@ -33,18 +33,6 @@ final class UploadController: UIViewController {
         return picker
     }()
     
-    func showPicker() {
-        var config = PHPickerConfiguration(photoLibrary:  PHPhotoLibrary.shared())
-        config.selectionLimit = 9
-        let picker = PHPickerViewController(configuration: config)
-        picker.delegate = self
-        picker.modalPresentationStyle = .fullScreen
-        let navController = UINavigationController(rootViewController: picker)
-        navController.setNavigationBarHidden(true, animated: false)
-        present(navController, animated: true)
-    }
-    
-    
     //MARK: - Properties
     
     let viewModel = UploadViewModel()
@@ -122,9 +110,6 @@ extension UploadController: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if viewModel.sections[indexPath.section] == .image {
             if FireBaseManager.shared.isUserSignedIn {
-//                let navController = UINavigationController(rootViewController: pickerViewController)
-//                navController.setNavigationBarHidden(true, animated: false)
-//                show(navController, sender: nil)
                 showPicker()
             } else {
                 showAllert(title:"Failed", message: "Please Log in")
@@ -151,14 +136,6 @@ extension UploadController: PHPickerViewControllerDelegate {
                         }
                         self.viewModel.group.leave()
                     }
-                    
-                    result.itemProvider.loadDataRepresentation(forTypeIdentifier: "public.jpeg", completionHandler: { data, arg  in
-                        if let data = data {
-                               let src = CGImageSourceCreateWithData(data as CFData, nil)!
-                               let d = CGImageSourceCopyPropertiesAtIndex(src,0,nil) as! [AnyHashable:Any]
-                               print("metadata", d)
-                           }
-                    })
                 }
             }
             viewModel.group.notify(queue: .main) {
@@ -188,6 +165,17 @@ extension UploadController {
                 }
             }
         }
+    }
+    
+    func showPicker() {
+        var config = PHPickerConfiguration(photoLibrary:  PHPhotoLibrary.shared())
+        config.selectionLimit = 9
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        picker.modalPresentationStyle = .fullScreen
+        let navController = UINavigationController(rootViewController: picker)
+        navController.setNavigationBarHidden(true, animated: false)
+        present(navController, animated: true)
     }
 }
 

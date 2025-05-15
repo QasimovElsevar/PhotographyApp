@@ -6,15 +6,17 @@
 //
 
 import UIKit
+import PhotosUI
 
 final class SettingsViewController: UIViewController {
-
+    
     //MARK: - UI Elements
     
     private lazy var table: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.isUserInteractionEnabled = true
         tableView.backgroundColor = .clear
         tableView.register(SettingHeadCell.self, forCellReuseIdentifier: "SettingHeadCell")
         tableView.register(TableTextCell.self, forCellReuseIdentifier: "TableTextCell")
@@ -82,7 +84,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = table.dequeueReusableCell(withIdentifier: "SettingHeadCell", for: indexPath) as! SettingHeadCell
-            cell.configure(text: "\(viewModel.userDara.firstname ?? "") \(viewModel.userDara.lastname ?? "")")
+            cell.configure(imageUrl: viewModel.userData.profilePhoto ?? "")
             return cell
         } else {
             let cell = table.dequeueReusableCell(withIdentifier: "TableTextCell", for: indexPath) as! TableTextCell
@@ -103,14 +105,16 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
+        if indexPath.section == 0 {
+            showPicker()
+        } else if indexPath.section == 1 {
             if indexPath.row == 0 {
-                let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", user: viewModel.userDara)
+                let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", user: viewModel.userData)
                 coordinator.showProfileEditingController()
             } else if indexPath.row == 1 {
                 viewModel.changePasword()
             } else if indexPath.row == 2 {
-                let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", user: viewModel.userDara)
+                let coordinator = ProfileCoordinator(navigationController: navigationController ?? UINavigationController(), id: "", title: "", user: viewModel.userData)
                 coordinator.showAccountCoordinator()
             }
         }
@@ -125,11 +129,15 @@ extension SettingsViewController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else {return}
                 switch state {
+                case .profilePhotoAdded:
+                    self.dismiss(animated: true)
+                    showAllert(title: "Success", message: "Profile photo added successfully") { _ in
+                        self.dismiss(animated: true)
+                    }
                 case .success:
-                    print("success")
                     showAllert(title: "Success", message: "Resset password link sent to you email")
                 case .error(let error):
-                    print(error)
+                    showAllert(title: "Failed", message: error)
                 case .idle:
                     break
                 }
@@ -140,5 +148,43 @@ extension SettingsViewController {
     @objc private func closeSettings() {
         dismiss(animated: true, completion: {
         })
+    }
+}
+
+extension SettingsViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        if results.isEmpty {
+            dismiss(animated: true) {
+            }
+        } else {
+            for result in results {
+                if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
+                    viewModel.group.enter()
+                    result.itemProvider.loadObject(ofClass: UIImage.self) { object, error in
+                        if let image = object as? UIImage {
+                            self.viewModel.selectedImage.append(image)
+                        }
+                        self.viewModel.group.leave()
+                    }
+                }
+            }
+        }
+        
+        viewModel.group.notify(queue: .main) {
+            self.viewModel.uploadImage()
+            self.table.reloadData()
+        }
+    }
+    
+    func showPicker() {
+        var config = PHPickerConfiguration(photoLibrary:  PHPhotoLibrary.shared())
+        config.selectionLimit = 9
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        picker.modalPresentationStyle = .fullScreen
+        let navController = UINavigationController(rootViewController: picker)
+        navController.setNavigationBarHidden(true, animated: false)
+        present(navController, animated: true)
     }
 }

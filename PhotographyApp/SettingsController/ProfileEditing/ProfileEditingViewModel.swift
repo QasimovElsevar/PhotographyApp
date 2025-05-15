@@ -14,13 +14,4 @@ final class ProfileEditingViewModel {
     init(userArray: UserModel) {
         self.userArray = userArray
     }
-    
-    
-    func updateUser() {
-//        FirestoreManager.shared.updateUserData(firstName: userArray.firstName ?? "", lastName: userArray.lastName ?? "", username: userArray.username ?? "", email: userArray.email ?? "", accessKey: userArray.accessKey ?? "") { error in
-//            if let error = error {
-//                print(error)
-//            }
-//        }
-    }
 }

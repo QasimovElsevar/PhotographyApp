@@ -37,7 +37,6 @@ final class FireBaseManager {
                 completion(error.localizedDescription)
             } else if let result = result {
                 UserDefaults.standard.set(result.user.uid, forKey: "userID")
-                print(UserDefaults.standard.integer(forKey: "userID"))
                 completion(nil)
             }
         }

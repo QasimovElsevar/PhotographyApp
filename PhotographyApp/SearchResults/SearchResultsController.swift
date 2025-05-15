@@ -14,7 +14,6 @@ final class SearchResultsController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .clear
-        tableView.register(SettingHeadCell.self, forCellReuseIdentifier: "SettingHeadCell")
         tableView.register(TableTextCell.self, forCellReuseIdentifier: "TableTextCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView

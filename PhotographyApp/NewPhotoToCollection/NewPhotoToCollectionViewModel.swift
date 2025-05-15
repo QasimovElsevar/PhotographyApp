@@ -91,7 +91,7 @@ final class NewPhotoToCollectionViewModel {
         
         manager.deletePhotoFromCollection(collectionName: collectionName, photoId: photoId) { error in
             if let error = error {
-                print("Error deleting photo from collection: \(error)")
+                self.state = .error(error)
             } else {
                 self.state = .deleted
             }

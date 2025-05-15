@@ -9,11 +9,10 @@ import UIKit
 
 final class SettingHeadCell: UITableViewCell {
 
-    //MARK: - UI Elements
+    //MARK: -UI Elements
     private lazy var image: UIImageView = {
         let image = UIImageView()
         image.contentMode = .center
-        image.image = UIImage(systemName: "person.fill")
         image.backgroundColor = .selectionView
         image.tintColor = .white
         image.clipsToBounds = true
@@ -25,9 +24,9 @@ final class SettingHeadCell: UITableViewCell {
     
     private lazy var label : UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .light)
-        label.textColor = .systemGray3
-        label.text = "fsdacdsa"
+        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.textColor = .systemBlue
+        label.text = "Edit profile photo"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -69,7 +68,7 @@ final class SettingHeadCell: UITableViewCell {
         ])
     }
     
-    func configure(text: String) {
-        label.text = text
+    func configure(imageUrl: String) {
+        image.loadImage(with: imageUrl, and: "", UsersPhotos: true)
     }
 }

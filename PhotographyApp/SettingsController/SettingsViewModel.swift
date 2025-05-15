@@ -5,7 +5,7 @@
 //  Created by Elsever on 02.04.25.
 //
 
-import Foundation
+import UIKit
 
 enum SettingsSections {
     case profile
@@ -21,15 +21,19 @@ enum SettingsOptions: String {
 final class SettingsViewModel {
     let section: [SettingsSections] = [.profile, .menu]
     let options: [SettingsOptions] = [.profileediting, .changePassword, .account]
-    var userDara: UserModel
+    var userData: UserModel
+    let group = DispatchGroup()
+    
+    var selectedImage: [UIImage] = []
     
     init(userDara: UserModel) {
-        self.userDara = userDara
+        self.userData = userDara
     }
     
     //MARK: - States
     
     enum ViewState {
+        case profilePhotoAdded
         case success
         case error(String)
         case idle
@@ -58,6 +62,26 @@ final class SettingsViewModel {
                 self.state = .error(error)
             } else {
                 self.state = .success
+            }
+        }
+    }
+    
+    func uploadImage() {
+        StorageManager.shared.saveImage(images: selectedImage) { [weak self] id, url, error in
+            guard let self else {return}
+            if let error = error {
+                state = .error(error)
+            } else {
+                
+                let data: [String: Any] = ["profilePhoto": url ?? ""]
+                
+                FirestoreManager.shared.updateData(docName: userData.id ?? "", collectionType: .userDataCollection, updatedField: "profilePhoto", parameters: data, completion: { error in
+                    if let error = error {
+                        self.state = .error(error)
+                    } else {
+                        self.state = .profilePhotoAdded
+                    }
+                })
             }
         }
     }
