@@ -30,5 +30,20 @@ final class SearchResultViewModel {
         UISearchSuggestionItem(
             localizedSuggestion: "Beach"
         ),
+        UISearchSuggestionItem(
+            localizedSuggestion: "Walls"
+        ),
+        UISearchSuggestionItem(
+            localizedSuggestion: "Winter"
+        ),
+        UISearchSuggestionItem(
+            localizedSuggestion: "Sun"
+        ),
+        UISearchSuggestionItem(
+            localizedSuggestion: "Sad"
+        ),
+        UISearchSuggestionItem(
+            localizedSuggestion: "Sprites"
+        ),
     ]
 }
